@@ -3,7 +3,7 @@
  * Plugin Name: Kokone Recruiting Plugin
  * Plugin URI: https://kokone.de
  * Description: Das Kokone Recruiting Plugin bietet eine umfassende Lösung für die Verwaltung und Darstellung von Stellenausschreibungen auf Ihrer WordPress-Website. Es beinhaltet benutzerfreundliche Admin-Menüs, ermöglicht die Erstellung und Gestaltung von Stellenanzeigen und bietet einfache Kontakt- und Bewerbungsfunktionen. Ideal für Unternehmen und Agenturen, die ihre Recruiting-Prozesse optimieren möchten.
- * Version: 0.8.6
+ * Version: 0.8.7
  * Author: Jan Lörwald
  * Author URI: https://hbwa.de
  * License: GPL3
@@ -41,7 +41,7 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 // Setze den Pfad zum Unterordner und den Branch
 $updateChecker = PucFactory::buildUpdateChecker(
-    'https://github.com/Jan1217/kokonerecruitingplugin/',
+    'https://github.com/Jan1217/Kokone-Recruiting-Plugin/',
     __FILE__,
     'kokonerecruitingplugin'
 );
