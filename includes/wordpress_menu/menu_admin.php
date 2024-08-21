@@ -1178,6 +1178,37 @@ function krp_create_or_update_page() {
                 ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
                 document.getElementById("main-ausbildung-text").classList.remove("hidden");
             }
+            function filterJobsAusbildungen() {
+                const searchValue = document.getElementById(\'job-ausbildung-search\').value.toLowerCase();
+                const locationValue = document.getElementById(\'job-ausbildung-location-filter\').value.toLowerCase();
+                
+                const jobTiles = document.querySelectorAll(\'.job-tile\');
+                const ausbildungTiles = document.querySelectorAll(\'.ausbildung-tile\');
+                
+                jobTiles.forEach(tile => {
+                    const title = tile.querySelector(\'.job-title\').textContent.toLowerCase();
+                    const location = tile.getAttribute(\'data-location\').toLowerCase();
+                    const matchesSearch = title.includes(searchValue);
+                    const matchesLocation = locationValue === \'\' || location === locationValue;
+                    if (matchesSearch && matchesLocation) {
+                        tile.style.display = \'block\';
+                    } else {
+                        tile.style.display = \'none\';
+                    }
+                });
+
+                ausbildungTiles.forEach(tile => {
+                    const title = tile.querySelector(\'.ausbildung-title\').textContent.toLowerCase();
+                    const location = tile.getAttribute(\'data-location\').toLowerCase();
+                    const matchesSearch = title.includes(searchValue);
+                    const matchesLocation = locationValue === \'\' || location === locationValue;
+                    if (matchesSearch && matchesLocation) {
+                        tile.style.display = \'block\';
+                    } else {
+                        tile.style.display = \'none\';
+                    }
+                });
+            }
         </script>
     ';
 
