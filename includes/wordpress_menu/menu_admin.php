@@ -1091,7 +1091,7 @@ function krp_create_or_update_page() {
                         <input type="text" id="job-ausbildung-search" placeholder="Suche Jobs / Ausbildung...">
                         <select id="job-ausbildung-location-filter">
                             <option value="">Alle Standorte</option>
-                            <?php echo $location_options; ?>
+                            ' . $location_options . '
                         </select>
                         <button id="filter-button" onclick="filterJobsAusbildungen()">Filtern</button>
                     </div>
