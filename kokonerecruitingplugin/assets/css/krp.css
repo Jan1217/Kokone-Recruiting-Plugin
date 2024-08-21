@@ -1,0 +1,21 @@
+/*
+Hier werden alle Style anpassungen des Plugins für die generierten Website sowie dem Admin Menü in Wordpress.
+
+Die einzelnen Abschnitte sind je nach Inhalt strukturiert.
+ */
+
+.krp_textarea_website {
+    width: 800px;
+    height: 250px;
+}
+
+.toolbar {
+    margin-bottom: 10px;
+}
+.editor-container {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
