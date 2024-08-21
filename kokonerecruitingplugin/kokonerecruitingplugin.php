@@ -34,3 +34,17 @@ require_once $krp_includes_dir_menu . 'menu_design.php';
 require_once $krp_includes_dir_menu . 'menu_jobs.php';
 require_once $krp_includes_dir_menu . 'menu_kontakt.php';
 require_once $krp_includes_dir_menu . 'menu_lizenz.php';
+
+// GitHub-Update-Funktionalität hinzufügen
+require 'libraries/plugin-update-checker/plugin-update-checker.php';
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+// Setze den Pfad zum Unterordner und den Branch
+$updateChecker = PucFactory::buildUpdateChecker(
+    'https://github.com/Jan1217/kokonerecruitingplugin/',
+    __FILE__,
+    'kokonerecruitingplugin'
+);
+
+// Optional: Setze den Branch, falls nicht der Standard-Branch (z.B. 'main' oder 'master')
+$updateChecker->setBranch('main');
