@@ -331,7 +331,7 @@ function krp_add_custom_css_to_head() {
 add_action('wp_head', 'krp_add_custom_css_to_head');
 
 function krp_create_or_update_page() {
-    $krp_page_title = 'Plugin Seite';
+    $krp_page_title = get_option('krp_website_page_title');
     $custom_fonts = get_option('custom_fonts_field');
 
     $krp_hero_text = get_option('krp_website_hero_text_field');
@@ -1454,7 +1454,7 @@ add_action('init', 'ausbildung_bewerbung_form_handler');
 
 function krp_delete_page() {
     // Funktion zum Löschen der Seite
-    $krp_page_title = 'Plugin Seite'; // Titel der zu löschenden Seite
+    $krp_page_title = get_option('krp_website_page_title'); // Titel der zu löschenden Seite
 
     // Überprüfen, ob die Seite existiert
     $args = array(

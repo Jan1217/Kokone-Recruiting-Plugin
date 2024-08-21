@@ -20,7 +20,7 @@ function krp_website_allgemein_section_callback() {
 function krp_website_allgemein_page_title_field_callback() {
     $krp_page_title = get_option('krp_website_page_title');
     ?>
-    <input type="text" name="krp_website_page_title" value="<?php echo esc_attr($krp_page_title); ?>" placeholder="Ihr Seiten Name"/>
+    <input type="text" name="krp_website_page_title" value="<?php echo esc_attr($krp_page_title); ?>" placeholder="Ihr Seiten Name" style="width: 450px;"/>
     <?php
 }
 
