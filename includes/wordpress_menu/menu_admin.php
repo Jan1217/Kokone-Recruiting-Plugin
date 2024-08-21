@@ -913,6 +913,16 @@ function krp_create_or_update_page() {
                 color: ' . $secondary_nav_bg_color . ';
                 font-weight: bold;
             }
+            .ort-restrict-job-tiles-container {
+                display: grid;
+                grid-template-columns: repeat(' . $main_selection_column_field . ', 1fr);
+                gap: 20px;
+            }
+            .ort-restrict-ausbildung-tiles-container {
+                display: grid;
+                grid-template-columns: repeat(' . $main_selection_column_field . ', 1fr);
+                gap: 20px;
+            }
             /* Bewerbungsformular */
              .form-container {
                 padding: 20px;
