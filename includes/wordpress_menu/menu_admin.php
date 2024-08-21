@@ -1189,8 +1189,6 @@ function krp_create_or_update_page() {
                 ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
                 document.getElementById("main-ausbildung-text").classList.remove("hidden");
             }
-        </script>
-        <script>
             document.getElementById("filter-button").addEventListener("click", function() {
                 // Hole die Suchanfrage und den ausgewählten Standort
                 var searchQuery = document.getElementById("job-ausbildung-search").value.toLowerCase();
