@@ -1178,37 +1178,34 @@ function krp_create_or_update_page() {
                 ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
                 document.getElementById("main-ausbildung-text").classList.remove("hidden");
             }
+        </script>
+        <script>
             function filterJobsAusbildungen() {
-                const searchValue = document.getElementById(\'job-ausbildung-search\').value.toLowerCase();
-                const locationValue = document.getElementById(\'job-ausbildung-location-filter\').value.toLowerCase();
-                
-                const jobTiles = document.querySelectorAll(\'.job-tile\');
-                const ausbildungTiles = document.querySelectorAll(\'.ausbildung-tile\');
-                
-                jobTiles.forEach(tile => {
-                    const title = tile.querySelector(\'.job-title\').textContent.toLowerCase();
-                    const location = tile.getAttribute(\'data-location\').toLowerCase();
-                    const matchesSearch = title.includes(searchValue);
-                    const matchesLocation = locationValue === \'\' || location === locationValue;
-                    if (matchesSearch && matchesLocation) {
-                        tile.style.display = \'block\';
-                    } else {
-                        tile.style.display = \'none\';
-                    }
+                var searchQuery = document.getElementById(\'job-ausbildung-search\').value.toLowerCase();
+                var selectedLocation = document.getElementById(\'job-ausbildung-location-filter\').value;
+            
+                // Filter Jobs
+                var jobTiles = document.querySelectorAll(\'.job-tile\');
+                jobTiles.forEach(function(tile) {
+                    var jobTitle = tile.querySelector(\'.job-title\').textContent.toLowerCase();
+                    var jobLocation = tile.getAttribute(\'data-location\').toLowerCase();
+                    var isMatch = (jobTitle.includes(searchQuery)) && (selectedLocation === "" || jobLocation === selectedLocation.toLowerCase());
+                    tile.parentElement.style.display = isMatch ? \'block\' : \'none\';
                 });
-
-                ausbildungTiles.forEach(tile => {
-                    const title = tile.querySelector(\'.ausbildung-title\').textContent.toLowerCase();
-                    const location = tile.getAttribute(\'data-location\').toLowerCase();
-                    const matchesSearch = title.includes(searchValue);
-                    const matchesLocation = locationValue === \'\' || location === locationValue;
-                    if (matchesSearch && matchesLocation) {
-                        tile.style.display = \'block\';
-                    } else {
-                        tile.style.display = \'none\';
-                    }
+            
+                // Filter Ausbildungen
+                var ausbildungTiles = document.querySelectorAll(\'.ausbildung-tile\');
+                ausbildungTiles.forEach(function(tile) {
+                    var ausbildungTitle = tile.querySelector(\'.ausbildung-title\').textContent.toLowerCase();
+                    var ausbildungLocation = tile.getAttribute(\'data-location\').toLowerCase();
+                    var isMatch = (ausbildungTitle.includes(searchQuery)) && (selectedLocation === "" || ausbildungLocation === selectedLocation.toLowerCase());
+                    tile.parentElement.style.display = isMatch ? \'block\' : \'none\';
                 });
             }
+            
+            // Event Listener für das Suchfeld und das Dropdown-Menü
+            document.getElementById(\'job-ausbildung-search\').addEventListener(\'keyup\', filterJobsAusbildungen);
+            document.getElementById(\'job-ausbildung-location-filter\').addEventListener(\'change\', filterJobsAusbildungen);
         </script>
     ';
 
