@@ -371,6 +371,7 @@ function krp_create_or_update_page() {
     $jobs = get_option('krp_saved_jobs', array());
     $jobs_html = '';
     $job_details_html = '';
+    $jobs_location_html = '';
 
     if (!empty($jobs)) {
         foreach ($jobs as $index => $job) {
@@ -389,6 +390,18 @@ function krp_create_or_update_page() {
             <div class="job-tile-main">
                 <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="showJobDetails(' . $job_id . ')">
                     <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
+                    <h2 class="job-title">' . $job_title . '</h2>
+                    <p class="job-bereich">Im Bereich ' . $job_bereich . '</p>
+                </div>
+                <button class="job-tile-info-button" onclick="showJobDetails(' . $job_id . ')">Weitere Infos hier</button>
+            </div>
+            ';
+
+            $jobs_location_html .= '
+            <div class="job-tile-main">
+                <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="showJobDetails(' . $job_id . ')">
+                    <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
+                    <p class="job_tile_standort">Standort ' . esc_attr($job['job_standort']) . '</p>
                     <h2 class="job-title">' . $job_title . '</h2>
                     <p class="job-bereich">Im Bereich ' . $job_bereich . '</p>
                 </div>
@@ -499,6 +512,8 @@ function krp_create_or_update_page() {
     $ausbildungen = get_option('krp_saved_ausbildungen', array());
     $ausbildung_html = '';
     $ausbildung_details_html = '';
+    $ausbildung_location_html = '';
+
 
     if (!empty($ausbildungen)) {
         foreach ($ausbildungen as $index => $ausbildung) {
@@ -517,6 +532,18 @@ function krp_create_or_update_page() {
             <div class="ausbildung-tile-main">
                 <div class="ausbildung-tile" data-location="' . esc_attr($ausbildung['ausbildung_standort']) . '" onclick="showAusbildungDetails(' . $ausbildung_id . ')">
                     <img src="' . $ausbildung_image . '" alt="' . $ausbildung_title . '" class="ausbildung-image">
+                    <h2 class="ausbildung-title">' . $ausbildung_title . '</h2>
+                    <p class="ausbildung-bereich">Im Bereich ' . $ausbildung_bereich . '</p>
+                </div>
+                <button class="ausbildung-tile-info-button" onclick="showAusbildungDetails(' . $ausbildung_id . ')">Weitere Infos hier</button>
+            </div>
+            ';
+
+            $ausbildung_location_html .= '
+            <div class="ausbildung-tile-main">
+                <div class="ausbildung-tile" data-location="' . esc_attr($ausbildung['ausbildung_standort']) . '" onclick="showAusbildungDetails(' . $ausbildung_id . ')">
+                    <img src="' . $ausbildung_image . '" alt="' . $ausbildung_title . '" class="ausbildung-image">
+                    <p class="ausbildung_tile_standort">Standort ' . esc_attr($ausbildung['ausbildung_standort']) . '</p>
                     <h2 class="ausbildung-title">' . $ausbildung_title . '</h2>
                     <p class="ausbildung-bereich">Im Bereich ' . $ausbildung_bereich . '</p>
                 </div>
@@ -788,6 +815,10 @@ function krp_create_or_update_page() {
                 color: ' . $secondary_nav_text_color . ';
                 background-color: ' . $secondary_nav_bg_color . ';
             }
+            .job_tile_standort {
+                background-color: ' . $secondary_nav_contact_bg_color . ';
+                color: ' . $secondary_nav_text_color . ';
+            }
             /* Ausbildungen */
             .ausbildung-tiles-container {
                 display: grid;
@@ -854,6 +885,10 @@ function krp_create_or_update_page() {
                 cursor: pointer;
                 color: ' . $secondary_nav_text_color . ';
                 background-color: ' . $secondary_nav_bg_color . ';
+            }
+            .ausbildung_tile_standort {
+                background-color: ' . $secondary_nav_contact_bg_color . ';
+                color: ' . $secondary_nav_text_color . ';
             }
             /* Filter und Suche */
             .search-filter-container {
@@ -1017,7 +1052,7 @@ function krp_create_or_update_page() {
             <div class="secondary-nav">
                 <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                 <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
-                <!--<a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>-->
+                <a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>
                 <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
             </div>
             <div class="content">
@@ -1050,11 +1085,11 @@ function krp_create_or_update_page() {
                     <div>
                         <h3 class="ort-restrict-headline">Jobs</h3>
                         <div class="job-tiles-container" id="job-tiles-container">
-                            ' . $jobs_html . '
+                            ' . $jobs_location_html . '
                         </div>
                         <h3>Ausbildungen</h3>
                         <div class="ausbildung-tiles-container" id="ausbildung-tiles-container">
-                            ' . $ausbildung_html . '
+                            ' . $ausbildung_location_html . '
                         </div>
                     </div>
                 </div>
