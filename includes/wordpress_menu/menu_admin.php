@@ -507,6 +507,7 @@ function krp_create_or_update_page() {
         }
     } else {
         $jobs_html = '<p class="no_job_ausbildung">Derzeit sind keine Jobs verfügbar.</p>';
+        $jobs_location_html = '<p class="no_job_ausbildung">Derzeit sind keine Jobs verfügbar.</p>';
     }
 
     $ausbildungen = get_option('krp_saved_ausbildungen', array());
@@ -649,6 +650,7 @@ function krp_create_or_update_page() {
         }
     } else {
         $ausbildung_html = '<p class="no_job_ausbildung">Derzeit sind keine Ausbildungen verfügbar.</p>';
+        $ausbildung_location_html = '<p class="no_job_ausbildung">Derzeit sind keine Ausbildungen verfügbar.</p>';
     }
 
     // Abrufen des ausgewählten Kontakts
