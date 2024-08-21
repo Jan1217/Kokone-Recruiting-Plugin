@@ -1486,7 +1486,7 @@ function krp_register_sections_and_fields() {
     add_settings_section('krp_website_section', '', 'krp_website_section_callback', 'krp-settings-website');
 
     add_settings_section('krp_website_allgemein_section', '', 'krp_website_allgemein_section_callback', 'krp-settings-website');
-    add_settings_field('krp_website_allgemein_page_title_field', 'Seiten Name' , 'krp_website_allgemein_page_title_field_callback', 'krp-settings-website', 'krp_allgemein_section');
+    add_settings_field('krp_website_allgemein_page_title_field', 'Seiten Name' , 'krp_website_allgemein_page_title_field_callback', 'krp-settings-website', 'krp_website_allgemein_section');
 
     add_settings_section('krp_website_hero_section', '', 'krp_website_hero_section_callback', 'krp-settings-website');
     add_settings_field('krp_website_hero_text_field', 'Hero Text', 'krp_website_hero_text_field_callback', 'krp-settings-website', 'krp_website_hero_section');
