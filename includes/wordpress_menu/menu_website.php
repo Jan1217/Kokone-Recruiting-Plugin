@@ -17,6 +17,13 @@ function krp_website_allgemein_section_callback() {
     <?php
 }
 
+function krp_website_allgemein_page_title_field_callback() {
+    $krp_page_title = get_option('krp_website_page_title');
+    ?>
+    <input type="text" name="krp_website_page_title" value="<?php echo esc_attr($krp_page_title); ?>" placeholder="Ihr Seiten Name"/>
+    <?php
+}
+
 function krp_website_hero_section_callback() {
     ?>
         <h3>Hero Einstellungen</h3>

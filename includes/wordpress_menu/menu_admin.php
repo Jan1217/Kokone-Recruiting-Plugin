@@ -331,7 +331,7 @@ function krp_add_custom_css_to_head() {
 add_action('wp_head', 'krp_add_custom_css_to_head');
 
 function krp_create_or_update_page() {
-    $page_title = 'Plugin Seite';
+    $krp_page_title = get_option('krp_website_page_title');
     $custom_fonts = get_option('custom_fonts_field');
 
     $krp_hero_text = get_option('krp_website_hero_text_field');
@@ -1196,7 +1196,7 @@ function krp_create_or_update_page() {
     $args = array(
         'post_type' => 'page',
         'post_status' => 'any',
-        'name' => sanitize_title($page_title),
+        'name' => sanitize_title($krp_page_title),
         'posts_per_page' => 1
     );
     $query = new WP_Query($args);
@@ -1216,7 +1216,7 @@ function krp_create_or_update_page() {
     } else {
         // Neue Seite erstellen
         $new_page = array(
-            'post_title' => $page_title,
+            'post_title' => $krp_page_title,
             'post_content' => $page_content,
             'post_status' => 'publish',
             'post_type' => 'page'
@@ -1454,13 +1454,13 @@ add_action('init', 'ausbildung_bewerbung_form_handler');
 
 function krp_delete_page() {
     // Funktion zum Löschen der Seite
-    $page_title = 'Plugin Seite'; // Titel der zu löschenden Seite
+    $krp_page_title = get_option('krp_website_page_title'); // Titel der zu löschenden Seite
 
     // Überprüfen, ob die Seite existiert
     $args = array(
         'post_type' => 'page',
         'post_status' => 'any',
-        'name' => sanitize_title($page_title),
+        'name' => sanitize_title($krp_page_title),
         'posts_per_page' => 1
     );
     $query = new WP_Query($args);
@@ -1469,13 +1469,13 @@ function krp_delete_page() {
         // Seite gefunden, jetzt löschen
         $page_id = $query->posts[0]->ID;
         wp_delete_post($page_id, true); // true für endgültiges Löschen
-        add_action('admin_notices', function() use ($page_title) {
-            echo '<div class="updated"><p>Die Seite "' . $page_title . '" wurde erfolgreich gelöscht.</p></div>';
+        add_action('admin_notices', function() use ($krp_page_title) {
+            echo '<div class="updated"><p>Die Seite "' . $krp_page_title . '" wurde erfolgreich gelöscht.</p></div>';
         });
     } else {
         // Seite nicht gefunden
-        add_action('admin_notices', function() use ($page_title) {
-            echo '<div class="error"><p>Die Seite "' . $page_title . '" konnte nicht gefunden werden.</p></div>';
+        add_action('admin_notices', function() use ($krp_page_title) {
+            echo '<div class="error"><p>Die Seite "' . $krp_page_title . '" konnte nicht gefunden werden.</p></div>';
         });
     }
 }
@@ -1486,6 +1486,7 @@ function krp_register_sections_and_fields() {
     add_settings_section('krp_website_section', '', 'krp_website_section_callback', 'krp-settings-website');
 
     add_settings_section('krp_website_allgemein_section', '', 'krp_website_allgemein_section_callback', 'krp-settings-website');
+    add_settings_field('krp_website_allgemein_page_title_field', 'Seiten Name' , 'krp_website_allgemein_page_title_field_callback', 'krp-settings-website', 'krp_allgemein_section');
 
     add_settings_section('krp_website_hero_section', '', 'krp_website_hero_section_callback', 'krp-settings-website');
     add_settings_field('krp_website_hero_text_field', 'Hero Text', 'krp_website_hero_text_field_callback', 'krp-settings-website', 'krp_website_hero_section');
@@ -1544,6 +1545,9 @@ add_action('admin_init', 'krp_register_sections_and_fields');
 
 // Save the new options
 function krp_save_settings() {
+    if (isset($_POST['krp_website_page_title'])) {
+        update_option('krp_website_page_title', sanitize_text_field($_POST['krp_website_page_title']));
+    }
     if (isset($_POST['krp_website_hero_text_field'])) {
         $html_content = wp_kses_post($_POST['krp_website_hero_text_field']);
         update_option('krp_website_hero_text_field', $html_content);
