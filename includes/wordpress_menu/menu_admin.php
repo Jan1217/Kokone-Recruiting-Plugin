@@ -401,7 +401,7 @@ function krp_create_or_update_page() {
             <div class="job-tile-main">
                 <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="showJobDetails(' . $job_id . ')">
                     <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
-                    <p class="job_tile_standort">Standort ' . esc_attr($job['job_standort']) . '</p>
+                    <p class="job_tile_standort" style="padding: unset">Standort ' . esc_attr($job['job_standort']) . '</p>
                     <h2 class="job-title">' . $job_title . '</h2>
                     <p class="job-bereich">Im Bereich ' . $job_bereich . '</p>
                 </div>
@@ -543,7 +543,7 @@ function krp_create_or_update_page() {
             <div class="ausbildung-tile-main">
                 <div class="ausbildung-tile" data-location="' . esc_attr($ausbildung['ausbildung_standort']) . '" onclick="showAusbildungDetails(' . $ausbildung_id . ')">
                     <img src="' . $ausbildung_image . '" alt="' . $ausbildung_title . '" class="ausbildung-image">
-                    <p class="ausbildung_tile_standort">Standort ' . esc_attr($ausbildung['ausbildung_standort']) . '</p>
+                    <p class="ausbildung_tile_standort" style="padding: unset">Standort ' . esc_attr($ausbildung['ausbildung_standort']) . '</p>
                     <h2 class="ausbildung-title">' . $ausbildung_title . '</h2>
                     <p class="ausbildung-bereich">Im Bereich ' . $ausbildung_bereich . '</p>
                 </div>
