@@ -1088,11 +1088,12 @@ function krp_create_or_update_page() {
                 </div>
                 <div id="ort-restrict" class="hidden">
                     <div class="search-filter-container">
-                        <input type="text" id="job-ausbildung-search" placeholder="Suche Jobs / Ausbildung..." onkeyup="filterJobsAusbildungen()">
-                        <select id="job-ausbildung-location-filter" onchange="filterJobsAusbildungen()">
+                        <input type="text" id="job-ausbildung-search" placeholder="Suche Jobs / Ausbildung...">
+                        <select id="job-ausbildung-location-filter">
                             <option value="">Alle Standorte</option>
-                            ' . $location_options . '
+                            <?php echo $location_options; ?>
                         </select>
+                        <button id="filter-button" onclick="filterJobsAusbildungen()">Filtern</button>
                     </div>
                     <div>
                         <h3 class="ort-restrict-headline">Jobs</h3>
@@ -1228,10 +1229,8 @@ function filterJobsAusbildungen() {
     });
 }
 
-// Event Listener für das Suchfeld und das Dropdown-Menü
-document.getElementById("job-ausbildung-search").addEventListener("keyup", filterJobsAusbildungen);
-document.getElementById("job-ausbildung-location-filter").addEventListener("change", filterJobsAusbildungen);
-
+// Event Listener für den Filter-Button
+document.getElementById("filter-button").addEventListener("click", filterJobsAusbildungen);
         </script>
     ';
 
