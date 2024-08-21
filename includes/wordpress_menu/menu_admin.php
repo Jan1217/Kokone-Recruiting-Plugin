@@ -1087,7 +1087,7 @@ function krp_create_or_update_page() {
                         <div class="job-tiles-container" id="job-tiles-container">
                             ' . $jobs_location_html . '
                         </div>
-                        <h3 class="ort-restrict-headline">Ausbildungen</h3>
+                        <h3 class="ort-restrict-headline" style="margin-top: 20px;">Ausbildungen</h3>
                         <div class="ausbildung-tiles-container" id="ausbildung-tiles-container">
                             ' . $ausbildung_location_html . '
                         </div>
