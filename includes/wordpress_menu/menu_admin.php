@@ -1093,7 +1093,7 @@ function krp_create_or_update_page() {
                             <option value="">Alle Standorte</option>
                             ' . $location_options . '
                         </select>
-                        <button id="filter-button" onclick="filterJobsAusbildungen()">Filtern</button>
+                        <button id="filter-button">Filtern</button>
                     </div>
                     <div>
                         <h3 class="ort-restrict-headline">Jobs</h3>
@@ -1191,46 +1191,43 @@ function krp_create_or_update_page() {
             }
         </script>
         <script>
-function filterJobsAusbildungen() {
-    // Hole die Suchanfrage und den ausgewählten Standort
-    var searchQuery = document.getElementById("job-ausbildung-search").value.toLowerCase();
-    var selectedLocation = document.getElementById("job-ausbildung-location-filter").value.toLowerCase();
-
-    // Filter Jobs
-    var jobTiles = document.querySelectorAll(".ort-restrict-job-tiles-container .job-tile-main");
-    jobTiles.forEach(function(tile) {
-        var jobTitle = tile.querySelector(".job-title").textContent.toLowerCase();
-        var jobLocation = tile.querySelector(".job-tile").getAttribute("data-location").toLowerCase();
-
-        var titleMatch = jobTitle.includes(searchQuery);
-        var locationMatch = selectedLocation === "" || jobLocation === selectedLocation;
-
-        if (titleMatch && locationMatch) {
-            tile.style.display = "block";
-        } else {
-            tile.style.display = "none";
-        }
-    });
-
-    // Filter Ausbildungen
-    var ausbildungTiles = document.querySelectorAll(".ort-restrict-ausbildung-tiles-container .ausbildung-tile-main");
-    ausbildungTiles.forEach(function(tile) {
-        var ausbildungTitle = tile.querySelector(".ausbildung-title").textContent.toLowerCase();
-        var ausbildungLocation = tile.querySelector(".ausbildung-tile").getAttribute("data-location").toLowerCase();
-
-        var titleMatch = ausbildungTitle.includes(searchQuery);
-        var locationMatch = selectedLocation === "" || ausbildungLocation === selectedLocation;
-
-        if (titleMatch && locationMatch) {
-            tile.style.display = "block";
-        } else {
-            tile.style.display = "none";
-        }
-    });
-}
-
-// Event Listener für den Filter-Button
-document.getElementById("filter-button").addEventListener("click", filterJobsAusbildungen);
+            document.getElementById("filter-button").addEventListener("click", function() {
+                // Hole die Suchanfrage und den ausgewählten Standort
+                var searchQuery = document.getElementById("job-ausbildung-search").value.toLowerCase();
+                var selectedLocation = document.getElementById("job-ausbildung-location-filter").value.toLowerCase();
+            
+                // Filter Jobs
+                var jobTiles = document.querySelectorAll(".ort-restrict-job-tiles-container .job-tile-main");
+                jobTiles.forEach(function(tile) {
+                    var jobTitle = tile.querySelector(".job-title").textContent.toLowerCase();
+                    var jobLocation = tile.querySelector(".job-tile").getAttribute("data-location").toLowerCase();
+            
+                    var titleMatch = jobTitle.includes(searchQuery);
+                    var locationMatch = selectedLocation === "" || jobLocation === selectedLocation;
+            
+                    if (titleMatch && locationMatch) {
+                        tile.style.display = "block";
+                    } else {
+                        tile.style.display = "none";
+                    }
+                });
+            
+                // Filter Ausbildungen
+                var ausbildungTiles = document.querySelectorAll(".ort-restrict-ausbildung-tiles-container .ausbildung-tile-main");
+                ausbildungTiles.forEach(function(tile) {
+                    var ausbildungTitle = tile.querySelector(".ausbildung-title").textContent.toLowerCase();
+                    var ausbildungLocation = tile.querySelector(".ausbildung-tile").getAttribute("data-location").toLowerCase();
+            
+                    var titleMatch = ausbildungTitle.includes(searchQuery);
+                    var locationMatch = selectedLocation === "" || ausbildungLocation === selectedLocation;
+            
+                    if (titleMatch && locationMatch) {
+                        tile.style.display = "block";
+                    } else {
+                        tile.style.display = "none";
+                    }
+                });
+            });
         </script>
     ';
 
