@@ -1086,11 +1086,11 @@ function krp_create_or_update_page() {
                     </div>
                     <div>
                         <h3 class="ort-restrict-headline">Jobs</h3>
-                        <div class="job-tiles-container" id="job-tiles-container">
+                        <div class="ort-restrict-job-tiles-container" id="ort-restrict-job-tiles-container">
                             ' . $jobs_location_html . '
                         </div>
                         <h3 class="ort-restrict-headline" style="margin-top: 20px;">Ausbildungen</h3>
-                        <div class="ausbildung-tiles-container" id="ausbildung-tiles-container">
+                        <div class="ort-restrict-ausbildung-tiles-container" id="ort-restrict-ausbildung-tiles-container">
                             ' . $ausbildung_location_html . '
                         </div>
                     </div>
@@ -1181,31 +1181,35 @@ function krp_create_or_update_page() {
         </script>
         <script>
             function filterJobsAusbildungen() {
-                var searchQuery = document.getElementById(\'job-ausbildung-search\').value.toLowerCase();
-                var selectedLocation = document.getElementById(\'job-ausbildung-location-filter\').value;
+                var searchQuery = document.getElementById("job-ausbildung-search").value.toLowerCase();
+                var selectedLocation = document.getElementById("job-ausbildung-location-filter").value.toLowerCase();
             
                 // Filter Jobs
-                var jobTiles = document.querySelectorAll(\'.job-tile\');
+                var jobTiles = document.querySelectorAll(".ort-restrict-job-tiles-container .job-tile");
                 jobTiles.forEach(function(tile) {
-                    var jobTitle = tile.querySelector(\'.job-title\').textContent.toLowerCase();
-                    var jobLocation = tile.getAttribute(\'data-location\').toLowerCase();
-                    var isMatch = (jobTitle.includes(searchQuery)) && (selectedLocation === "" || jobLocation === selectedLocation.toLowerCase());
-                    tile.parentElement.style.display = isMatch ? \'block\' : \'none\';
+                    var jobTitle = tile.querySelector(".job-title").textContent.toLowerCase();
+                    var jobLocation = tile.getAttribute("data-location").toLowerCase();
+                    var titleMatch = jobTitle.includes(searchQuery);
+                    var locationMatch = selectedLocation === "" || jobLocation === selectedLocation;
+                    var isMatch = titleMatch && locationMatch;
+                    tile.parentElement.style.display = isMatch ? "blocK" : "none";
                 });
             
                 // Filter Ausbildungen
-                var ausbildungTiles = document.querySelectorAll(\'.ausbildung-tile\');
+                var ausbildungTiles = document.querySelectorAll(".ort-restrict-ausbildung-tiles-container .ausbildung-tile");
                 ausbildungTiles.forEach(function(tile) {
-                    var ausbildungTitle = tile.querySelector(\'.ausbildung-title\').textContent.toLowerCase();
-                    var ausbildungLocation = tile.getAttribute(\'data-location\').toLowerCase();
-                    var isMatch = (ausbildungTitle.includes(searchQuery)) && (selectedLocation === "" || ausbildungLocation === selectedLocation.toLowerCase());
-                    tile.parentElement.style.display = isMatch ? \'block\' : \'none\';
+                    var ausbildungTitle = tile.querySelector(".ausbildung-title").textContent.toLowerCase();
+                    var ausbildungLocation = tile.getAttribute("data-location").toLowerCase();
+                    var titleMatch = ausbildungTitle.includes(searchQuery);
+                    var locationMatch = selectedLocation === "" || ausbildungLocation === selectedLocation;
+                    var isMatch = titleMatch && locationMatch;
+                    tile.parentElement.style.display = isMatch ? "block" : "none";
                 });
             }
             
             // Event Listener für das Suchfeld und das Dropdown-Menü
-            document.getElementById(\'job-ausbildung-search\').addEventListener(\'keyup\', filterJobsAusbildungen);
-            document.getElementById(\'job-ausbildung-location-filter\').addEventListener(\'change\', filterJobsAusbildungen);
+            document.getElementById("job-ausbildung-search").addEventListener("keyup", filterJobsAusbildungen);
+            document.getElementById("job-ausbildung-location-filter").addEventListener("change", filterJobsAusbildungen);
         </script>
     ';
 
