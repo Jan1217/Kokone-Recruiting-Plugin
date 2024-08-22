@@ -545,41 +545,46 @@ function krp_job_create_section_callback() {
     </script>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
-            const contactSelects = document.querySelectorAll('.contact-select');
+            // Array von Feldern und deren zugehörigen Namen
+            const contactFields = {
+                'contact_name': 'selected_contact_job_details_name[]',
+                'contact_abteilung': 'selected_contact_job_details_abteilung[]',
+                'contact_tel': 'selected_contact_job_details_tel[]',
+                'contact_email': 'selected_contact_job_details_email[]',
+                'contact_info': 'selected_contact_job_details_info[]',
+                'contact_image_url': 'selected_contact_job_details_image_url[]'
+            };
 
-            contactSelects.forEach(contactSelect => {
-                if (contactSelect.name.includes('selected_contact_job_details_name[]')) {
-                    contactSelect.addEventListener('change', function() {
-                        const selectedContact = this.value;
+            // Finde alle relevanten Felder
+            const nameSelects = document.querySelectorAll('select[name="selected_contact_job_details_name[]"]');
 
-                        // Find the parent row (tr) to scope the other selects within the same row
-                        const parentRow = this.closest('tr');
+            nameSelects.forEach(nameSelect => {
+                nameSelect.addEventListener('change', function() {
+                    const selectedContactName = this.value;
 
-                        const abteilungSelect = parentRow.querySelector('select[name="selected_contact_job_details_abteilung[]"]');
-                        const telSelect = parentRow.querySelector('select[name="selected_contact_job_details_tel[]"]');
-                        const emailSelect = parentRow.querySelector('select[name="selected_contact_job_details_email[]"]');
-                        const infoSelect = parentRow.querySelector('select[name="selected_contact_job_details_info[]"]');
-                        const imageUrlSelect = parentRow.querySelector('select[name="selected_contact_job_details_image_url[]"]');
+                    // Finde die Zeile, um die anderen Select-Felder zu referenzieren
+                    const parentRow = this.closest('tr');
 
-                        const selects = [abteilungSelect, telSelect, emailSelect, infoSelect, imageUrlSelect];
+                    // Erstelle ein Objekt zum Speichern der Informationen
+                    const contactInfo = {};
 
-                        selects.forEach(select => {
-                            if (select) {
-                                // Find the option that corresponds to the selected contact in the first select
-                                const matchingOption = Array.from(select.options).find(option => option.value.includes(selectedContact));
-
-                                if (matchingOption) {
-                                    select.value = matchingOption.value;
-                                    select.style.display = 'block'; // Show the select element
-                                } else {
-                                    select.value = ''; // Reset if no matching option is found
-                                }
-                            }
-                        });
+                    // Fülle das Kontaktinfo-Objekt basierend auf den Optionen der Select-Felder
+                    Object.keys(contactFields).forEach(key => {
+                        const select = parentRow.querySelector(`select[name="${contactFields[key]}"]`);
+                        if (select) {
+                            contactInfo[key] = Array.from(select.options).find(option => option.value.includes(selectedContactName))?.value || '';
+                        }
                     });
-                }
+
+                    // Aktualisiere alle anderen Select-Felder mit den Informationen
+                    Object.keys(contactFields).forEach(key => {
+                        const select = parentRow.querySelector(`select[name="${contactFields[key]}"]`);
+                        if (select) {
+                            select.value = contactInfo[key] || '';
+                        }
+                    });
+                });
             });
-        });
 
     </script>
     <script>
