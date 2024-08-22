@@ -224,7 +224,10 @@ function krp_job_create_section_callback() {
                                             $saved_contacts = get_option('krp_saved_contacts', array());;
                                             foreach ($saved_contacts as $contact) {
                                                 $contact_name_job_details = esc_html($contact['contact_name']);
-                                                echo '<option value="' . esc_attr($contact_name_job_details) . '"' . selected($job['selected_contact_job_details_name'], $contact_name_job_details, false) . '>' . esc_html($contact_name_job_details) . '</option>';
+                                                $contact_abteilung_job_details = implode(' und ', array_map('esc_html', $contact['contact_abteilung']));
+                                                $contact_display = $contact_name_job_details . ' , ' . $contact_abteilung_job_details;
+
+                                                echo '<option value="' . esc_attr($contact_name_job_details) . '"' . selected($job['selected_contact_job_details_name'], $contact_name_job_details, false) . '>' . $contact_display . '</option>';
                                             }
                                             ?>
                                         </select>
@@ -454,7 +457,10 @@ function krp_job_create_section_callback() {
                     $saved_contacts = get_option('krp_saved_contacts', array());;
                     foreach ($saved_contacts as $contact) {
                         $contact_name_job_details = esc_html($contact['contact_name']);
-                        echo '<option value="' . esc_attr($contact_name_job_details) . '"' . selected($job['selected_contact_job_details_name'], $contact_name_job_details, false) . '>' . esc_html($contact_name_job_details) . '</option>';
+                        $contact_abteilung_job_details = implode(' und ', array_map('esc_html', $contact['contact_abteilung']));
+                        $contact_display = $contact_name_job_details . ' , ' . $contact_abteilung_job_details;
+
+                        echo '<option value="' . esc_attr($contact_name_job_details) . '"' . selected($job['selected_contact_job_details_name'], $contact_name_job_details, false) . '>' . $contact_display . '</option>';
                     }
                     ?>
                                         </select>
