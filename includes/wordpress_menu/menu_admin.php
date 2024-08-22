@@ -399,13 +399,13 @@ function krp_create_or_update_page() {
 
             $jobs_location_html .= '
             <div class="job-tile-main">
-                <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="showJobDetails(' . $job_id . ')">
+                <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="showLocationJobDetails(' . $job_id . ')">
                     <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
                     <p class="job_tile_standort" style="padding: unset">Standort ' . esc_attr($job['job_standort']) . '</p>
                     <h2 class="job-title">' . $job_title . '</h2>
                     <p class="job-bereich">Im Bereich ' . $job_bereich . '</p>
                 </div>
-                <button class="job-tile-info-button" onclick="showJobDetails(' . $job_id . ')">Weitere Infos hier</button>
+                <button class="job-tile-info-button" onclick="showLocationJobDetails(' . $job_id . ')">Weitere Infos hier</button>
             </div>
             ';
 
@@ -1178,6 +1178,13 @@ function krp_create_or_update_page() {
                 details.classList.remove("hidden");
                 document.querySelector(".job-tiles-container").classList.add("hidden");
                 document.getElementById("main-jobs-text").classList.add("hidden");
+            }
+            function showLocationJobDetails(jobId) {
+                const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
+                jobDetails.forEach(detail => detail.classList.add("hidden"));
+                const details = document.getElementById("job-details-" + jobId);
+                details.classList.remove("hidden");
+                document.querySelector(".job-tiles-container").classList.add("hidden");
             }
             function showJobList() {
                 document.querySelector(".job-tiles-container").classList.remove("hidden");
