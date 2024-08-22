@@ -380,10 +380,12 @@ function krp_create_or_update_page() {
         foreach ($jobs as $index => $job) {
             $job_image = esc_url($job['job_image']);
             $job_title = esc_html($job['job_title']);
-            $job_bereich_html = implode('', array_map(function($bereich) {
-                return '<p>' . esc_html($bereich) . '</p>';
-            }, $job['job_bereich']));
-            echo $job_bereich_html;
+            // Ursprünglicher Code: Job-Bereiche zusammenführen und in eine Variable packen
+            $job_bereiche = array_map('esc_html', $job['job_bereich']);
+
+            foreach ($job_bereiche as $job_bereich) {
+                echo '<p>' . $job_bereich . '</p>';
+            }
             $job_id = $index + 1; // ID für Referenz
             $contact_person_job_details_name = esc_html($job['selected_contact_job_details_name']);
             $contact_person_job_details_tel = esc_html($job['selected_contact_job_details_tel']);
