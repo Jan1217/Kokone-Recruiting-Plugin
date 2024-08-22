@@ -380,10 +380,9 @@ function krp_create_or_update_page() {
         foreach ($jobs as $index => $job) {
             $job_image = esc_url($job['job_image']);
             $job_title = esc_html($job['job_title']);
-            $job_bereich_html = '';
-            foreach ($job['job_bereich'] as $bereich) {
-                $job_bereich_html .= '<p>' . esc_html($bereich) . '</p>';
-            }
+            $job_bereich_new = implode('', array_map(function($bereich) {
+                return '<p>' . esc_html($bereich) . '</p>';
+            }, $job['job_bereich']));
             $job_id = $index + 1; // ID für Referenz
             $contact_person_job_details_name = esc_html($job['selected_contact_job_details_name']);
             $contact_person_job_details_tel = esc_html($job['selected_contact_job_details_tel']);
@@ -397,7 +396,7 @@ function krp_create_or_update_page() {
                     <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="showJobDetails(' . $job_id . ')">
                         <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
                         <h2 class="job-title">' . $job_title . '</h2>
-                        <div class="job-bereich">' . $job_bereich_html . '</div>
+                        <p class="job-bereich">' . $job_bereich_new . '</p>
                     </div>
                 </div>
                 <button class="job-tile-info-button" onclick="showJobDetails(' . $job_id . ')">Weitere Infos hier</button>
