@@ -545,47 +545,75 @@ function krp_job_create_section_callback() {
     </script>
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
-            // Array von Feldern und deren zugehörigen Namen
-            const contactFields = {
-                'contact_name': 'selected_contact_job_details_name[]',
-                'contact_abteilung': 'selected_contact_job_details_abteilung[]',
-                'contact_tel': 'selected_contact_job_details_tel[]',
-                'contact_email': 'selected_contact_job_details_email[]',
-                'contact_info': 'selected_contact_job_details_info[]',
-                'contact_image_url': 'selected_contact_job_details_image_url[]'
-            };
+            const contactSelects = document.querySelectorAll('.contact-select');
+            const contactData = {}; // Für die Speicherung der Kontaktinformationen
 
-            // Finde alle relevanten Felder
-            const nameSelects = document.querySelectorAll('select[name="selected_contact_job_details_name[]"]');
+            // Erfassen der Kontaktinformationen aus den Optionen
+            contactSelects.forEach(select => {
+                if (select.name.includes('selected_contact_job_details_name[]')) {
+                    Array.from(select.options).forEach(option => {
+                        if (option.value) {
+                            const contactName = option.value;
+                            const abteilung = select.closest('tr').querySelector('select[name="selected_contact_job_details_abteilung[]"]');
+                            const tel = select.closest('tr').querySelector('select[name="selected_contact_job_details_tel[]"]');
+                            const email = select.closest('tr').querySelector('select[name="selected_contact_job_details_email[]"]');
+                            const info = select.closest('tr').querySelector('select[name="selected_contact_job_details_info[]"]');
+                            const imageUrl = select.closest('tr').querySelector('select[name="selected_contact_job_details_image_url[]"]');
 
-            nameSelects.forEach(nameSelect => {
-                nameSelect.addEventListener('change', function() {
-                    const selectedContactName = this.value;
-
-                    // Finde die Zeile, um die anderen Select-Felder zu referenzieren
-                    const parentRow = this.closest('tr');
-
-                    // Erstelle ein Objekt zum Speichern der Informationen
-                    const contactInfo = {};
-
-                    // Fülle das Kontaktinfo-Objekt basierend auf den Optionen der Select-Felder
-                    Object.keys(contactFields).forEach(key => {
-                        const select = parentRow.querySelector(`select[name="${contactFields[key]}"]`);
-                        if (select) {
-                            contactInfo[key] = Array.from(select.options).find(option => option.value.includes(selectedContactName))?.value || '';
+                            // Erstellen einer Map von Kontaktname zu den Kontaktinformationen
+                            contactData[contactName] = {
+                                abteilung: abteilung ? Array.from(abteilung.options).map(o => ({ value: o.value, text: o.text })) : [],
+                                tel: tel ? Array.from(tel.options).map(o => ({ value: o.value, text: o.text })) : [],
+                                email: email ? Array.from(email.options).map(o => ({ value: o.value, text: o.text })) : [],
+                                info: info ? Array.from(info.options).map(o => ({ value: o.value, text: o.text })) : [],
+                                imageUrl: imageUrl ? Array.from(imageUrl.options).map(o => ({ value: o.value, text: o.text })) : []
+                            };
                         }
                     });
-
-                    // Aktualisiere alle anderen Select-Felder mit den Informationen
-                    Object.keys(contactFields).forEach(key => {
-                        const select = parentRow.querySelector(`select[name="${contactFields[key]}"]`);
-                        if (select) {
-                            select.value = contactInfo[key] || '';
-                        }
-                    });
-                });
+                }
             });
 
+            // Event Listener für die Auswahl im ersten Kontaktfeld
+            contactSelects.forEach(select => {
+                if (select.name.includes('selected_contact_job_details_name[]')) {
+                    select.addEventListener('change', function() {
+                        const selectedContact = this.value;
+
+                        // Find the parent row (tr) to scope the other selects within the same row
+                        const parentRow = this.closest('tr');
+
+                        // Die select-Felder innerhalb der gleichen Zeile finden
+                        const abteilungSelect = parentRow.querySelector('select[name="selected_contact_job_details_abteilung[]"]');
+                        const telSelect = parentRow.querySelector('select[name="selected_contact_job_details_tel[]"]');
+                        const emailSelect = parentRow.querySelector('select[name="selected_contact_job_details_email[]"]');
+                        const infoSelect = parentRow.querySelector('select[name="selected_contact_job_details_info[]"]');
+                        const imageUrlSelect = parentRow.querySelector('select[name="selected_contact_job_details_image_url[]"]');
+
+                        // Funktion zum Aktualisieren eines Select-Feldes
+                        function updateSelect(select, options) {
+                            if (select) {
+                                select.innerHTML = ''; // Vorherige Optionen entfernen
+                                options.forEach(optionData => {
+                                    const option = document.createElement('option');
+                                    option.value = optionData.value;
+                                    option.textContent = optionData.text;
+                                    select.appendChild(option);
+                                });
+                                select.style.display = 'block'; // Sichtbar machen
+                            }
+                        }
+
+                        // Die Daten für den ausgewählten Kontakt abrufen und die Select-Felder aktualisieren
+                        const contactInfo = contactData[selectedContact] || {};
+                        updateSelect(abteilungSelect, contactInfo.abteilung || []);
+                        updateSelect(telSelect, contactInfo.tel || []);
+                        updateSelect(emailSelect, contactInfo.email || []);
+                        updateSelect(infoSelect, contactInfo.info || []);
+                        updateSelect(imageUrlSelect, contactInfo.imageUrl || []);
+                    });
+                }
+            });
+        });
     </script>
     <script>
         function getEditor(id) {
