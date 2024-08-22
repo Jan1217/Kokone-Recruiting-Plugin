@@ -460,6 +460,7 @@ function krp_create_or_update_page() {
                         </div>
                     </div>
                 </div>
+            </div>
             <!-- Bewerbungsformular -->
                     <div class="form-container" id="bewerbungsformular_jobs">
                         <form method="post" action="" enctype="multipart/form-data" onsubmit="return validateForm()">
@@ -509,8 +510,7 @@ function krp_create_or_update_page() {
                             </div>
                             <div class="job-bewerbung-error-message" id="error-message"></div>
                         </form>
-                    </div>
-                                </div>';
+                    </div>';
         }
     } else {
         $jobs_html = '<p class="no_job_ausbildung">Derzeit sind keine Jobs verfügbar.</p>';
