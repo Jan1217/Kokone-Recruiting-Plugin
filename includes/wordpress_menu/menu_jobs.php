@@ -228,7 +228,7 @@ function krp_job_create_section_callback() {
                                             }
                                             ?>
                                         </select>
-                                        <select class="contact-select" id="job_select_contact_job_details_abteilung_<?php echo $key; ?>" name="selected_contact_job_details_abteilung[]" style="display: none;">
+                                        <select class="contact-select" id="job_select_contact_job_details_abteilung_<?php echo $key; ?>" name="selected_contact_job_details_abteilung[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                                             foreach ($saved_contacts as $contact) {
@@ -238,7 +238,7 @@ function krp_job_create_section_callback() {
                                             }
                                             ?>
                                         </select>
-                                        <select class="contact-select" id="job_select_contact_job_details_tel_<?php echo $key; ?>" name="selected_contact_job_details_tel[]" style="display: none;">
+                                        <select class="contact-select" id="job_select_contact_job_details_tel_<?php echo $key; ?>" name="selected_contact_job_details_tel[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                                             foreach ($saved_contacts as $contact) {
@@ -247,7 +247,7 @@ function krp_job_create_section_callback() {
                                             }
                                             ?>
                                         </select>
-                                        <select class="contact-select" id="job_select_contact_job_details_email_<?php echo $key; ?>" name="selected_contact_job_details_email[]" style="display: none;">
+                                        <select class="contact-select" id="job_select_contact_job_details_email_<?php echo $key; ?>" name="selected_contact_job_details_email[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                                             foreach ($saved_contacts as $contact) {
@@ -256,7 +256,7 @@ function krp_job_create_section_callback() {
                                             }
                                             ?>
                                         </select>
-                                        <select class="contact-select" id="job_select_contact_job_details_info_<?php echo $key; ?>" name="selected_contact_job_details_info[]" style="display: none;">
+                                        <select class="contact-select" id="job_select_contact_job_details_info_<?php echo $key; ?>" name="selected_contact_job_details_info[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                                             foreach ($saved_contacts as $contact) {
@@ -265,7 +265,7 @@ function krp_job_create_section_callback() {
                                             }
                                             ?>
                                         </select>
-                                        <select class="contact-select" id="job_select_contact_job_details_image_url_<?php echo $key; ?>" name="selected_contact_job_details_image_url[]" style="display: none;">
+                                        <select class="contact-select" id="job_select_contact_job_details_image_url_<?php echo $key; ?>" name="selected_contact_job_details_image_url[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                                             foreach ($saved_contacts as $contact) {
@@ -458,7 +458,7 @@ function krp_job_create_section_callback() {
                     }
                     ?>
                                         </select>
-                                        <select class="contact-select" id="job_select_contact_job_details_abteilung_${jobIndex}" name="selected_contact_job_details_abteilung[]" style="display: none;">
+                                        <select class="contact-select" id="job_select_contact_job_details_abteilung_${jobIndex}" name="selected_contact_job_details_abteilung[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                     foreach ($saved_contacts as $contact) {
@@ -468,7 +468,7 @@ function krp_job_create_section_callback() {
                     }
                     ?>
                                         </select>
-                                        <select class="contact-select" id="job_select_contact_job_details_tel_${jobIndex}" name="selected_contact_job_details_tel[]" style="display: none;">
+                                        <select class="contact-select" id="job_select_contact_job_details_tel_${jobIndex}" name="selected_contact_job_details_tel[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                     foreach ($saved_contacts as $contact) {
@@ -477,7 +477,7 @@ function krp_job_create_section_callback() {
                     }
                     ?>
                                         </select>
-                                        <select class="contact-select" id="job_select_contact_job_details_email_${jobIndex}" name="selected_contact_job_details_email[]" style="display: none;">
+                                        <select class="contact-select" id="job_select_contact_job_details_email_${jobIndex}" name="selected_contact_job_details_email[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                     foreach ($saved_contacts as $contact) {
@@ -486,7 +486,7 @@ function krp_job_create_section_callback() {
                     }
                     ?>
                                         </select>
-                                        <select class="contact-select" id="job_select_contact_job_details_info_${jobIndex}" name="selected_contact_job_details_info[]" style="display: none;">
+                                        <select class="contact-select" id="job_select_contact_job_details_info_${jobIndex}" name="selected_contact_job_details_info[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                     foreach ($saved_contacts as $contact) {
@@ -495,7 +495,7 @@ function krp_job_create_section_callback() {
                     }
                     ?>
                                         </select>
-                                        <select class="contact-select" id="job_select_contact_job_details_image_url_${jobIndex}" name="selected_contact_job_details_image_url[]" style="display: none;">
+                                        <select class="contact-select" id="job_select_contact_job_details_image_url_${jobIndex}" name="selected_contact_job_details_image_url[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                     foreach ($saved_contacts as $contact) {
