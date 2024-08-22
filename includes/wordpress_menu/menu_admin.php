@@ -1110,6 +1110,9 @@ function krp_create_or_update_page() {
                         <div class="ort-restrict-job-tiles-container" id="ort-restrict-job-tiles-container">
                             ' . $jobs_location_html . '
                         </div>
+                        <div class="job-tiles-container">
+                            ' . $jobs_html . '
+                        </div>
                         <div id="job-details-container">
                             ' . $job_details_html . '
                         </div>
