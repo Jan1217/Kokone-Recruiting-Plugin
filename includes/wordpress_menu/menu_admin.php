@@ -20,7 +20,7 @@ add_action('admin_menu', 'krp_create_menu');
 function krp_settings_page() {
     $license_handler = new KokoneLicenseHandler();
     $is_license_valid = $license_handler->is_license_valid(); // Lizenzüberprüfung
-    $plugin_page_url = get_option('krp_website_page_title');
+    $plugin_page_url = admin_url('plugin-seite');
 
     ?>
     <div class="wrap">
