@@ -926,6 +926,8 @@ function krp_create_or_update_page() {
             button.ort-restrict-filter-button {
                 padding: 0 15px 0 15px;
                 border-radius: 8px;
+                border: none;
+                background-color: white;
             }
             button.ort-restrict-filter-button:hover {
                 cursor: pointer;
