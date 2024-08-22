@@ -21,7 +21,7 @@ function krp_website_allgemein_page_title_field_callback() {
     $krp_page_title = get_option('krp_website_page_title');
     ?>
     <input type="text" name="krp_website_page_title" value="<?php echo esc_attr($krp_page_title); ?>" placeholder="Ihr Seiten Name" style="width: 450px;"/>
-    <p><i>* Information: Falls Änderungen am Seiten Namen vorgenommen werden, bitte die Alte Seite löschen. Der Seiten Inhalt wird ohne Probleme übernommen, da eine neue Seite erstellt wird.</i></p>
+    <p><i>* Wichtig: Falls Änderungen am Seiten Namen vorgenommen werden, bitte die Alte Seite löschen. Der Seiten Inhalt wird ohne Probleme übernommen, da eine neue Seite erstellt wird.</i></p>
     <?php
 }
 

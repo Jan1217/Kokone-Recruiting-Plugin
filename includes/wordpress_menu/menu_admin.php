@@ -1088,19 +1088,19 @@ function krp_create_or_update_page() {
                 </div>
                 <div id="ort-restrict" class="hidden">
                     <div class="search-filter-container">
-                        <input type="text" id="job-ausbildung-search" placeholder="Suche Jobs / Ausbildung...">
+                        <input type="text" id="job-ausbildung-search" placeholder="Geben Sie Jobtitel oder Ausbildungsberuf ein...">
                         <select id="job-ausbildung-location-filter">
                             <option value="">Alle Standorte</option>
                             ' . $location_options . '
                         </select>
-                        <button id="filter-button">Filtern</button>
+                        <button id="filter-button" title="Klicken Sie hier, um die Ergebnisse basierend auf Ihrer Suche zu filtern.">Filtern</button>
                     </div>
                     <div>
-                        <h3 class="ort-restrict-headline">Jobs</h3>
+                        <h3 class="ort-restrict-headline">Verfügbare Jobs</h3>
                         <div class="ort-restrict-job-tiles-container" id="ort-restrict-job-tiles-container">
                             ' . $jobs_location_html . '
                         </div>
-                        <h3 class="ort-restrict-headline" style="margin-top: 20px;">Ausbildungen</h3>
+                        <h3 class="ort-restrict-headline" style="margin-top: 20px;">Verfügbare Ausbildungen</h3>
                         <div class="ort-restrict-ausbildung-tiles-container" id="ort-restrict-ausbildung-tiles-container">
                             ' . $ausbildung_location_html . '
                         </div>
