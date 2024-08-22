@@ -415,6 +415,17 @@ function krp_create_or_update_page() {
             $job_details_html .= '
             <div id="job-details-' . $job_id . '" class="job-details hidden">
                 <div class="job-details-container">
+                    <div class="job-details-fullwidth" style="display: flex; flex-wrap: wrap;">
+                        <div class="job-details-left" style="flex: 1; padding: 20px;">
+                        </div>
+                        <div class="job-details-right" style="flex: 1.1; padding: 20px;">
+                            <h2>
+                                <span class="h2Intro">Zur Erweiterung unseres Teams am Standort ' . esc_html($job['job_standort']) . '</span>
+                                <span class="h2Title">' . $job_title . '</span>
+                                <span class="h2Subtitle">im Bereich ' . $job_bereich . '</span>
+                            </h2>
+                        </div>
+                    </div>
                     <div class="job-details-left-right" style="display: flex; flex-wrap: wrap;">
                         <div class="job-details-left" style="flex: 1; padding: 20px;">
                             <div class="contact-box">
@@ -429,13 +440,6 @@ function krp_create_or_update_page() {
                             </div>
                         </div>
                         <div class="job-details-right" style="flex: 1.1; padding: 20px;">
-                            <div>
-                                <h2>
-                                    <span class="h1Intro">Zur Erweiterung unseres Teams am Standort ' . esc_html($job['job_standort']) . '</span>
-                                    <span class="h1Title">' . $job_title . '</span>
-                                    <span class="h1Subtitle">im Bereich ' . $job_bereich . '</span>
-                                </h2>
-                            </div>
                             <p>' . wp_kses_post($job['job_company_info']) . '</p>
                             <h3>Ihre Tätigkeiten:</h3>
                             <p>' . wp_kses_post($job['job_tasks']) . '</p>
@@ -455,7 +459,8 @@ function krp_create_or_update_page() {
                             <a href="#jobs" onclick="showJobList()">Zurück zu Jobs</a>
                         </div>
                     </div>
-                    <!-- Bewerbungsformular -->
+                </div>
+                <!-- Bewerbungsformular -->
                     <div class="form-container" id="bewerbungsformular_jobs">
                         <form method="post" action="" enctype="multipart/form-data" onsubmit="return validateForm()">
                             <input type="hidden" name="contact_person_email" value="' . $contact_person_job_details_email . '">
@@ -505,7 +510,6 @@ function krp_create_or_update_page() {
                             <div class="job-bewerbung-error-message" id="error-message"></div>
                         </form>
                     </div>
-                </div>
             </div>';
         }
     } else {
@@ -762,9 +766,8 @@ function krp_create_or_update_page() {
             }
             .job-tile {
                 border: 2px solid ' . $secondary_nav_bg_color . ';
-                border-radius: 8px;
+                border-radius: 8px 8px 0 0 ;
                 background-color: '. $main_details_bg_color .';
-                text-align: center;
                 cursor: pointer;
                 padding: 10px;
                 box-sizing: border-box;
@@ -777,6 +780,7 @@ function krp_create_or_update_page() {
             .job-image {
                 max-width: 100%;
                 border-radius: 4px 4px 0 0;
+                min-height: 200px;
                 max-height: 200px;
                 width: 100%;
                 height: auto;
@@ -807,14 +811,17 @@ function krp_create_or_update_page() {
                 margin: 100px 0 0 0;
             }   
             button.job-tile-info-button {
+                border: 2px solid ' . $secondary_nav_bg_color . ';
                 width: 100%;
                 padding: 10px;
-                border-radius: 8px;
+                margin-top: 10px;
+                border-radius: 0 0 8px 8px;
                 color: ' . $secondary_nav_text_color . ';
                 background-color: ' . $secondary_nav_bg_color . '
             }
             button.job-tile-info-button:hover {
                 cursor: pointer;
+                color: unset;
                 background-color: '. $main_details_bg_color .';
             }
             .job_tile_standort {
@@ -822,14 +829,16 @@ function krp_create_or_update_page() {
                 color: ' . $secondary_nav_text_color . ';
             }
             .h1Intro {
-            
+                display: block;
+                font-weight: 300;
             }
             .h1Title {
+                display: block;
                 font-weight: bold;
                 font-size: 35px; 
             }
             .h1Subtitle {
-            
+                font-weight: 300;
             }
             /* Ausbildungen */
             .ausbildung-tiles-container {
@@ -947,7 +956,7 @@ function krp_create_or_update_page() {
             /* Bewerbungsformular */
              .form-container {
                 padding: 20px;
-                border: 2px solid '. $main_bg_color .';
+                border: 2px solid ' . $secondary_nav_bg_color . ';
                 border-radius: 8px;
             }
             .form-row {
@@ -962,6 +971,7 @@ function krp_create_or_update_page() {
                 margin-bottom: 15px;
             }
             .form-group label {
+                color: white; 
                 display: block;
                 margin-bottom: 5px;
             }
@@ -980,14 +990,15 @@ function krp_create_or_update_page() {
                 padding: 3px;
             }
             .form-group input[type="submit"] {
-                background-color: ' . $secondary_nav_contact_bg_color . ';
+                background-color: ' . $secondary_nav_bg_color . ';
                 color: white;
                 border: none;
                 padding: 10px 15px;
                 cursor: pointer;
             }
             .form-group input[type="submit"]:hover {
-                background-color: ' . $secondary_nav_bg_color . ';
+                color: white;
+                background-color: ' . $secondary_nav_contact_bg_color . ';
             }
             .error-message {
                 color: red;
