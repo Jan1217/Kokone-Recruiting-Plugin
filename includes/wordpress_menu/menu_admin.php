@@ -346,9 +346,9 @@ function krp_create_or_update_page() {
     $secondary_nav_text_color = get_option('krp_website_secondary_navigation_text_color');
 
     $main_text_jobs_field = get_option('krp_website_main_text_jobs_field');
-    $main_text_jobs_color_field = get_option('krp_website_main_text_jobs_color_field');
+    $main_text_jobs_color_field = get_option('krp_website_main_text_jobs_color');
     $main_text_ausbildung_field = get_option('krp_website_main_text_ausbildung_field');
-    $main_text_ausbildung_color_field = get_option('krp_website_main_text_ausbildung_color_field');
+    $main_text_ausbildung_color_field = get_option('krp_website_main_text_ausbildung_color');
     $main_bg_color = get_option('krp_website_main_bg_color');
     $main_details_bg_color = get_option('krp_website_main_details_bg_color');
     $main_selection_column_field = get_option('krp_website_main_selection_column_field');
@@ -850,9 +850,6 @@ function krp_create_or_update_page() {
             .job-bereich::before {
                 content: "";
                 position: absolute;
-                left: 0;
-                top: 50%;
-                transform: translateY(-50%);
                 width: 10px;
                 height: 10px;
                 background-color: ' . $main_bg_color . ';
