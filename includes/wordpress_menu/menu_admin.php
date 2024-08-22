@@ -722,26 +722,16 @@ function krp_create_or_update_page() {
                 color: ' . $krp_hero_text_color . ';
             }
             /* Sekundäre Navigation */
-            .plugin-page .secondary-nav-container {
-                position: relative;
-            }
-            
-            .plugin-page .hamburger-menu {
-                display: none;
-                font-size: 30px;
-                cursor: pointer;
-                padding: 15px;
-                background-color: ' . $secondary_nav_bg_color . ';
-            }
-            
             .plugin-page .secondary-nav {
                 display: flex;
                 justify-content: center;
                 background-color: ' . $secondary_nav_bg_color . ';
-                transition: max-height 0.3s ease-out;
-                overflow: hidden;
             }
-            
+            .plugin-page .secondary-nav .contact_color {
+                background-color: ' . $secondary_nav_contact_bg_color . ';
+                border-radius: 8px;
+                margin: 4px;
+            }
             .plugin-page .secondary-nav a {
                 color: ' . $secondary_nav_text_color . ';
                 padding: 15px 20px;
@@ -749,35 +739,10 @@ function krp_create_or_update_page() {
                 display: inline-block;
                 margin: 4px;
             }
-            
-            .plugin-page .secondary-nav .contact_color {
-                background-color: ' . $secondary_nav_contact_bg_color . ';
-                border-radius: 8px;
-                margin: 4px;
-            }
-            
-            .plugin-page .krp_sec_nav_item.active {
+            .krp_sec_nav_item.active {
                 font-weight: bold;
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
             }
-            
-            /* Mobile Styles */
-            @media (max-width: 768px) {
-                .plugin-page .secondary-nav {
-                    display: none;
-                    flex-direction: column;
-                    width: 100%;
-                }
-                
-                .plugin-page .hamburger-menu {
-                    display: block;
-                }
-                
-                .plugin-page .secondary-nav.show {
-                    display: flex;
-                }
-            }
-
             /* Ende Sekundäre Navigation */
             .plugin-page .content {
                 background-color: ' . $main_bg_color . ';
