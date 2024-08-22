@@ -399,13 +399,13 @@ function krp_create_or_update_page() {
 
             $jobs_location_html .= '
             <div class="job-tile-main">
-                <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="">
+                <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="showContent(\'jobs\'); showJobList(); showJobDetails(' . $job_id . ')">
                     <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
                     <p class="job_tile_standort" style="padding: unset">Standort ' . esc_attr($job['job_standort']) . '</p>
                     <h2 class="job-title">' . $job_title . '</h2>
                     <p class="job-bereich">Im Bereich ' . $job_bereich . '</p>
                 </div>
-                <button class="job-tile-info-button" onclick="">Weitere Infos hier</button>
+                <button class="job-tile-info-button" onclick="showContent(\'jobs\'); showJobList(); showJobDetails(' . $job_id . ')">Weitere Infos hier</button>
             </div>
             ';
 
