@@ -420,9 +420,9 @@ function krp_create_or_update_page() {
                         </div>
                         <div class="job-details-right" style="flex: 1.1; padding: 20px;">
                             <h2>
-                                <span class="h2Intro">Zur Erweiterung unseres Teams am Standort ' . esc_html($job['job_standort']) . '</span>
-                                <span class="h2Title">' . $job_title . '</span>
-                                <span class="h2Subtitle">im Bereich ' . $job_bereich . '</span>
+                                <span class="h1Intro">Zur Erweiterung unseres Teams am Standort ' . esc_html($job['job_standort']) . '</span>
+                                <span class="h1Title">' . $job_title . '</span>
+                                <span class="h1Subtitle">im Bereich ' . $job_bereich . '</span>
                             </h2>
                         </div>
                     </div>
@@ -460,7 +460,7 @@ function krp_create_or_update_page() {
                         </div>
                     </div>
                 </div>
-                <!-- Bewerbungsformular -->
+            <!-- Bewerbungsformular -->
                     <div class="form-container" id="bewerbungsformular_jobs">
                         <form method="post" action="" enctype="multipart/form-data" onsubmit="return validateForm()">
                             <input type="hidden" name="contact_person_email" value="' . $contact_person_job_details_email . '">
@@ -510,7 +510,7 @@ function krp_create_or_update_page() {
                             <div class="job-bewerbung-error-message" id="error-message"></div>
                         </form>
                     </div>
-            </div>';
+                                </div>';
         }
     } else {
         $jobs_html = '<p class="no_job_ausbildung">Derzeit sind keine Jobs verfügbar.</p>';
