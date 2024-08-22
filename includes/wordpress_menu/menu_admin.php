@@ -387,11 +387,14 @@ function krp_create_or_update_page() {
             $contact_person_job_details_image_url = esc_url_raw($job['selected_contact_job_details_image_url']);
 
             $jobs_html .= '
-            <div class="job-tile-main">
-                <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="showJobDetails(' . $job_id . ')">
-                    <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
-                    <h2 class="job-title">' . $job_title . '</h2>
-                    <p class="job-bereich">Im Bereich ' . $job_bereich . '</p>
+            <div>
+                <div class="job-tile-main">
+                    <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="showJobDetails(' . $job_id . ')">
+                        <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
+                        <h2 class="job-title">' . $job_title . '</h2>
+                        <p class="job-bereich">Im Bereich ' . $job_bereich . '</p>
+                    </div>
+                    
                 </div>
                 <button class="job-tile-info-button" onclick="showJobDetails(' . $job_id . ')">Weitere Infos hier</button>
             </div>
@@ -412,13 +415,6 @@ function krp_create_or_update_page() {
             $job_details_html .= '
             <div id="job-details-' . $job_id . '" class="job-details hidden">
                 <div class="job-details-container">
-                    <div class="job-details-fullwidth" style="padding: 20px;">
-                        <h2>
-                            <span class="h2Intro">Zur Erweiterung unseres Teams am Standort ' . esc_html($job['job_standort']) . '</span>
-                            <span class="h2Title">' . $job_title . '</span>
-                            <span class="h2Subtitle">im Bereich ' . $job_bereich . '</span>
-                        </h2>
-                    </div>
                     <div class="job-details-left-right" style="display: flex; flex-wrap: wrap;">
                         <div class="job-details-left" style="flex: 1; padding: 20px;">
                             <div class="contact-box">
@@ -433,6 +429,13 @@ function krp_create_or_update_page() {
                             </div>
                         </div>
                         <div class="job-details-right" style="flex: 1.1; padding: 20px;">
+                            <div>
+                                <h2>
+                                    <span class="h1Intro">Zur Erweiterung unseres Teams am Standort ' . esc_html($job['job_standort']) . '</span>
+                                    <span class="h1Title">' . $job_title . '</span>
+                                    <span class="h1Subtitle">im Bereich ' . $job_bereich . '</span>
+                                </h2>
+                            </div>
                             <p>' . wp_kses_post($job['job_company_info']) . '</p>
                             <h3>Ihre Tätigkeiten:</h3>
                             <p>' . wp_kses_post($job['job_tasks']) . '</p>
@@ -576,12 +579,12 @@ function krp_create_or_update_page() {
                         </div>
                         <div class="ausbildung-details-right" style="flex: 1.1; padding: 20px;">
                             <p>' . wp_kses_post($ausbildung['ausbildung_company_info']) . '</p>
-                            <h3>Ihre Tätigkeiten:</h3>
+                            <h2>Ihre Tätigkeiten:</h2>
                             <p>' . wp_kses_post($ausbildung['ausbildung_tasks']) . '</p>
-                            <h3>Wir freuen uns über Ihre Bewerbung, wenn Sie:</h3>
+                            <h2>Wir freuen uns über Ihre Bewerbung, wenn Sie:</h2>
                             <p>' . wp_kses_post($ausbildung['ausbildung_application']) . '</p>
                             <a href="' . esc_url($ausbildung['ausbildung_application_pdf']) . '" target="_blank">Ausbildungsanzeige als PDF herunterladen</a>
-                            <h3>Bitte senden Sie Ihre Bewerbungsunterlagen an</h3>
+                            <h2>Bitte senden Sie Ihre Bewerbungsunterlagen an</h2>
                             <div>
                                 <p style="padding-bottom: 0 !important;">' . $contact_person_ausbildung_details_name . '</p>
                                 <p style="padding-bottom: 0 !important;">' . $krp_kontakt_address_street . ' ' . $krp_kontakt_address_number . '</p>
@@ -759,7 +762,7 @@ function krp_create_or_update_page() {
             }
             .job-tile {
                 border: 2px solid ' . $secondary_nav_bg_color . ';
-                border-radius: 8px 8px 0 0;
+                border-radius: 8px;
                 background-color: '. $main_details_bg_color .';
                 text-align: center;
                 cursor: pointer;
@@ -780,10 +783,10 @@ function krp_create_or_update_page() {
                 object-fit: cover;
             }
             .job-title {
-                font-size: 1.2em;
-                margin: 10px 0;
+                margin: 0 0 10px 0;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                font-weight: 600; 
             }
             .job-bereich {
                 color: #666;
@@ -801,26 +804,32 @@ function krp_create_or_update_page() {
                 border: 2px solid ' . $secondary_nav_bg_color . ';
                 padding: 20px;
                 border-radius: 8px;
-                max-width: 360px;
-                height: auto;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                transform: rotate(-5deg);
-                transform-origin: top left;
-                margin: 100px 20px 20px 20px;
+                margin: 100px 0 0 0;
             }   
             button.job-tile-info-button {
                 width: 100%;
                 padding: 10px;
-                border-radius: 0 0 8px 8px;
+                border-radius: 8px;
+                color: ' . $secondary_nav_text_color . ';
+                background-color: ' . $secondary_nav_bg_color . '
             }
             button.job-tile-info-button:hover {
                 cursor: pointer;
-                color: ' . $secondary_nav_text_color . ';
-                background-color: ' . $secondary_nav_bg_color . ';
+                background-color: '. $main_details_bg_color .';
             }
             .job_tile_standort {
                 background-color: ' . $secondary_nav_contact_bg_color . ';
                 color: ' . $secondary_nav_text_color . ';
+            }
+            .h1Intro {
+            
+            }
+            .h1Title {
+                font-weight: bold;
+                font-size: 35px; 
+            }
+            .h1Subtitle {
+            
             }
             /* Ausbildungen */
             .ausbildung-tiles-container {
@@ -1074,9 +1083,6 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
-                <div class="hamburger-menu" onclick="toggleMenu()">
-                    &#9776;
-                </div>
                 <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
