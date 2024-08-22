@@ -224,7 +224,7 @@ function krp_job_create_section_callback() {
                                             $saved_contacts = get_option('krp_saved_contacts', array());
                                             foreach ($saved_contacts as $contact) {
                                                 $contact_name_job_details = esc_html($contact['contact_name']);
-                                                $contact_abteilung_job_details = esc_html($contact['contact_abteilung']);
+                                                $contact_abteilung_job_details = implode(' und ', array_map('esc_html', $contact['contact_abteilung']));
 
                                                 $contact_value = $contact_name_job_details;
                                                 $contact_display = $contact_name_job_details . ' , ' . $contact_abteilung_job_details;
@@ -449,7 +449,7 @@ function krp_job_create_section_callback() {
                     $saved_contacts = get_option('krp_saved_contacts', array());
                     foreach ($saved_contacts as $contact) {
                         $contact_name_job_details = esc_html($contact['contact_name']);
-                        $contact_abteilung_job_details = esc_html($contact['contact_abteilung']);
+                        $contact_abteilung_job_details = implode(' und ', array_map('esc_html', $contact['contact_abteilung']));
 
                         $contact_value = $contact_name_job_details;
                         $contact_display = $contact_name_job_details . ' , ' . $contact_abteilung_job_details;
