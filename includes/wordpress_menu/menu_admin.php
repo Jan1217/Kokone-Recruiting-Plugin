@@ -1546,15 +1546,15 @@ function krp_save_settings() {
         $html_content = wp_kses_post($_POST['krp_website_main_text_jobs_field']);
         update_option('krp_website_main_text_jobs_field', $html_content);
     }
-    if(isset($_POST['krp_website_main_text_jobs_color_field'])) {
-        update_option('krp_website_main_text_jobs_color_field', sanitize_text_field($_POST['krp_website_main_text_jobs_color_field']));
+    if(isset($_POST['krp_website_main_text_jobs_color'])) {
+        update_option('krp_website_main_text_jobs_color', sanitize_text_field($_POST['krp_website_main_text_jobs_color']));
     }
     if (isset($_POST['krp_website_main_text_ausbildung_field'])) {
         $html_content = wp_kses_post($_POST['krp_website_main_text_ausbildung_field']);
         update_option('krp_website_main_text_ausbildung_field', $html_content);
     }
-    if(isset($_POST['krp_website_main_text_ausbildung_color_field'])) {
-        update_option('krp_website_main_text_ausbildung_color_field', sanitize_text_field($_POST['krp_website_main_text_ausbildung_color_field']));
+    if(isset($_POST['krp_website_main_text_ausbildung_color'])) {
+        update_option('krp_website_main_text_ausbildung_color', sanitize_text_field($_POST['krp_website_main_text_ausbildung_color']));
     }
     if(isset($_POST['krp_website_main_bg_color'])) {
         update_option('krp_website_main_bg_color', sanitize_text_field($_POST['krp_website_main_bg_color']));
