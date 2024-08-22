@@ -226,7 +226,7 @@ function krp_ausbildung_create_section_callback() {
                                                 $contact_name_ausbildung_details = esc_html($contact['contact_name']);
                                                 $contact_abteilung_ausbildung_details = implode(' und ', array_map('esc_html', $contact['contact_abteilung']));
                                                 $contact_name_abteilung_ausbildung_details = $contact_name_ausbildung_details . ' , ' . $contact_abteilung_ausbildung_details;
-                                                echo '<option value="' . esc_attr($contact_name_abteilung_ausbildung_details) . '"' . selected($ausbildung['selected_contact_job_details_name'], $contact_name_abteilung_ausbildung_details, false) . '>' . esc_html($contact_name_abteilung_ausbildung_details) . '</option>';
+                                                echo '<option value="' . esc_attr($contact_name_abteilung_ausbildung_details) . '"' . selected($ausbildung['selected_contact_ausbildung_details_name'], $contact_name_abteilung_ausbildung_details, false) . '>' . esc_html($contact_name_abteilung_ausbildung_details) . '</option>';
                                             }
                                             ?>
                                         </select>
@@ -448,7 +448,7 @@ function krp_ausbildung_create_section_callback() {
                         $contact_name_ausbildung_details = esc_html($contact['contact_name']);
                         $contact_abteilung_ausbildung_details = implode(' und ', array_map('esc_html', $contact['contact_abteilung']));
                         $contact_name_abteilung_ausbildung_details = $contact_name_ausbildung_details . ' , ' . $contact_abteilung_ausbildung_details;
-                        echo '<option value="' . esc_attr($contact_name_abteilung_ausbildung_details) . '"' . selected($ausbildung['selected_contact_job_details_name'], $contact_name_abteilung_ausbildung_details, false) . '>' . esc_html($contact_name_abteilung_ausbildung_details) . '</option>';
+                        echo '<option value="' . esc_attr($contact_name_abteilung_ausbildung_details) . '"' . selected($ausbildung['selected_contact_ausbildung_details_name'], $contact_name_abteilung_ausbildung_details, false) . '>' . esc_html($contact_name_abteilung_ausbildung_details) . '</option>';
                     }
                     ?>
                                         </select>
@@ -527,7 +527,7 @@ function krp_ausbildung_create_section_callback() {
             });
         })(jQuery);
     </script>
-    <script type="text/javascript">
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Speichere die Kontaktinformationen in einem JavaScript-Objekt
             var contacts = <?php echo json_encode($saved_contacts); ?>;
@@ -569,6 +569,7 @@ function krp_ausbildung_create_section_callback() {
                 });
             });
         });
+
     </script>
     <script>
         function getEditor(id) {
