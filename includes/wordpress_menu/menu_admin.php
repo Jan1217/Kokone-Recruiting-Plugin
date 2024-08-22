@@ -1432,8 +1432,8 @@ function krp_register_sections_and_fields() {
     add_settings_field('krp_website_main_text_ausbildung_field', 'Ausbildung Tab Text', 'krp_website_main_text_ausbildung_field_callback', 'krp-settings-website', 'krp_website_main_section');
     add_settings_field('krp_website_main_bg_color_field', 'Main Hintergrundfarbe', 'krp_website_main_bg_color_callback', 'krp-settings-website', 'krp_website_main_section');
     add_settings_field('krp_website_main_details_bg_color_field', 'Main Job/ Ausbildung Hintergrundfarbe', 'krp_website_main_details_bg_color_callback', 'krp-settings-website', 'krp_website_main_section');
-    //add_settings_field('krp_website_main_selection_field', 'Anzahl der gezeigten Inhalte', 'krp_website_main_selection_field_callback', 'krp-settings-website', 'krp_website_main_section');
-    add_settings_field('krp_website_main_selection_column_field', 'Anzahl der Spalten', 'krp_website_main_selection_column_field_callback', 'krp-settings-website', 'krp_website_main_section');
+    //add_settings_field('krp_website_main_selection_field', 'Anzahl der insgesamten Jobs / Ausbildungen pro Seite', 'krp_website_main_selection_field_callback', 'krp-settings-website', 'krp_website_main_section');
+    add_settings_field('krp_website_main_selection_column_field', 'Anzahl der Jobs / Ausbildungen pro Spalte', 'krp_website_main_selection_column_field_callback', 'krp-settings-website', 'krp_website_main_section');
 
     // Design Tab
     add_settings_section('krp_design_section', '', 'krp_design_section_callback', 'krp-settings-design');

@@ -452,15 +452,16 @@ function krp_website_main_selection_field_callback() {
 function krp_website_main_selection_column_field_callback() {
     $main_selection_column_field = get_option('krp_website_main_selection_column_field');
     ?>
-    <input class="krp_input_website" type="text" name="krp_website_main_selection_column_field" value="<?php echo esc_attr($main_selection_column_field); ?>" />
+    <input id="krp_website_main_selection_column_field" class="krp_input_website" type="text" placeholder="Nur Zahlen erlaubt" name="krp_website_main_selection_column_field" value="<?php echo esc_attr($main_selection_column_field); ?>" />
     <script>
         const selectionColumnInput = document.getElementById('krp_website_main_selection_column_field');
 
         selectionColumnInput.addEventListener('input', function() {
-            this.value = this.value.replace(/[^\d+\-()\s]/g, '');
+            this.value = this.value.replace(/[^\d]/g, '');
         });
     </script>
     <?php
 }
+
 
 ?>
