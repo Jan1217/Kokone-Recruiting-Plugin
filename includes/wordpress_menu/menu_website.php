@@ -344,6 +344,13 @@ function krp_website_main_text_jobs_field_callback() {
     <?php
 }
 
+function krp_website_main_text_jobs_color_field_callback() {
+    $main_text_jobs_color_field = get_option('kpr_website_main_text_jobs_color_field');
+    ?>
+    <input type="color" name="krp_website_main_text_jobs_color" value="<?php echo esc_attr($main_text_jobs_color_field); ?>" />
+    <?php
+}
+
 function krp_website_main_text_ausbildung_field_callback() {
     $main_text_ausbildung_field = get_option('krp_website_main_text_ausbildung_field');
     ?>
@@ -419,6 +426,13 @@ function krp_website_main_text_ausbildung_field_callback() {
             editor.selectionStart = editor.selectionEnd = selectionStart + newText.length;
         }
     </script>
+    <?php
+}
+
+function krp_website_main_text_ausbildung_color_field_callback() {
+    $main_text_ausbildung_color_field = get_option('kpr_website_main_text_ausbildung_color_field');
+    ?>
+    <input type="color" name="krp_website_main_text_ausbildung_color" value="<?php echo esc_attr($main_text_ausbildung_color_field); ?>" />
     <?php
 }
 

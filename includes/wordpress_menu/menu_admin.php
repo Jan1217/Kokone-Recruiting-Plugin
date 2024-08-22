@@ -346,7 +346,9 @@ function krp_create_or_update_page() {
     $secondary_nav_text_color = get_option('krp_website_secondary_navigation_text_color');
 
     $main_text_jobs_field = get_option('krp_website_main_text_jobs_field');
+    $main_text_jobs_color_field = get_option('krp_website_main_text_jobs_color_field');
     $main_text_ausbildung_field = get_option('krp_website_main_text_ausbildung_field');
+    $main_text_ausbildung_color_field = get_option('krp_website_main_text_ausbildung_color_field');
     $main_bg_color = get_option('krp_website_main_bg_color');
     $main_details_bg_color = get_option('krp_website_main_details_bg_color');
     $main_selection_column_field = get_option('krp_website_main_selection_column_field');
@@ -574,8 +576,8 @@ function krp_create_or_update_page() {
                             <div class="contact-box">
                                 <img src="' . $contact_person_ausbildung_details_image_url . '" alt="' . esc_html($ausbildung['contact_name']) . '">
                                 <h2>' . $contact_person_ausbildung_details_name . '</h2>
-                                <p>Telefon: ' . $contact_person_ausbildung_details_tel . '</p>
-                                <p>Email: ' . $contact_person_ausbildung_details_email . '</p>
+                                <p><strong>Telefon:</strong> <a href="tel:' . $contact_person_ausbildung_details_tel . '">' . $contact_person_ausbildung_details_tel . '</a></p>
+                                <p><strong>Email:</strong> <a href="mailto:' . $contact_person_ausbildung_details_email . '">' . $contact_person_ausbildung_details_email . '</a></p>
                                 <p>' . $contact_person_ausbildung_details_info . '</p>
                             </div>
                             <div class="ausbildung_details_image">
@@ -801,8 +803,6 @@ function krp_create_or_update_page() {
             .job-details {
                 margin: 10px 0;
                 padding: 20px;
-                border: 1px solid #ddd;
-                border-radius: 8px;
             }
             .job-details-container {
                 background-color: '. $main_details_bg_color .'
@@ -842,6 +842,10 @@ function krp_create_or_update_page() {
             }
             .h1Subtitle {
                 font-weight: 300;
+            }
+            div#main-jobs-text {
+                color: ' . $main_text_jobs_color_field . ';
+                font-size: 16px;
             }
             /* Ausbildungen */
             .ausbildung-tiles-container {
@@ -913,6 +917,10 @@ function krp_create_or_update_page() {
             .ausbildung_tile_standort {
                 background-color: ' . $secondary_nav_contact_bg_color . ';
                 color: ' . $secondary_nav_text_color . ';
+            }
+            div#main-ausbildung-text {
+                color: ' . $main_text_ausbildung_color_field . ';
+                font-size: 16px;
             }
             /* Filter und Suche */
             .search-filter-container {
@@ -1020,6 +1028,7 @@ function krp_create_or_update_page() {
                 height: auto;
             }
             .contact-box h2 {
+                font-weight: 600;
                 margin: 10px 0 5px;
                 font-size: 1.5em;
                 color: #333;
@@ -1456,7 +1465,9 @@ function krp_register_sections_and_fields() {
 
     add_settings_section('krp_website_main_section', '', 'krp_website_main_section_callback', 'krp-settings-website');
     add_settings_field('krp_website_main_text_jobs_field', 'Job Tab Text', 'krp_website_main_text_jobs_field_callback', 'krp-settings-website', 'krp_website_main_section');
+    add_settings_field('krp_website_main_text_jobs_color_field', 'Job Tab Textfarbe', 'krp_website_main_text_jobs_color_field_callback', 'krp-settings-website', 'krp_website_main_section');
     add_settings_field('krp_website_main_text_ausbildung_field', 'Ausbildung Tab Text', 'krp_website_main_text_ausbildung_field_callback', 'krp-settings-website', 'krp_website_main_section');
+    add_settings_field('krp_website_main_text_ausbildung_color_field', 'Ausbildung Tab Textfarbe', 'krp_website_main_text_ausbildung_color_field_callback', 'krp-settings-website', 'krp_website_main_section');
     add_settings_field('krp_website_main_bg_color_field', 'Main Hintergrundfarbe', 'krp_website_main_bg_color_callback', 'krp-settings-website', 'krp_website_main_section');
     add_settings_field('krp_website_main_details_bg_color_field', 'Main Job/ Ausbildung Hintergrundfarbe', 'krp_website_main_details_bg_color_callback', 'krp-settings-website', 'krp_website_main_section');
     //add_settings_field('krp_website_main_selection_field', 'Anzahl der insgesamten Jobs / Ausbildungen pro Seite', 'krp_website_main_selection_field_callback', 'krp-settings-website', 'krp_website_main_section');
@@ -1528,9 +1539,15 @@ function krp_save_settings() {
         $html_content = wp_kses_post($_POST['krp_website_main_text_jobs_field']);
         update_option('krp_website_main_text_jobs_field', $html_content);
     }
+    if(isset($_POST['kpr_website_main_text_jobs_color_field'])) {
+        update_option('kpr_website_main_text_jobs_color_field', sanitize_text_field($_POST['kpr_website_main_text_jobs_color_field']));
+    }
     if (isset($_POST['krp_website_main_text_ausbildung_field'])) {
         $html_content = wp_kses_post($_POST['krp_website_main_text_ausbildung_field']);
         update_option('krp_website_main_text_ausbildung_field', $html_content);
+    }
+    if(isset($_POST['kpr_website_main_text_ausbildung_color_field'])) {
+        update_option('kpr_website_main_text_ausbildung_color_field', sanitize_text_field($_POST['kpr_website_main_text_ausbildung_color_field']));
     }
     if(isset($_POST['krp_website_main_bg_color'])) {
         update_option('krp_website_main_bg_color', sanitize_text_field($_POST['krp_website_main_bg_color']));
