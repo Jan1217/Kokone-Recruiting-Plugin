@@ -544,51 +544,37 @@ function krp_job_create_section_callback() {
         })(jQuery);
     </script>
     <script type="text/javascript">
-        // Speichere die Kontaktinformationen in einem JavaScript-Objekt
-        var contacts = <?php echo json_encode($saved_contacts); ?>;
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactSelects = document.querySelectorAll('.contact-select');
 
-        // Event Listener für die Änderung des Kontakt-Selects
-        document.querySelectorAll(".contact-select[name='selected_contact_job_details_name[]']").forEach(function(selectElement) {
-            selectElement.addEventListener("change", function() {
-                var selectedContactName = this.value;
-                var key = this.id.split('_').pop(); // Extrahiere den Schlüssel aus der ID
+            contactSelects.forEach(contactSelect => {
+                if (contactSelect.name.includes('selected_contact_job_details_name[]')) {
+                    contactSelect.addEventListener('change', function() {
+                        const selectedContact = this.value;
 
-                // Finde den Index des ausgewählten Kontakts
-                var contactIndex = contacts.findIndex(contact => contact.contact_name === selectedContactName);
+                        // Find the parent row (tr) to scope the other selects within the same row
+                        const parentRow = this.closest('tr');
 
-                if (contactIndex !== -1) {
-                    // Update die anderen Select-Felder basierend auf dem ausgewählten Kontakt
-                    updateContactDetails(contactIndex, key);
+                        const abteilungSelect = parentRow.querySelector('select[name="selected_contact_job_details_abteilung[]"]');
+                        const telSelect = parentRow.querySelector('select[name="selected_contact_job_details_tel[]"]');
+                        const emailSelect = parentRow.querySelector('select[name="selected_contact_job_details_email[]"]');
+                        const infoSelect = parentRow.querySelector('select[name="selected_contact_job_details_info[]"]');
+                        const imageUrlSelect = parentRow.querySelector('select[name="selected_contact_job_details_image_url[]"]');
+
+                        const selects = [abteilungSelect, telSelect, emailSelect, infoSelect, imageUrlSelect];
+
+                        selects.forEach(select => {
+                            // Set the select value to match the selected contact in the first select
+                            if (select) {
+                                select.value = select.querySelector(`option[value*="${selectedContact}"]`)?.value || '';
+                                select.style.display = 'block'; // Show the select element
+                            }
+                        });
+                    });
                 }
             });
         });
-
-        function updateContactDetails(contactIndex, key) {
-            var contact = contacts[contactIndex];
-
-            // Aktualisiere die anderen Felder mit den entsprechenden Werten und mache sie sichtbar
-            var abteilungSelect = document.getElementById("job_select_contact_job_details_abteilung_" + key);
-            abteilungSelect.value = contact.contact_abteilung.join(' und ');
-            abteilungSelect.style.display = 'inline';
-
-            var telSelect = document.getElementById("job_select_contact_job_details_tel_" + key);
-            telSelect.value = contact.contact_tel;
-            telSelect.style.display = 'inline';
-
-            var emailSelect = document.getElementById("job_select_contact_job_details_email_" + key);
-            emailSelect.value = contact.contact_email;
-            emailSelect.style.display = 'inline';
-
-            var infoSelect = document.getElementById("job_select_contact_job_details_info_" + key);
-            infoSelect.value = contact.contact_info;
-            infoSelect.style.display = 'inline';
-
-            var imageUrlSelect = document.getElementById("job_select_contact_job_details_image_url_" + key);
-            imageUrlSelect.value = contact.contact_image_url;
-            imageUrlSelect.style.display = 'inline';
-        }
     </script>
-
     <script>
         function getEditor(id) {
             return document.getElementById(id);
