@@ -923,6 +923,15 @@ function krp_create_or_update_page() {
                 grid-template-columns: repeat(' . $main_selection_column_field . ', 1fr);
                 gap: 20px;
             }
+            button.ort-restrict-filter-button {
+                padding: 0 15px 0 15px;
+                border-radius: 8px;
+            }
+            button.ort-restrict-filter-button:hover {
+                cursor: pointer;
+                color: ' . $secondary_nav_text_color . ';
+                background-color: ' . $secondary_nav_bg_color . ';
+            }
             /* Bewerbungsformular */
              .form-container {
                 padding: 20px;
@@ -1093,7 +1102,7 @@ function krp_create_or_update_page() {
                             <option value="">Alle Standorte</option>
                             ' . $location_options . '
                         </select>
-                        <button id="filter-button" title="Klicken Sie hier, um die Ergebnisse basierend auf Ihrer Suche zu filtern.">Filtern</button>
+                        <button class="ort-restrict-filter-button" id="filter-button" title="Klicken Sie hier, um die Ergebnisse basierend auf Ihrer Suche zu filtern.">Filtern</button>
                     </div>
                     <div>
                         <h3 class="ort-restrict-headline">Verfügbare Jobs</h3>
