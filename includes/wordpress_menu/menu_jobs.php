@@ -544,82 +544,43 @@ function krp_job_create_section_callback() {
         })(jQuery);
     </script>
     <script>
-        // Speichere die Kontaktinformationen in einem JavaScript-Objekt
-        var contacts = <?php echo json_encode($saved_contacts); ?>;
+        document.addEventListener('DOMContentLoaded', function () {
+            // Speichere die Kontaktinformationen in einem JavaScript-Objekt
+            var contacts = <?php echo json_encode($saved_contacts); ?>;
 
-        // Event Listener für die Änderung des Kontakt-Selects
-        document.querySelectorAll(".contact-select[name='selected_contact_job_details_name[]']").forEach(function(selectElement) {
-            selectElement.addEventListener("change", function() {
-                var selectedContactName = this.value;
-                var key = this.id.split('_').pop(); // Extrahiere den Schlüssel aus der ID
+            // Event Listener für die Änderung des Kontakt-Selects
+            document.querySelectorAll(".contact-select[name='selected_contact_job_details_name[]']").forEach(function(selectElement) {
+                selectElement.addEventListener("change", function() {
+                    var selectedContactName = this.value;
+                    var key = this.id.split('_').pop(); // Extrahiere den Schlüssel aus der ID
 
-                // Finde den Index des ausgewählten Kontakts
-                var contact = contacts.find(contact => contact.contact_name === selectedContactName);
+                    // Finde den Index des ausgewählten Kontakts
+                    var contact = contacts.find(contact => contact.contact_name === selectedContactName);
 
-                if (contact) {
-                    // Update die anderen Select-Felder basierend auf dem ausgewählten Kontakt
-                    updateContactDetails(contact, key);
-                }
+                    if (contact) {
+                        // Update die anderen Select-Felder basierend auf dem ausgewählten Kontakt
+                        updateContactDetails(contact, key);
+                    }
+                });
             });
+
+            function updateContactDetails(contact, key) {
+                // Hilfsfunktion zum Finden und Setzen des Werts für ein bestimmtes Select-Feld
+                function updateSelectField(fieldId, value) {
+                    var selectElement = document.getElementById(fieldId);
+                    if (selectElement) {
+                        selectElement.value = value;
+                    }
+                }
+
+                // Aktualisiere die anderen Felder mit den entsprechenden Werten
+                updateSelectField("job_select_contact_job_details_abteilung_" + key, contact.contact_abteilung || "");
+                updateSelectField("job_select_contact_job_details_tel_" + key, contact.contact_tel || "");
+                updateSelectField("job_select_contact_job_details_email_" + key, contact.contact_email || "");
+                updateSelectField("job_select_contact_job_details_info_" + key, contact.contact_info || "");
+                updateSelectField("job_select_contact_job_details_image_url_" + key, contact.contact_image_url || "");
+            }
         });
-
-        function updateContactDetails(contact, key) {
-            // Aktualisiere die anderen Felder mit den entsprechenden Werten
-            var selectAbteilung = document.getElementById("job_select_contact_job_details_abteilung_" + key);
-            var selectTel = document.getElementById("job_select_contact_job_details_tel_" + key);
-            var selectEmail = document.getElementById("job_select_contact_job_details_email_" + key);
-            var selectInfo = document.getElementById("job_select_contact_job_details_info_" + key);
-            var selectImageUrl = document.getElementById("job_select_contact_job_details_image_url_" + key);
-
-            // Setze die Werte in den Select-Feldern auf den Standardwert
-            selectAbteilung.value = '';
-            selectTel.value = '';
-            selectEmail.value = '';
-            selectInfo.value = '';
-            selectImageUrl.value = '';
-
-            // Füge die Optionen hinzu, falls sie vorhanden sind
-            if (contact.contact_abteilung) {
-                selectAbteilung.querySelectorAll('option').forEach(function(option) {
-                    if (option.value === contact.contact_abteilung) {
-                        option.selected = true;
-                    }
-                });
-            }
-
-            if (contact.contact_tel) {
-                selectTel.querySelectorAll('option').forEach(function(option) {
-                    if (option.value === contact.contact_tel) {
-                        option.selected = true;
-                    }
-                });
-            }
-
-            if (contact.contact_email) {
-                selectEmail.querySelectorAll('option').forEach(function(option) {
-                    if (option.value === contact.contact_email) {
-                        option.selected = true;
-                    }
-                });
-            }
-
-            if (contact.contact_info) {
-                selectInfo.querySelectorAll('option').forEach(function(option) {
-                    if (option.value === contact.contact_info) {
-                        option.selected = true;
-                    }
-                });
-            }
-
-            if (contact.contact_image_url) {
-                selectImageUrl.querySelectorAll('option').forEach(function(option) {
-                    if (option.value === contact.contact_image_url) {
-                        option.selected = true;
-                    }
-                });
-            }
-        }
-
     </script>
     <script>
         function getEditor(id) {
