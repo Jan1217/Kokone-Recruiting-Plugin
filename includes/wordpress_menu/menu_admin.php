@@ -433,8 +433,8 @@ function krp_create_or_update_page() {
                             <div class="contact-box">
                                 <img src="' . $contact_person_job_details_image_url . '" alt="' . esc_html($job['contact_name']) . '">
                                 <h2>' . $contact_person_job_details_name . '</h2>
-                                <p>Telefon: ' . $contact_person_job_details_tel . '</p>
-                                <p>Email: ' . $contact_person_job_details_email . '</p>
+                                <p><strong>Telefon:</strong> <a href="tel:' . $contact_person_job_details_tel . '">' . $contact_person_job_details_tel . '</a></p>
+                                <p><strong>Email:</strong> <a href="mailto:' . $contact_person_job_details_email . '">' . $contact_person_job_details_email . '</a></p>
                                 <p>' . $contact_person_job_details_info . '</p>
                             </div>
                             <div class="job_details_image">
@@ -1539,15 +1539,15 @@ function krp_save_settings() {
         $html_content = wp_kses_post($_POST['krp_website_main_text_jobs_field']);
         update_option('krp_website_main_text_jobs_field', $html_content);
     }
-    if(isset($_POST['kpr_website_main_text_jobs_color_field'])) {
-        update_option('kpr_website_main_text_jobs_color_field', sanitize_text_field($_POST['kpr_website_main_text_jobs_color_field']));
+    if(isset($_POST['krp_website_main_text_jobs_color_field'])) {
+        update_option('krp_website_main_text_jobs_color_field', sanitize_text_field($_POST['krp_website_main_text_jobs_color_field']));
     }
     if (isset($_POST['krp_website_main_text_ausbildung_field'])) {
         $html_content = wp_kses_post($_POST['krp_website_main_text_ausbildung_field']);
         update_option('krp_website_main_text_ausbildung_field', $html_content);
     }
-    if(isset($_POST['kpr_website_main_text_ausbildung_color_field'])) {
-        update_option('kpr_website_main_text_ausbildung_color_field', sanitize_text_field($_POST['kpr_website_main_text_ausbildung_color_field']));
+    if(isset($_POST['krp_website_main_text_ausbildung_color_field'])) {
+        update_option('krp_website_main_text_ausbildung_color_field', sanitize_text_field($_POST['krp_website_main_text_ausbildung_color_field']));
     }
     if(isset($_POST['krp_website_main_bg_color'])) {
         update_option('krp_website_main_bg_color', sanitize_text_field($_POST['krp_website_main_bg_color']));
