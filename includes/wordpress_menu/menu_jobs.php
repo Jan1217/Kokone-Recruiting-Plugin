@@ -528,9 +528,18 @@ function krp_job_create_section_callback() {
         })(jQuery);
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Speichere die Kontaktinformationen in einem JavaScript-Objekt
             var contacts = <?php echo json_encode($saved_contacts); ?>;
+
+            // Funktion zum Aktualisieren der anderen Select-Felder
+            function updateContactDetails(contact) {
+                var key = contact.key;
+                document.querySelector(`#job_select_contact_job_details_tel_${key}`).value = contact.contact_tel;
+                document.querySelector(`#job_select_contact_job_details_email_${key}`).value = contact.contact_email;
+                document.querySelector(`#job_select_contact_job_details_info_${key}`).value = contact.contact_info;
+                document.querySelector(`#job_select_contact_job_details_image_url_${key}`).value = contact.contact_image_url;
+            }
 
             // Event Listener für die Änderung des Kontakt-Selects
             document.querySelectorAll(".contact-select[name='selected_contact_job_details_name[]']").forEach(function(selectElement) {
@@ -542,27 +551,18 @@ function krp_job_create_section_callback() {
                     var contact = contacts.find(contact => contact.contact_name === selectedContactName);
 
                     if (contact) {
+                        contact.key = key; // Setze den Schlüssel im Kontakt-Objekt
                         // Update die anderen Select-Felder basierend auf dem ausgewählten Kontakt
-                        updateContactDetails(contact, key);
+                        updateContactDetails(contact);
+                    } else {
+                        // Falls kein Kontakt gefunden wird, setze die Werte auf leer
+                        document.querySelector(`#job_select_contact_job_details_tel_${key}`).value = '';
+                        document.querySelector(`#job_select_contact_job_details_email_${key}`).value = '';
+                        document.querySelector(`#job_select_contact_job_details_info_${key}`).value = '';
+                        document.querySelector(`#job_select_contact_job_details_image_url_${key}`).value = '';
                     }
                 });
             });
-
-            function updateContactDetails(contact, key) {
-                // Hilfsfunktion zum Finden und Setzen des Werts für ein bestimmtes Select-Feld
-                function updateSelectField(fieldId, value) {
-                    var selectElement = document.getElementById(fieldId);
-                    if (selectElement) {
-                        selectElement.value = value;
-                    }
-                }
-
-                // Aktualisiere die anderen Felder mit den entsprechenden Werten
-                updateSelectField("job_select_contact_job_details_tel_" + key, contact.contact_tel || "");
-                updateSelectField("job_select_contact_job_details_email_" + key, contact.contact_email || "");
-                updateSelectField("job_select_contact_job_details_info_" + key, contact.contact_info || "");
-                updateSelectField("job_select_contact_job_details_image_url_" + key, contact.contact_image_url || "");
-            }
         });
     </script>
     <script>
@@ -635,6 +635,7 @@ function krp_save_jobs() {
         $job_standorte = isset($_POST['job_standort']) ? array_map('sanitize_text_field', $_POST['job_standort']) : array();
 
         $selected_contacts_job_details_name = isset($_POST['selected_contact_job_details_name']) ? array_map('sanitize_text_field', $_POST['selected_contact_job_details_name']) : array();
+        $selected_contacts_job_details_abteilung = isset($_POST['selected_contact_job_details_abteilung']) ? array_map('sanitize_text_field', $_POST['selected_contact_job_details_abteilung']) : array();
         $selected_contacts_job_details_tel = isset($_POST['selected_contact_job_details_tel']) ? array_map('sanitize_text_field', $_POST['selected_contact_job_details_tel']) : array();
         $selected_contacts_job_details_email = isset($_POST['selected_contact_job_details_email']) ? array_map('sanitize_text_field', $_POST['selected_contact_job_details_email']) : array();
         $selected_contacts_job_details_info = isset($_POST['selected_contact_job_details_info']) ? array_map('sanitize_text_field', $_POST['selected_contact_job_details_info']) : array();
@@ -685,6 +686,7 @@ function krp_save_jobs() {
                 'job_application_pdf' => $pdf_url,
                 'job_image' => isset($job_images[$key]) ? $job_images[$key] : '', // Bild-URL hinzufügen
                 'selected_contact_job_details_name' => isset($selected_contacts_job_details_name[$key]) ? $selected_contacts_job_details_name[$key] : '',
+                'selected_contact_job_details_abteilung' => isset($selected_contacts_job_details_abteilung[$key]) ? $selected_contacts_job_details_abteilung[$key] : '',
                 'selected_contact_job_details_tel' => isset($selected_contacts_job_details_tel[$key]) ? $selected_contacts_job_details_tel[$key] : '',
                 'selected_contact_job_details_email' => isset($selected_contacts_job_details_email[$key]) ? $selected_contacts_job_details_email[$key] : '',
                 'selected_contact_job_details_info' => isset($selected_contacts_job_details_info[$key]) ? $selected_contacts_job_details_info[$key] : '',
