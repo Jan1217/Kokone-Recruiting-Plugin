@@ -460,57 +460,58 @@ function krp_create_or_update_page() {
                         </div>
                     </div>
                 </div>
+                <!-- Bewerbungsformular -->
+                <div class="form-container" id="bewerbungsformular_jobs">
+                    <form method="post" action="" enctype="multipart/form-data" onsubmit="return validateForm()">
+                        <input type="hidden" name="contact_person_email" value="' . $contact_person_job_details_email . '">
+                        <div class="form-row">
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="job_bewerbung_vorname" class="required">Vorname</label>
+                                    <input id="job_bewerbung_vorname" name="job_bewerbung_vorname" type="text" placeholder="Ihr Vorname">
+                                </div>
+                                <div class="form-group">
+                                    <label for="job_bewerbung_strasse" class="required">Straße, Nr</label>
+                                    <input id="job_bewerbung_strasse" name="job_bewerbung_strasse" type="text" placeholder="Straße">
+                                </div>
+                                <div class="form-group">
+                                    <label for="job_bewerbung_telefon">Telefonnummer</label>
+                                    <input id="job_bewerbung_telefon" name="job_bewerbung_telefon" type="text" placeholder="Telefonnummer">
+                                </div>
+                                 <div class="form-group">
+                                    <label for="job_bewerbung_nachricht">Ihre Nachricht (optional)</label>
+                                    <textarea id="job_bewerbung_nachricht" name="job_bewerbung_nachricht" rows="5" placeholder="Ihre Nachricht"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="job_bewerbung_nachname" class="required">Nachname</label>
+                                    <input id="job_bewerbung_nachname" name="job_bewerbung_nachname" type="text" placeholder="Ihr Nachname">
+                                </div>
+                                <div class="form-group">
+                                    <label for="job_bewerbung_ort" class="required">PLZ, Wohnort</label>
+                                    <input id="job_bewerbung_ort" name="job_bewerbung_ort" type="text" placeholder="PLZ &amp; Wohnort">
+                                </div>
+                                <div class="form-group">
+                                    <label for="job_bewerbung_email" class="required">E-Mail-Adresse</label>
+                                    <input id="job_bewerbung_email" name="job_bewerbung_email" type="email" placeholder="E-Mail-Adresse">
+                                </div>
+                                <div class="form-group">
+                                    <label for="job_bewerbung_dateien1">Bewerbungsunterlagen</label>
+                                    <p>Max. 2 Dateien, jeweils nicht größer als 10MB. Erlaubt: PDF, Word, Zip, JPG, JPEG oder PNG.</p>
+                                    <input id="job_bewerbung_dateien1" name="job_bewerbung_dateien1" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
+                                    <input id="job_bewerbung_dateien2" name="job_bewerbung_dateien2" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="job_bewerbung_submit" value="Bewerbung absenden">
+                        </div>
+                        <div class="job-bewerbung-error-message" id="error-message"></div>
+                    </form>
+                </div>
             </div>
-            <!-- Bewerbungsformular -->
-                    <div class="form-container" id="bewerbungsformular_jobs">
-                        <form method="post" action="" enctype="multipart/form-data" onsubmit="return validateForm()">
-                            <input type="hidden" name="contact_person_email" value="' . $contact_person_job_details_email . '">
-                            <div class="form-row">
-                                <div class="form-column">
-                                    <div class="form-group">
-                                        <label for="job_bewerbung_vorname" class="required">Vorname</label>
-                                        <input id="job_bewerbung_vorname" name="job_bewerbung_vorname" type="text" placeholder="Ihr Vorname">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="job_bewerbung_strasse" class="required">Straße, Nr</label>
-                                        <input id="job_bewerbung_strasse" name="job_bewerbung_strasse" type="text" placeholder="Straße">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="job_bewerbung_telefon">Telefonnummer</label>
-                                        <input id="job_bewerbung_telefon" name="job_bewerbung_telefon" type="text" placeholder="Telefonnummer">
-                                    </div>
-                                     <div class="form-group">
-                                        <label for="job_bewerbung_nachricht">Ihre Nachricht (optional)</label>
-                                        <textarea id="job_bewerbung_nachricht" name="job_bewerbung_nachricht" rows="5" placeholder="Ihre Nachricht"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-column">
-                                    <div class="form-group">
-                                        <label for="job_bewerbung_nachname" class="required">Nachname</label>
-                                        <input id="job_bewerbung_nachname" name="job_bewerbung_nachname" type="text" placeholder="Ihr Nachname">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="job_bewerbung_ort" class="required">PLZ, Wohnort</label>
-                                        <input id="job_bewerbung_ort" name="job_bewerbung_ort" type="text" placeholder="PLZ &amp; Wohnort">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="job_bewerbung_email" class="required">E-Mail-Adresse</label>
-                                        <input id="job_bewerbung_email" name="job_bewerbung_email" type="email" placeholder="E-Mail-Adresse">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="job_bewerbung_dateien1">Bewerbungsunterlagen</label>
-                                        <p>Max. 2 Dateien, jeweils nicht größer als 10MB. Erlaubt: PDF, Word, Zip, JPG, JPEG oder PNG.</p>
-                                        <input id="job_bewerbung_dateien1" name="job_bewerbung_dateien1" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
-                                        <input id="job_bewerbung_dateien2" name="job_bewerbung_dateien2" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" name="job_bewerbung_submit" value="Bewerbung absenden">
-                            </div>
-                            <div class="job-bewerbung-error-message" id="error-message"></div>
-                        </form>
-                    </div>';
+            ';
         }
     } else {
         $jobs_html = '<p class="no_job_ausbildung">Derzeit sind keine Jobs verfügbar.</p>';
@@ -802,7 +803,9 @@ function krp_create_or_update_page() {
                 padding: 20px;
                 border: 1px solid #ddd;
                 border-radius: 8px;
-                background-color: '. $main_details_bg_color .';
+            }
+            .job-details-container {
+                background-color: '. $main_details_bg_color .'
             }
             .job_details_image img {
                 border: 2px solid ' . $secondary_nav_bg_color . ';
@@ -1015,9 +1018,6 @@ function krp_create_or_update_page() {
             .contact-box img {
                 max-width: 100%;
                 height: auto;
-                max-height: 300px;
-                display: block;
-                margin: 0 auto;
             }
             .contact-box h2 {
                 margin: 10px 0 5px;
