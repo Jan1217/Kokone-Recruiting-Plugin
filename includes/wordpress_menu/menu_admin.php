@@ -670,7 +670,7 @@ function krp_create_or_update_page() {
                         <p>' . esc_html($contact['contact_info']) . '</p>
                         <p>Bei Fragen erreichen Sie ' . esc_html($contact['contact_name']) . ' telefonisch unter der Nummer ' . esc_html($contact['contact_tel']) . '</p>
                         <h5>Bewerbungen</h5>
-                        <p>Bei Bewerbungen nutzen Sie entweder das das Online-Bewerbungsformular für die jeweiligen <a href="#jobs">Jobs</a> oder für <a href="#ausbildung">Ausbildungen</a> oder Senden Sie eine E-Mail an ' . esc_html($contact['contact_email']) . '</p>
+                        <p>Bei Bewerbungen nutzen Sie entweder das das Online-Bewerbungsformular für die jeweiligen <a href="#jobs" onclick="showContent(\'jobs\')">Jobs</a> oder für <a href="#ausbildung" onclick="showContent(\'ausbildung\')">Ausbildungen</a> oder Senden Sie eine E-Mail an ' . esc_html($contact['contact_email']) . '</p>
                     </div>
                 </div>
                 
@@ -721,16 +721,27 @@ function krp_create_or_update_page() {
                 font-size: 3em;
                 color: ' . $krp_hero_text_color . ';
             }
+            /* Sekundäre Navigation */
+            .plugin-page .secondary-nav-container {
+                position: relative;
+            }
+            
+            .plugin-page .hamburger-menu {
+                display: none;
+                font-size: 30px;
+                cursor: pointer;
+                padding: 15px;
+                background-color: ' . $secondary_nav_bg_color . ';
+            }
+            
             .plugin-page .secondary-nav {
                 display: flex;
                 justify-content: center;
                 background-color: ' . $secondary_nav_bg_color . ';
+                transition: max-height 0.3s ease-out;
+                overflow: hidden;
             }
-            .plugin-page .secondary-nav .contact_color {
-                background-color: ' . $secondary_nav_contact_bg_color . ';
-                border-radius: 8px;
-                margin: 4px;
-            }
+            
             .plugin-page .secondary-nav a {
                 color: ' . $secondary_nav_text_color . ';
                 padding: 15px 20px;
@@ -738,10 +749,36 @@ function krp_create_or_update_page() {
                 display: inline-block;
                 margin: 4px;
             }
-            .krp_sec_nav_item.active {
+            
+            .plugin-page .secondary-nav .contact_color {
+                background-color: ' . $secondary_nav_contact_bg_color . ';
+                border-radius: 8px;
+                margin: 4px;
+            }
+            
+            .plugin-page .krp_sec_nav_item.active {
                 font-weight: bold;
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
             }
+            
+            /* Mobile Styles */
+            @media (max-width: 768px) {
+                .plugin-page .secondary-nav {
+                    display: none;
+                    flex-direction: column;
+                    width: 100%;
+                }
+                
+                .plugin-page .hamburger-menu {
+                    display: block;
+                }
+                
+                .plugin-page .secondary-nav.show {
+                    display: flex;
+                }
+            }
+
+            /* Ende Sekundäre Navigation */
             .plugin-page .content {
                 background-color: ' . $main_bg_color . ';
                 padding: 20px;
@@ -1071,11 +1108,16 @@ function krp_create_or_update_page() {
             <div class="hero">
                 <h1>' . $krp_hero_text . '</h1>
             </div>
-            <div class="secondary-nav">
-                <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
-                <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
-                <a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>
-                <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
+            <div class="secondary-nav-container">
+                <div class="hamburger-menu" onclick="toggleMenu()">
+                    &#9776;
+                </div>
+                <div class="secondary-nav" id="secondaryNav">
+                    <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
+                    <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
+                    <a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>
+                    <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
+                </div>
             </div>
             <div class="content">
                 <div id="jobs">

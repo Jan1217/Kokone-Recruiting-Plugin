@@ -7,6 +7,14 @@ Die einzelnen Abschnitte sind je nach Inhalt strukturiert.
 /*
 * Website Tab
 */
+function toggleMenu() {
+    var nav = document.getElementById('secondaryNav');
+    if (nav.classList.contains('show')) {
+        nav.classList.remove('show');
+    } else {
+        nav.classList.add('show');
+    }
+}
 /*
 * Design Tab
 */
@@ -19,7 +27,6 @@ Die einzelnen Abschnitte sind je nach Inhalt strukturiert.
 /*
 * Kontakt Tab
 */
-
 function makeBold() {
     formatText("<strong>", "</strong>");
 }
