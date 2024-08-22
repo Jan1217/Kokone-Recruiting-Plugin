@@ -440,7 +440,7 @@ function krp_job_create_section_callback() {
                                 <tr>
                                     <th><label for="job_select_contact_job_details_${jobIndex}">Kontakt Auswahl für Job</label></th>
                                     <td>
-                                        <select class="contact-select" id="job_select_contact_job_details_<${jobIndex}" name="selected_contact_job_details_name[]">
+                                        <select class="contact-select" id="job_select_contact_job_details_${jobIndex}" name="selected_contact_job_details_name[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                     $saved_contacts = get_option('krp_saved_contacts', array());;
@@ -534,21 +534,26 @@ function krp_job_create_section_callback() {
 
             // Funktion zum Aktualisieren der anderen Select-Felder
             function updateContactDetails(contact) {
-                var key = contact.key;
-                document.querySelector(`#job_select_contact_job_details_tel_${key}`).value = contact.contact_tel;
-                document.querySelector(`#job_select_contact_job_details_email_${key}`).value = contact.contact_email;
-                document.querySelector(`#job_select_contact_job_details_info_${key}`).value = contact.contact_info;
-                document.querySelector(`#job_select_contact_job_details_image_url_${key}`).value = contact.contact_image_url;
+                var key = contact.key; // Der Key sollte hier aus dem Kontakt-Daten erhalten werden
+                document.querySelector(`#job_select_contact_job_details_tel_${key}`).value = contact.contact_tel || '';
+                document.querySelector(`#job_select_contact_job_details_email_${key}`).value = contact.contact_email || '';
+                document.querySelector(`#job_select_contact_job_details_info_${key}`).value = contact.contact_info || '';
+                document.querySelector(`#job_select_contact_job_details_image_url_${key}`).value = contact.contact_image_url || '';
             }
 
             // Event Listener für die Änderung des Kontakt-Selects
             document.querySelectorAll(".contact-select[name='selected_contact_job_details_name[]']").forEach(function(selectElement) {
                 selectElement.addEventListener("change", function() {
-                    var selectedContactName = this.value;
+                    var selectedContactNameAbteilung = this.value;
                     var key = this.id.split('_').pop(); // Extrahiere den Schlüssel aus der ID
 
-                    // Finde den Index des ausgewählten Kontakts
-                    var contact = contacts.find(contact => contact.contact_name === selectedContactName);
+                    // Finde den Kontakt basierend auf dem Namen und der Abteilung
+                    var [selectedContactName, selectedContactAbteilung] = selectedContactNameAbteilung.split(' , ');
+
+                    var contact = contacts.find(c => {
+                        var abteilung = c.contact_abteilung.join(' und ');
+                        return c.contact_name === selectedContactName && abteilung === selectedContactAbteilung;
+                    });
 
                     if (contact) {
                         contact.key = key; // Setze den Schlüssel im Kontakt-Objekt
@@ -564,6 +569,7 @@ function krp_job_create_section_callback() {
                 });
             });
         });
+
     </script>
     <script>
         function getEditor(id) {
