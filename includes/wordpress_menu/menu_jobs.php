@@ -217,6 +217,7 @@ function krp_job_create_section_callback() {
                                 <!-- Kontakt Auswahl-->
                                 <tr>
                                     <th><label for="job_select_contact_job_details_<?php echo $key; ?>">Kontakt Auswahl für Job</label></th>
+                                    <td>
                                         <select class="contact-select" id="job_select_contact_job_details_<?php echo $key; ?>" name="selected_contact_job_details_name[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
