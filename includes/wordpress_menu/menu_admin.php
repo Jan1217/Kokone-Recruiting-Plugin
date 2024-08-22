@@ -1120,7 +1120,7 @@ function krp_create_or_update_page() {
                     </div>
                 </div>
                 <div id="kontakt" class="hidden">
-                    <h4 class="krp_kontakt_allgemein_headline">Allgemeine Informationen</h4>
+                    <h3 class="ort-restrict-headline">Allgemeine Informationen</h3>
                     <div class="krp_kontakt_allgemein_div_main">
                         <div style="flex: 1; padding-right: 20px;">
                             <div>
@@ -1155,7 +1155,7 @@ function krp_create_or_update_page() {
                         </div>
                     </div>
                     <div class="krp_kontakt_allgemein_div_main_kontakt_details">
-                        <h4 class="krp_kontakt_allgemein_headline">Ihr Ansprechpartner</h4>
+                        <h3 class="ort-restrict-headline">Ihr Ansprechpartner</h3>
                         <div id="kontakt-details">
                             ' . $contact_details . '
                         </div>
