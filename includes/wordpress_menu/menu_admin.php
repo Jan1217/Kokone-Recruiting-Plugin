@@ -28,7 +28,7 @@ function krp_settings_page() {
     <div class="wrap">
         <h1>Kokone Recruiting Plugin</h1>
         <p>
-            Willkommen beim Kokone Recruiting Plugin. Zu der Plugin Seite<a href="<?php echo esc_url($page_url); ?>"><?php echo esc_html($page_title); ?></a>
+            Willkommen beim Kokone Recruiting Plugin. Zu der Plugin Seite <a href="<?php echo esc_url($page_url); ?>" target="_blank"><?php echo esc_html($page_title); ?></a>
         </p>
         <h2 class="nav-tab-wrapper">
             <?php

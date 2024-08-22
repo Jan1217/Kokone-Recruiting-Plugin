@@ -154,7 +154,7 @@ function krp_ausbildung_create_section_callback() {
                                         </select>
                                     </td>
                                 </tr>
-                                <!-- ausbildung Tätigkeiten -->
+                                <!-- Ausbildung Tätigkeiten -->
                                 <tr>
                                     <th><label for="ausbildung_tasks_<?php echo $key; ?>">Ausbildung Tätigkeiten</label></th>
                                     <td>
@@ -174,12 +174,12 @@ function krp_ausbildung_create_section_callback() {
                                                 <button type="button" onclick="toggleTag('h6', 'ausbildung_tasks_<?php echo $key; ?>')">H6</button>
                                             </div>
                                             <div class="editor-container">
-                                                <textarea id="ausbildung_tasks_<?php echo $key; ?>" name="Ausbildung_tasks[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($ausbildung['ausbildung_tasks']); ?></textarea>
+                                                <textarea id="ausbildung_tasks_<?php echo $key; ?>" name="ausbildung_tasks[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($ausbildung['ausbildung_tasks']); ?></textarea>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- ausbildung Bewerbung -->
+                                <!-- Ausbildung Bewerbung -->
                                 <tr>
                                     <th><label for="ausbildung_application_<?php echo $key; ?>">Ausbildung Bewerbung</label></th>
                                     <td>
@@ -204,7 +204,7 @@ function krp_ausbildung_create_section_callback() {
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- ausbildung Bewerbung PDF -->
+                                <!-- Ausbildung Bewerbung PDF -->
                                 <tr>
                                     <th><label for="ausbildung_application_pdf_<?php echo $key; ?>">Ausbildung Bewerbung PDF</label></th>
                                     <td>
@@ -216,7 +216,7 @@ function krp_ausbildung_create_section_callback() {
                                 </tr>
                                 <!-- Kontakt Auswahl-->
                                 <tr>
-                                    <th><label for="ausbildung_select_contact_ausbildung_details_<?php echo $key; ?>">Kontakt Auswahl für ausbildung</label></th>
+                                    <th><label for="ausbildung_select_contact_ausbildung_details_<?php echo $key; ?>">Kontakt Auswahl für Ausbildung</label></th>
                                     <td>
                                         <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_<?php echo $key; ?>" name="selected_contact_ausbildung_details_name[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
@@ -230,7 +230,7 @@ function krp_ausbildung_create_section_callback() {
                                             }
                                             ?>
                                         </select>
-                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_tel_<?php echo $key; ?>" name="selected_contact_ausbildung_details_tel[]" style="display: none;">
+                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_tel_<?php echo $key; ?>" name="selected_contact_ausbildung_details_tel[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                                             foreach ($saved_contacts as $contact) {
@@ -239,7 +239,7 @@ function krp_ausbildung_create_section_callback() {
                                             }
                                             ?>
                                         </select>
-                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_email_<?php echo $key; ?>" name="selected_contact_ausbildung_details_email[]" style="display: none;">
+                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_email_<?php echo $key; ?>" name="selected_contact_ausbildung_details_email[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                                             foreach ($saved_contacts as $contact) {
@@ -248,7 +248,7 @@ function krp_ausbildung_create_section_callback() {
                                             }
                                             ?>
                                         </select>
-                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_info_<?php echo $key; ?>" name="selected_contact_ausbildung_details_info[]" style="display: none;">
+                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_info_<?php echo $key; ?>" name="selected_contact_ausbildung_details_info[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                                             foreach ($saved_contacts as $contact) {
@@ -257,7 +257,7 @@ function krp_ausbildung_create_section_callback() {
                                             }
                                             ?>
                                         </select>
-                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_image_url_<?php echo $key; ?>" name="selected_contact_ausbildung_details_image_url[]" style="display: none;">
+                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_image_url_<?php echo $key; ?>" name="selected_contact_ausbildung_details_image_url[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                                             foreach ($saved_contacts as $contact) {
@@ -452,7 +452,7 @@ function krp_ausbildung_create_section_callback() {
                     }
                     ?>
                                         </select>
-                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_tel_${ausbildungIndex}" name="selected_contact_ausbildung_details_tel[]" style="display: none;">
+                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_tel_${ausbildungIndex}" name="selected_contact_ausbildung_details_tel[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                     foreach ($saved_contacts as $contact) {
@@ -461,7 +461,7 @@ function krp_ausbildung_create_section_callback() {
                     }
                     ?>
                                         </select>
-                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_email_${ausbildungIndex}" name="selected_contact_ausbildung_details_email[]" style="display: none;">
+                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_email_${ausbildungIndex}" name="selected_contact_ausbildung_details_email[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                     foreach ($saved_contacts as $contact) {
@@ -470,7 +470,7 @@ function krp_ausbildung_create_section_callback() {
                     }
                     ?>
                                         </select>
-                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_info_${ausbildungIndex}" name="selected_contact_ausbildung_details_info[]" style="display: none;">
+                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_info_${ausbildungIndex}" name="selected_contact_ausbildung_details_info[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                     foreach ($saved_contacts as $contact) {
@@ -479,7 +479,7 @@ function krp_ausbildung_create_section_callback() {
                     }
                     ?>
                                         </select>
-                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_image_url_${ausbildungIndex}" name="selected_contact_ausbildung_details_image_url[]" style="display: none;">
+                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_image_url_${ausbildungIndex}" name="selected_contact_ausbildung_details_image_url[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
                     foreach ($saved_contacts as $contact) {
