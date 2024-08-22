@@ -378,7 +378,6 @@ function krp_create_or_update_page() {
             $job_bereich = implode(' und ', array_map('esc_html', $job['job_bereich']));
             $job_id = $index + 1; // ID für Referenz
             $contact_person_job_details_name = esc_html($job['selected_contact_job_details_name']);
-            $contact_person_job_details_abteilung = esc_html($job['selected_contact_job_details_abteilung']);
             $contact_person_job_details_tel = esc_html($job['selected_contact_job_details_tel']);
             $contact_person_job_details_email = esc_html($job['selected_contact_job_details_email']);
             $contact_person_job_details_info = esc_html($job['selected_contact_job_details_info']);
@@ -421,7 +420,7 @@ function krp_create_or_update_page() {
                         <div class="job-details-left" style="flex: 1; padding: 20px;">
                             <div class="contact-box">
                                 <img src="' . $contact_person_job_details_image_url . '" alt="' . esc_html($job['contact_name']) . '">
-                                <h2>' . $contact_person_job_details_name . '<span>' . $contact_person_job_details_abteilung . '</span></h2>
+                                <h2>' . $contact_person_job_details_name . '</h2>
                                 <p>Telefon: ' . $contact_person_job_details_tel . '</p>
                                 <p>Email: ' . $contact_person_job_details_email . '</p>
                                 <p>' . $contact_person_job_details_info . '</p>
@@ -521,7 +520,6 @@ function krp_create_or_update_page() {
             $ausbildung_bereich = implode(' und ', array_map('esc_html', $ausbildung['ausbildung_bereich']));
             $ausbildung_id = $index + 1; // ID für Referenz
             $contact_person_ausbildung_details_name = esc_html($ausbildung['selected_contact_ausbildung_details_name']);
-            $contact_person_ausbildung_details_abteilung = esc_html($job['selected_contact_ausbildung_details_abteilung']);
             $contact_person_ausbildung_details_tel = esc_html($ausbildung['selected_contact_ausbildung_details_tel']);
             $contact_person_ausbildung_details_email = esc_html($ausbildung['selected_contact_ausbildung_details_email']);
             $contact_person_ausbildung_details_info = esc_html($ausbildung['selected_contact_ausbildung_details_info']);
@@ -564,7 +562,7 @@ function krp_create_or_update_page() {
                         <div class="ausbildung-details-left" style="flex: 1; padding: 20px;">
                             <div class="contact-box">
                                 <img src="' . $contact_person_ausbildung_details_image_url . '" alt="' . esc_html($ausbildung['contact_name']) . '">
-                                <h2>' . $contact_person_ausbildung_details_name . '<span>' . $contact_person_ausbildung_details_abteilung . '</span></h2>
+                                <h2>' . $contact_person_ausbildung_details_name . '</h2>
                                 <p>Telefon: ' . $contact_person_ausbildung_details_tel . '</p>
                                 <p>Email: ' . $contact_person_ausbildung_details_email . '</p>
                                 <p>' . $contact_person_ausbildung_details_info . '</p>

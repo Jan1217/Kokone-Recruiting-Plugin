@@ -224,17 +224,9 @@ function krp_ausbildung_create_section_callback() {
                                             $saved_contacts = get_option('krp_saved_contacts', array());;
                                             foreach ($saved_contacts as $contact) {
                                                 $contact_name_ausbildung_details = esc_html($contact['contact_name']);
-                                                echo '<option value="' . esc_attr($contact_name_ausbildung_details) . '"' . selected($ausbildung['selected_contact_ausbildung_details_name'], $contact_name_ausbildung_details, false) . '>' . esc_html($contact_name_ausbildung_details) . '</option>';
-                                            }
-                                            ?>
-                                        </select>
-                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_abteilung_<?php echo $key; ?>" name="selected_contact_ausbildung_details_abteilung[]" style="display: none;">
-                                            <option value="" disabled selected>Kontakt auswählen</option>
-                                            <?php
-                                            foreach ($saved_contacts as $contact) {
                                                 $contact_abteilung_ausbildung_details = implode(' und ', array_map('esc_html', $contact['contact_abteilung']));
-                                                $contact_abteilung_ausbildung_details_span = ', ' . $contact_abteilung_ausbildung_details;
-                                                echo '<option value="' . esc_attr($contact_abteilung_ausbildung_details_span) . '"' . selected($ausbildung['selected_contact_ausbildung_details_abteilung'], $contact_abteilung_ausbildung_details_span, false) . '>' . esc_html($contact_abteilung_ausbildung_details) . '</option>';
+                                                $contact_name_abteilung_ausbildung_details = $contact_name_ausbildung_details . ' , ' . $contact_abteilung_ausbildung_details;
+                                                echo '<option value="' . esc_attr($contact_name_abteilung_ausbildung_details) . '"' . selected($ausbildung['selected_contact_job_details_name'], $contact_name_abteilung_ausbildung_details, false) . '>' . esc_html($contact_name_abteilung_ausbildung_details) . '</option>';
                                             }
                                             ?>
                                         </select>
@@ -454,17 +446,9 @@ function krp_ausbildung_create_section_callback() {
                     $saved_contacts = get_option('krp_saved_contacts', array());;
                     foreach ($saved_contacts as $contact) {
                         $contact_name_ausbildung_details = esc_html($contact['contact_name']);
-                        echo '<option value="' . esc_attr($contact_name_ausbildung_details) . '"' . selected($ausbildung['selected_contact_ausbildung_details_name'], $contact_name_ausbildung_details, false) . '>' . esc_html($contact_name_ausbildung_details) . '</option>';
-                    }
-                    ?>
-                                        </select>
-                                        <select class="contact-select" id="ausbildung_select_contact_ausbildung_details_abteilung_${ausbildungIndex}" name="selected_contact_ausbildung_details_abteilung[]" style="display: none;">
-                                            <option value="" disabled selected>Kontakt auswählen</option>
-                                            <?php
-                    foreach ($saved_contacts as $contact) {
                         $contact_abteilung_ausbildung_details = implode(' und ', array_map('esc_html', $contact['contact_abteilung']));
-                        $contact_abteilung_ausbildung_details_span = ', ' . $contact_abteilung_ausbildung_details;
-                        echo '<option value="' . esc_attr($contact_abteilung_ausbildung_details_span) . '"' . selected($ausbildung['selected_contact_ausbildung_details_abteilung'], $contact_abteilung_ausbildung_details_span, false) . '>' . esc_html($contact_abteilung_ausbildung_details) . '</option>';
+                        $contact_name_abteilung_ausbildung_details = $contact_name_ausbildung_details . ' , ' . $contact_abteilung_ausbildung_details;
+                        echo '<option value="' . esc_attr($contact_name_abteilung_ausbildung_details) . '"' . selected($ausbildung['selected_contact_job_details_name'], $contact_name_abteilung_ausbildung_details, false) . '>' . esc_html($contact_name_abteilung_ausbildung_details) . '</option>';
                     }
                     ?>
                                         </select>
@@ -544,35 +528,47 @@ function krp_ausbildung_create_section_callback() {
         })(jQuery);
     </script>
     <script type="text/javascript">
-        // Speichere die Kontaktinformationen in einem JavaScript-Objekt
-        var contacts = <?php echo json_encode($saved_contacts); ?>;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Speichere die Kontaktinformationen in einem JavaScript-Objekt
+            var contacts = <?php echo json_encode($saved_contacts); ?>;
 
-        // Event Listener für die Änderung des Kontakt-Selects
-        document.querySelectorAll(".contact-select[name='selected_contact_ausbildung_details_name[]']").forEach(function(selectElement) {
-            selectElement.addEventListener("change", function() {
-                var selectedContactName = this.value;
-                var key = this.id.split('_').pop(); // Extrahiere den Schlüssel aus der ID
+            // Funktion zum Aktualisieren der anderen Select-Felder
+            function updateContactDetails(contact) {
+                var key = contact.key; // Der Key sollte hier aus dem Kontakt-Daten erhalten werden
+                document.querySelector(`#ausbildung_select_contact_ausbildung_details_tel_${key}`).value = contact.contact_tel || '';
+                document.querySelector(`#ausbildung_select_contact_ausbildung_details_email_${key}`).value = contact.contact_email || '';
+                document.querySelector(`#ausbildung_select_contact_ausbildung_details_info_${key}`).value = contact.contact_info || '';
+                document.querySelector(`#ausbildung_select_contact_ausbildung_details_image_url_${key}`).value = contact.contact_image_url || '';
+            }
 
-                // Finde den Index des ausgewählten Kontakts
-                var contactIndex = contacts.findIndex(contact => contact.contact_name === selectedContactName);
+            // Event Listener für die Änderung des Kontakt-Selects
+            document.querySelectorAll(".contact-select[name='selected_contact_ausbildung_details_name[]']").forEach(function(selectElement) {
+                selectElement.addEventListener("change", function() {
+                    var selectedContactNameAbteilung = this.value;
+                    var key = this.id.split('_').pop(); // Extrahiere den Schlüssel aus der ID
 
-                if (contactIndex !== -1) {
-                    // Update die anderen Select-Felder basierend auf dem ausgewählten Kontakt
-                    updateContactDetails(contactIndex, key);
-                }
+                    // Finde den Kontakt basierend auf dem Namen und der Abteilung
+                    var [selectedContactName, selectedContactAbteilung] = selectedContactNameAbteilung.split(' , ');
+
+                    var contact = contacts.find(c => {
+                        var abteilung = c.contact_abteilung.join(' und ');
+                        return c.contact_name === selectedContactName && abteilung === selectedContactAbteilung;
+                    });
+
+                    if (contact) {
+                        contact.key = key; // Setze den Schlüssel im Kontakt-Objekt
+                        // Update die anderen Select-Felder basierend auf dem ausgewählten Kontakt
+                        updateContactDetails(contact);
+                    } else {
+                        // Falls kein Kontakt gefunden wird, setze die Werte auf leer
+                        document.querySelector(`#ausbildung_select_contact_ausbildung_details_tel_${key}`).value = '';
+                        document.querySelector(`#ausbildung_select_contact_ausbildung_details_email_${key}`).value = '';
+                        document.querySelector(`#ausbildung_select_contact_ausbildung_details_info_${key}`).value = '';
+                        document.querySelector(`#ausbildung_select_contact_ausbildung_details_image_url_${key}`).value = '';
+                    }
+                });
             });
         });
-
-        function updateContactDetails(contactIndex, key) {
-            var contact = contacts[contactIndex];
-
-            // Aktualisiere die anderen Felder mit den entsprechenden Werten
-            document.getElementById("ausbildung_select_contact_ausbildung_details_abteilung_" + key).value = contact.contact_abteilung;
-            document.getElementById("ausbildung_select_contact_ausbildung_details_tel_" + key).value = contact.contact_tel;
-            document.getElementById("ausbildung_select_contact_ausbildung_details_email_" + key).value = contact.contact_email;
-            document.getElementById("ausbildung_select_contact_ausbildung_details_info_" + key).value = contact.contact_info;
-            document.getElementById("ausbildung_select_contact_ausbildung_details_image_url_" + key).value = contact.contact_image_url;
-        }
     </script>
     <script>
         function getEditor(id) {
