@@ -217,14 +217,18 @@ function krp_job_create_section_callback() {
                                 <!-- Kontakt Auswahl-->
                                 <tr>
                                     <th><label for="job_select_contact_job_details_<?php echo $key; ?>">Kontakt Auswahl für Job</label></th>
-                                    <td>
                                         <select class="contact-select" id="job_select_contact_job_details_<?php echo $key; ?>" name="selected_contact_job_details_name[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
-                                            $saved_contacts = get_option('krp_saved_contacts', array());;
+                                            $saved_contacts = get_option('krp_saved_contacts', array());
                                             foreach ($saved_contacts as $contact) {
                                                 $contact_name_job_details = esc_html($contact['contact_name']);
-                                                echo '<option value="' . esc_attr($contact_name_job_details) . '"' . selected($job['selected_contact_job_details_name'], $contact_name_job_details, false) . '>' . esc_html($contact_name_job_details) . '</option>';
+                                                $contact_abteilung_job_details = esc_html($contact['contact_abteilung']);
+
+                                                $contact_value = $contact_name_job_details;
+                                                $contact_display = $contact_name_job_details . ' , ' . $contact_abteilung_job_details;
+
+                                                echo '<option value="' . esc_attr($contact_display) . '"' . selected($job['selected_contact_job_details_name'], $contact_display, false) . '>' . esc_html($contact_value) . '</option>';
                                             }
                                             ?>
                                         </select>
@@ -438,13 +442,18 @@ function krp_job_create_section_callback() {
                                 <tr>
                                     <th><label for="job_select_contact_job_details_${jobIndex}">Kontakt Auswahl für Job</label></th>
                                     <td>
-                                        <select class="contact-select" id="job_select_contact_job_details_${jobIndex}" name="selected_contact_job_details_name[]">
+<select class="contact-select" id="job_select_contact_job_details_${jobIndex}" name="selected_contact_job_details_name[]">
                                             <option value="" disabled selected>Kontakt auswählen</option>
                                             <?php
-                    $saved_contacts = get_option('krp_saved_contacts', array());;
+                    $saved_contacts = get_option('krp_saved_contacts', array());
                     foreach ($saved_contacts as $contact) {
                         $contact_name_job_details = esc_html($contact['contact_name']);
-                        echo '<option value="' . esc_attr($contact_name_job_details) . '"' . selected($job['selected_contact_job_details_name'], $contact_name_job_details, false) . '>' . esc_html($contact_name_job_details) . '</option>';
+                        $contact_abteilung_job_details = esc_html($contact['contact_abteilung']);
+
+                        $contact_value = $contact_name_job_details;
+                        $contact_display = $contact_name_job_details . ' , ' . $contact_abteilung_job_details;
+
+                        echo '<option value="' . esc_attr($contact_display) . '"' . selected($job['selected_contact_job_details_name'], $contact_display, false) . '>' . esc_html($contact_value) . '</option>';
                     }
                     ?>
                                         </select>
@@ -547,6 +556,7 @@ function krp_job_create_section_callback() {
             var contact = contacts[contactIndex];
 
             // Aktualisiere die anderen Felder mit den entsprechenden Werten
+            document.getElementById("job_select_contact_job_details_abteilung_" + key).value = contact.contact_abteilung;
             document.getElementById("job_select_contact_job_details_tel_" + key).value = contact.contact_tel;
             document.getElementById("job_select_contact_job_details_email_" + key).value = contact.contact_email;
             document.getElementById("job_select_contact_job_details_info_" + key).value = contact.contact_info;
@@ -623,7 +633,7 @@ function krp_save_jobs() {
         $job_standorte = isset($_POST['job_standort']) ? array_map('sanitize_text_field', $_POST['job_standort']) : array();
 
         $selected_contacts_job_details_name = isset($_POST['selected_contact_job_details_name']) ? array_map('sanitize_text_field', $_POST['selected_contact_job_details_name']) : array();
-
+        $selected_contacts_job_details_abteilung = isset($_POST['selected_contact_job_details_abteilung']) ? array_map('sanitize_text_field', $_POST['selected_contact_job_details_abteilung']) : array();
         $selected_contacts_job_details_tel = isset($_POST['selected_contact_job_details_tel']) ? array_map('sanitize_text_field', $_POST['selected_contact_job_details_tel']) : array();
         $selected_contacts_job_details_email = isset($_POST['selected_contact_job_details_email']) ? array_map('sanitize_text_field', $_POST['selected_contact_job_details_email']) : array();
         $selected_contacts_job_details_info = isset($_POST['selected_contact_job_details_info']) ? array_map('sanitize_text_field', $_POST['selected_contact_job_details_info']) : array();
@@ -674,7 +684,7 @@ function krp_save_jobs() {
                 'job_application_pdf' => $pdf_url,
                 'job_image' => isset($job_images[$key]) ? $job_images[$key] : '', // Bild-URL hinzufügen
                 'selected_contact_job_details_name' => isset($selected_contacts_job_details_name[$key]) ? $selected_contacts_job_details_name[$key] : '',
-
+                'selected_contact_job_details_abteilung' => isset($selected_contacts_job_details_abteilung[$key]) ? $selected_contacts_job_details_abteilung[$key] : '',
                 'selected_contact_job_details_tel' => isset($selected_contacts_job_details_tel[$key]) ? $selected_contacts_job_details_tel[$key] : '',
                 'selected_contact_job_details_email' => isset($selected_contacts_job_details_email[$key]) ? $selected_contacts_job_details_email[$key] : '',
                 'selected_contact_job_details_info' => isset($selected_contacts_job_details_info[$key]) ? $selected_contacts_job_details_info[$key] : '',
