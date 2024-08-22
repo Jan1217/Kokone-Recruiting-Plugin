@@ -20,13 +20,12 @@ add_action('admin_menu', 'krp_create_menu');
 function krp_settings_page() {
     $license_handler = new KokoneLicenseHandler();
     $is_license_valid = $license_handler->is_license_valid(); // Lizenzüberprüfung
-    $plugin_page_url = admin_url('plugin-seite');
 
     ?>
     <div class="wrap">
         <h1>Kokone Recruiting Plugin</h1>
         <p>
-            Willkommen beim Kokone Recruiting Plugin. <a href="<?php echo esc_url($plugin_page_url); ?>" target="_blank">Zur Plugin Seite</a>
+            Willkommen beim Kokone Recruiting Plugin.
         </p>
         <h2 class="nav-tab-wrapper">
             <?php

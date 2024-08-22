@@ -544,58 +544,82 @@ function krp_job_create_section_callback() {
         })(jQuery);
     </script>
     <script>
-        // Funktion zum Synchronisieren der Select-Felder
-        function synchronizeSelects(event) {
-            // Alle Select-Felder in der gleichen Zeile finden
-            var row = event.target.closest('tr');
-            var contactSelect = row.querySelector('#job_select_contact_job_details_<?php echo $key; ?>');
-            var abteilungSelect = row.querySelector('#job_select_contact_job_details_abteilung_<?php echo $key; ?>');
-            var telSelect = row.querySelector('#job_select_contact_job_details_tel_<?php echo $key; ?>');
-            var emailSelect = row.querySelector('#job_select_contact_job_details_email_<?php echo $key; ?>');
-            var infoSelect = row.querySelector('#job_select_contact_job_details_info_<?php echo $key; ?>');
-            var imageUrlSelect = row.querySelector('#job_select_contact_job_details_image_url_<?php echo $key; ?>');
+        // Speichere die Kontaktinformationen in einem JavaScript-Objekt
+        var contacts = <?php echo json_encode($saved_contacts); ?>;
 
-            var selectedValue = event.target.value;
+        // Event Listener für die Änderung des Kontakt-Selects
+        document.querySelectorAll(".contact-select[name='selected_contact_job_details_name[]']").forEach(function(selectElement) {
+            selectElement.addEventListener("change", function() {
+                var selectedContactName = this.value;
+                var key = this.id.split('_').pop(); // Extrahiere den Schlüssel aus der ID
 
-            // Wenn kein Kontaktname ausgewählt ist, nichts tun
-            if (!selectedValue) return;
+                // Finde den Index des ausgewählten Kontakts
+                var contact = contacts.find(contact => contact.contact_name === selectedContactName);
 
-            // Alle gespeicherten Kontakte abrufen
-            var savedContacts = <?php echo json_encode($saved_contacts); ?>;
+                if (contact) {
+                    // Update die anderen Select-Felder basierend auf dem ausgewählten Kontakt
+                    updateContactDetails(contact, key);
+                }
+            });
+        });
 
-            // Den ausgewählten Kontakt finden
-            var selectedContact = savedContacts.find(contact => contact.contact_name === selectedValue);
+        function updateContactDetails(contact, key) {
+            // Aktualisiere die anderen Felder mit den entsprechenden Werten
+            var selectAbteilung = document.getElementById("job_select_contact_job_details_abteilung_" + key);
+            var selectTel = document.getElementById("job_select_contact_job_details_tel_" + key);
+            var selectEmail = document.getElementById("job_select_contact_job_details_email_" + key);
+            var selectInfo = document.getElementById("job_select_contact_job_details_info_" + key);
+            var selectImageUrl = document.getElementById("job_select_contact_job_details_image_url_" + key);
 
-            if (selectedContact) {
-                // Informationen aus dem ausgewählten Kontakt in die anderen Select-Felder einfügen
-                var contactAbteilung = selectedContact.contact_abteilung.join(' und ');
-                var contactTel = selectedContact.contact_tel;
-                var contactEmail = selectedContact.contact_email;
-                var contactInfo = selectedContact.contact_info;
-                var contactImageUrl = selectedContact.contact_image_url;
+            // Setze die Werte in den Select-Feldern auf den Standardwert
+            selectAbteilung.value = '';
+            selectTel.value = '';
+            selectEmail.value = '';
+            selectInfo.value = '';
+            selectImageUrl.value = '';
 
-                abteilungSelect.querySelectorAll('option').forEach(option => {
-                    if (option.value === contactAbteilung) option.selected = true;
+            // Füge die Optionen hinzu, falls sie vorhanden sind
+            if (contact.contact_abteilung) {
+                selectAbteilung.querySelectorAll('option').forEach(function(option) {
+                    if (option.value === contact.contact_abteilung) {
+                        option.selected = true;
+                    }
                 });
-                telSelect.querySelectorAll('option').forEach(option => {
-                    if (option.value === contactTel) option.selected = true;
+            }
+
+            if (contact.contact_tel) {
+                selectTel.querySelectorAll('option').forEach(function(option) {
+                    if (option.value === contact.contact_tel) {
+                        option.selected = true;
+                    }
                 });
-                emailSelect.querySelectorAll('option').forEach(option => {
-                    if (option.value === contactEmail) option.selected = true;
+            }
+
+            if (contact.contact_email) {
+                selectEmail.querySelectorAll('option').forEach(function(option) {
+                    if (option.value === contact.contact_email) {
+                        option.selected = true;
+                    }
                 });
-                infoSelect.querySelectorAll('option').forEach(option => {
-                    if (option.value === contactInfo) option.selected = true;
+            }
+
+            if (contact.contact_info) {
+                selectInfo.querySelectorAll('option').forEach(function(option) {
+                    if (option.value === contact.contact_info) {
+                        option.selected = true;
+                    }
                 });
-                imageUrlSelect.querySelectorAll('option').forEach(option => {
-                    if (option.value === contactImageUrl) option.selected = true;
+            }
+
+            if (contact.contact_image_url) {
+                selectImageUrl.querySelectorAll('option').forEach(function(option) {
+                    if (option.value === contact.contact_image_url) {
+                        option.selected = true;
+                    }
                 });
             }
         }
 
-        // Event-Listener hinzufügen, um die Select-Felder zu synchronisieren
-        document.querySelectorAll('.contact-select').forEach(select => {
-            select.addEventListener('change', synchronizeSelects);
-        });
     </script>
     <script>
         function getEditor(id) {
