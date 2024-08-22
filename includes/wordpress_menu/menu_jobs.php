@@ -564,16 +564,23 @@ function krp_job_create_section_callback() {
                         const selects = [abteilungSelect, telSelect, emailSelect, infoSelect, imageUrlSelect];
 
                         selects.forEach(select => {
-                            // Set the select value to match the selected contact in the first select
                             if (select) {
-                                select.value = select.querySelector(`option[value*="${selectedContact}"]`)?.value || '';
-                                select.style.display = 'block'; // Show the select element
+                                // Find the option that corresponds to the selected contact in the first select
+                                const matchingOption = Array.from(select.options).find(option => option.value.includes(selectedContact));
+
+                                if (matchingOption) {
+                                    select.value = matchingOption.value;
+                                    select.style.display = 'block'; // Show the select element
+                                } else {
+                                    select.value = ''; // Reset if no matching option is found
+                                }
                             }
                         });
                     });
                 }
             });
         });
+
     </script>
     <script>
         function getEditor(id) {
