@@ -849,7 +849,7 @@ function krp_create_or_update_page() {
                 color: ' . $main_text_jobs_color_field . ';
                 font-size: 16px;
             }
-            .job-bereich::before {
+            .job-bereich p::before {
                 content: "";
                 position: absolute;
                 width: 10px;
