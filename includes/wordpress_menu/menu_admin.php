@@ -847,6 +847,16 @@ function krp_create_or_update_page() {
                 color: ' . $main_text_jobs_color_field . ';
                 font-size: 16px;
             }
+            .job-bereich::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 10px;
+                height: 10px;
+                background-color: ' . $main_bg_color . ';
+            }
             /* Ausbildungen */
             .ausbildung-tiles-container {
                 display: grid;
