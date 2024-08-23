@@ -1277,7 +1277,6 @@ function krp_create_or_update_page() {
                     <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
                 </div>
             </div>
-            <button id="toggleNavButton" onclick="toggleSecondaryNav()">Toggle Navigation</button>
             <div class="content">
                 <div id="jobs">
                     <div id="main-jobs-text" style="margin-bottom: 40px">' . $main_text_jobs_field . '</div>
