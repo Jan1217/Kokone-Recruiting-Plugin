@@ -730,7 +730,7 @@ function krp_create_or_update_page() {
                 text-align: center;
             }
             .plugin-page .hero h1 {
-                font-size: 3em;
+                font-size: 8em;
                 color: ' . $krp_hero_text_color . ';
             }
             /* Sekundäre Navigation */
