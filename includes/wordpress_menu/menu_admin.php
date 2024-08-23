@@ -779,6 +779,20 @@ function krp_create_or_update_page() {
                 font-weight: bold;
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
             }
+            .secondary-nav-toggle {
+                display: none;
+            }
+            @media only screen and (max-width: 750px) {
+                .plugin-page .secondary-nav{
+                    flex-direction: column;
+                    text-align: center;
+                }
+                .secondary-nav-toggle {
+                    display: flex;
+                    justify-content: center;
+                    background-color: ' . $secondary_nav_bg_color . ';
+                }
+            }
             /* Ende Sekundäre Navigation */
             .plugin-page .content {
                 background-color: ' . $main_bg_color . ';
@@ -1260,6 +1274,7 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
+                <button class="secondary-nav-toggle" id="secondaryNavToggle">☰</button>
                 <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
