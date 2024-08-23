@@ -758,41 +758,69 @@ function krp_create_or_update_page() {
                 }
             }
             /* Sekundäre Navigation */
-            .secondary-nav-container {
-                 background-color: ' . $secondary_nav_bg_color . ';
+            .plugin-page .secondary-nav-container {
+                position: relative;
             }
+            
+            .plugin-page .nav-toggle-button {
+                display: none; /* Standardmäßig ausgeblendet, wird nur bei kleineren Bildschirmen angezeigt */
+                background-color: #333;
+                color: white;
+                padding: 10px;
+                border: none;
+                cursor: pointer;
+                font-size: 18px;
+                width: 100%;
+                text-align: left;
+            }
+            
             .plugin-page .secondary-nav {
                 display: flex;
                 justify-content: center;
+                background-color: ' . $secondary_nav_bg_color . '; /* ersetze mit deiner Farbe */
             }
+            
             .plugin-page .secondary-nav .contact_color {
-                background-color: ' . $secondary_nav_contact_bg_color . ';
+                background-color: ' . $secondary_nav_contact_bg_color . '; /* ersetze mit deiner Farbe */
                 border-radius: 8px;
                 margin: 4px;
             }
+            
             .plugin-page .secondary-nav a {
-                color: ' . $secondary_nav_text_color . ';
+                color:  ' . $secondary_nav_text_color . '; /* ersetze mit deiner Farbe */
                 padding: 15px 20px;
                 text-decoration: none;
                 display: inline-block;
                 margin: 4px;
             }
+            
             .krp_sec_nav_item.active {
                 font-weight: bold;
-                border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
+                border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; /* ersetze mit deiner Farbe */
             }
-            .secondary-nav-toggle {
-                display: none;
-            }
-            @media only screen and (max-width: 750px) {
-                .plugin-page .secondary-nav{
-                    flex-direction: column;
-                    text-align: center;
+            
+            /* Responsive Anpassungen */
+            @media (max-width: 768px) {
+                .plugin-page .nav-toggle-button {
+                    display: block;
                 }
-                .secondary-nav-toggle {
+            
+                .plugin-page .secondary-nav {
+                    display: none;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    background-color:' . $secondary_nav_bg_color . '; /* ersetze mit deiner Farbe */
+                    width: 100%;
+                }
+            
+                .plugin-page .secondary-nav a {
+                    width: 100%;
+                    text-align: left;
+                    padding: 10px 15px;
+                }
+            
+                .plugin-page .secondary-nav.active {
                     display: flex;
-                    justify-content: center;
-                    background-color: ' . $secondary_nav_bg_color . ';
                 }
             }
             /* Ende Sekundäre Navigation */
@@ -1276,12 +1304,12 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
-                <button class="secondary-nav-toggle" id="secondaryNavToggle">☰</button>
+                <button class="nav-toggle-button" onclick="toggleNav()">☰ Menü</button>
                 <div class="secondary-nav" id="secondaryNav">
-                        <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
-                        <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
-                        <a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>
-                        <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
+                    <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
+                    <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
+                    <a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>
+                    <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
                 </div>
             </div>
             <div class="content">

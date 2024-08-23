@@ -7,12 +7,12 @@ Die einzelnen Abschnitte sind je nach Inhalt strukturiert.
 /*
 * Website Tab
 */
-function toggleMenu() {
-    var nav = document.getElementById('secondaryNav');
-    if (nav.classList.contains('show')) {
-        nav.classList.remove('show');
+function toggleNav() {
+    var nav = document.getElementById("secondaryNav");
+    if (nav.classList.contains("active")) {
+        nav.classList.remove("active");
     } else {
-        nav.classList.add('show');
+        nav.classList.add("active");
     }
 }
 /*
