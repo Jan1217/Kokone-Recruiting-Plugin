@@ -1271,12 +1271,13 @@ function krp_create_or_update_page() {
             </div>
             <div class="secondary-nav-container">
                 <div class="secondary-nav" id="secondaryNav">
-                    <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
-                    <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
-                    <a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>
-                    <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
+                    <a class="krp_sec_nav_item" href="#jobs" >Jobs</a>
+                    <a class="krp_sec_nav_item" href="#ausbildung" >Ausbildung</a>
+                    <a class="krp_sec_nav_item" href="#ort-restrict" >Ort einschränken</a>
+                    <a class="krp_sec_nav_item contact_color" href="#kontakt">Kontakt</a>
                 </div>
             </div>
+            <button id="toggleButton">Toggle Navigation</button>
             <div class="content">
                 <div id="jobs">
                     <div id="main-jobs-text" style="margin-bottom: 40px">' . $main_text_jobs_field . '</div>
@@ -1412,10 +1413,14 @@ function krp_create_or_update_page() {
 function website_scripts() {
     ?>
     <script>
-        function toggleSecondaryNav() {
-            var nav = document.getElementById("secondaryNav");
-            nav.classList.toggle("show");
-        }
+        document.getElementById('toggleButton').addEventListener('click', function() {
+            var nav = document.getElementById('secondaryNav');
+            if (nav.style.display === 'none' || nav.style.display === '') {
+                nav.style.display = 'block'; // Navigation anzeigen
+            } else {
+                nav.style.display = 'none'; // Navigation verstecken
+            }
+        });
         function showContent(section) {
             const sections = document.querySelectorAll(".content > div");
             sections.forEach(sec => sec.classList.add("hidden"));
