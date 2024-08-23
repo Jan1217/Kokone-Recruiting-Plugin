@@ -396,7 +396,7 @@ function krp_create_or_update_page() {
             $jobs_html .= '
             <div>
                 <div class="job-tile-main">
-                    <div class="job-tile" data-job-id="' . $job_id . '" data-location="' . esc_attr($job['job_standort']) . '" data-hero-original-img="" data-hero-img="' . $job_image . '" onclick="showJobDetails(' . $job_id . ')">
+                    <div class="job-tile" data-job-id="' . $job_id . '" data-location="' . esc_attr($job['job_standort']) . '" data-hero-original-img="' . esc_url($krp_website_hero_image_url) . '" data-hero-img="' . $job_image . '" onclick="showJobDetails(' . $job_id . ')">
                         <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
                         <h2 class="job-title">' . $job_title . '</h2>
                         <div class="job-bereich">' . $job_bereich_create_p_tag . '</div>
@@ -1295,17 +1295,14 @@ function website_scripts($krp_website_hero_image_url) {
             document.querySelector(".job-tiles-container").classList.add("hidden");
             document.getElementById("main-jobs-text").classList.add("hidden");
 
-            // Bild des Jobdetails holen
             const jobTile = document.querySelector(`.job-tile[data-job-id="${jobId}"]`);
             const jobHeroImg = jobTile ? jobTile.getAttribute('data-hero-img') : '';
 
-            // Ändere das Hero-Bild
             const hero = document.getElementById('hero');
             if (hero) {
                 hero.style.backgroundImage = `url(${jobHeroImg})`;
             }
 
-            // Ändere die URL, um die Job-Details anzuzeigen
             window.history.pushState({ jobId: jobId }, "", "job=" + jobId);
         }
         function showJobList() {
@@ -1314,13 +1311,14 @@ function website_scripts($krp_website_hero_image_url) {
             jobDetails.forEach(detail => detail.classList.add("hidden"));
             document.getElementById("main-jobs-text").classList.remove("hidden");
 
-            // Setze das Hero-Bild auf das ursprüngliche Bild zurück
+            const jobTile = document.querySelector(`.job-tile[data-job-id="${jobId}"]`);
+            const jobOriginalHeroImg = jobTile ? jobTile.getAttribute('data-hero-original-img') : '';
+
             const hero = document.getElementById('hero');
             if (hero) {
-                hero.style.backgroundImage = 'url(' + '<?php echo esc_url($krp_website_hero_image_url); ?>' + ')';
+                hero.style.backgroundImage = `url(${jobOriginalHeroImg})`;
             }
 
-            // Setze die URL zurück
             window.history.pushState({}, "", window.location.pathname);
         }
         function showAusbildungDetails(ausbildungId) {
