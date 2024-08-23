@@ -742,6 +742,21 @@ function krp_create_or_update_page() {
                 font-size: 8em;
                 color: ' . $krp_hero_text_color . ';
             }
+            @media only screend and (max-width: 1200px) {
+                .plugin-page .hero h1 {
+                    font-size: 6em;
+                }
+            }
+            @media only screend and (max-width: 800px) {
+                .plugin-page .hero h1 {
+                    font-size: 4em;
+                }
+            }
+            @media only screend and (max-width: 450px) {
+                .plugin-page .hero h1 {
+                    font-size: 2em;
+                }
+            }
             /* Sekundäre Navigation */
             .plugin-page .secondary-nav {
                 display: flex;
@@ -814,6 +829,26 @@ function krp_create_or_update_page() {
                 display: grid;
                 grid-template-columns: repeat(' . $main_selection_column_field . ', 1fr);
                 gap: 20px;
+            }
+            @media only screen and (max-width: 1200px) {
+                .job-tiles-container {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+            }
+            @media only screen and (max-width: 1200px) {
+                .job-tiles-container {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+            }
+            @media only screen and (max-width: 900px) {
+                .job-tiles-container {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+            @media only screen and (max-width: 700px) {
+                .job-tiles-container {
+                    grid-template-columns: repeat(1, 1fr);
+                }
             }
             .job-tile {
                 border: 2px solid ' . $secondary_nav_bg_color . ';
@@ -1176,9 +1211,6 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
-                <div class="hamburger-menu" id="hamburgerMenu">
-                    &#9776;
-                </div>
                 <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
