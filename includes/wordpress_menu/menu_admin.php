@@ -1233,14 +1233,6 @@ function krp_create_or_update_page() {
                 details.classList.remove("hidden");
                 document.querySelector(".job-tiles-container").classList.add("hidden");
                 document.getElementById("main-jobs-text").classList.add("hidden");
-                // Neues Hero-Bild anzeigen
-                const clickedTile = document.querySelector(\'.job-tile[data-job-id="\' + jobId + \'"]\');
-                const newHeroImage = clickedTile.getAttribute(\'data-hero\');
-                const heroElement = document.querySelector(\'.plugin-page .hero\');
-            
-                if (heroElement && newHeroImage) {
-                    heroElement.style.backgroundImage = \'url(\' + newHeroImage + \')\';
-                }
             }
             function showJobList() {
                 document.querySelector(".job-tiles-container").classList.remove("hidden");
