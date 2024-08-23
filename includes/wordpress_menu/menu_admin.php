@@ -784,11 +784,13 @@ function krp_create_or_update_page() {
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
             }
             button#secondary-nav-hamburger {
-                display: none;
                 justify-content: center;
                 background-color: ' . $secondary_nav_bg_color . ';
                 transition: max-height 0.5s ease-out;
                 width: 100%;
+                height: 55px;
+                border: none;
+                color: ' . $secondary_nav_text_color . ';
             }
             @media only screen and (max-width: 700px) {
                 .secondary-nav-hamburger {
@@ -1283,10 +1285,10 @@ function krp_create_or_update_page() {
             <div class="secondary-nav-container">
                 <button id="secondary-nav-hamburger">☰</button>
                 <div class="secondary-nav" id="secondaryNav">
-                    <a class="krp_sec_nav_item" href="#jobs" >Jobs</a>
-                    <a class="krp_sec_nav_item" href="#ausbildung" >Ausbildung</a>
-                    <a class="krp_sec_nav_item" href="#ort-restrict" >Ort einschränken</a>
-                    <a class="krp_sec_nav_item contact_color" href="#kontakt">Kontakt</a>
+                    <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
+                    <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
+                    <a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>
+                    <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
                 </div>
             </div>
             
