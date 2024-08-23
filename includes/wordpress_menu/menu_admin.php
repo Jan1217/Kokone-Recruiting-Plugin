@@ -402,7 +402,7 @@ function krp_create_or_update_page() {
                         <div class="job-bereich">' . $job_bereich_create_p_tag . '</div>
                     </div>
                 </div>
-                <button class="job-tile-info-button" onclick="showJobDetails(' . $job_id . ')">Weitere Infos hier</button>
+                <button id="job-tile-info-button" class="job-tile-info-button" onclick="showJobDetails(' . $job_id . ')">Weitere Infos hier</button>
             </div>
             ';
 
@@ -1098,6 +1098,10 @@ function krp_create_or_update_page() {
                     font-size: 1.2em;
                 }
             }
+            .contact-person-tel-email-display {
+                display: flex;
+                justify-content: space-between;
+            }
             /* Weitere */
             .no_job_ausbildung {
                 border-radius: 10px;
@@ -1322,6 +1326,7 @@ function change_hero_img_job_tile($krp_website_hero_image_url) {
             const defaultHeroImage = '<?php echo esc_url($krp_website_hero_image_url); ?>'; // Use PHP to get default hero image
             document.querySelector('.hero\').style.backgroundImage = 'url(' + defaultHeroImage + ')';
         }
+        document.getElementById("job-tile-info-button").addEventListener("click", updateHeroImage, resetHeroImage);
     </script>
     <?php
 }
