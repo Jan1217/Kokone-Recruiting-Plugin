@@ -437,9 +437,11 @@ function krp_create_or_update_page() {
                             <div class="contact-box">
                                 <img src="' . $contact_person_job_details_image_url . '" alt="' . esc_html($job['contact_name']) . '">
                                 <h2>' . $contact_person_job_details_name . '</h2>
-                                <p><strong>Telefon:</strong> <a href="tel:' . $contact_person_job_details_tel . '">' . $contact_person_job_details_tel . '</a></p>
-                                <p><strong>Email:</strong> <a href="mailto:' . $contact_person_job_details_email . '">' . $contact_person_job_details_email . '</a></p>
                                 <p>' . $contact_person_job_details_info . '</p>
+                                <div class="contact-person-tel-email-display">
+                                    <p><strong>Telefon:</strong> <a href="tel:' . $contact_person_job_details_tel . '">' . $contact_person_job_details_tel . '</a></p>
+                                    <p><strong>Email:</strong> <a href="mailto:' . $contact_person_job_details_email . '">' . $contact_person_job_details_email . '</a></p>
+                                </div>
                             </div>
                             <div class="job_details_image">
                                 <img src="' . $job_image . '" alt="' . $job_title . '">
@@ -580,9 +582,11 @@ function krp_create_or_update_page() {
                             <div class="contact-box">
                                 <img src="' . $contact_person_ausbildung_details_image_url . '" alt="' . esc_html($ausbildung['contact_name']) . '">
                                 <h2>' . $contact_person_ausbildung_details_name . '</h2>
-                                <p><strong>Telefon:</strong> <a href="tel:' . $contact_person_ausbildung_details_tel . '">' . $contact_person_ausbildung_details_tel . '</a></p>
-                                <p><strong>Email:</strong> <a href="mailto:' . $contact_person_ausbildung_details_email . '">' . $contact_person_ausbildung_details_email . '</a></p>
                                 <p>' . $contact_person_ausbildung_details_info . '</p>
+                                <div>
+                                    <p><strong>Telefon:</strong> <a href="tel:' . $contact_person_ausbildung_details_tel . '">' . $contact_person_ausbildung_details_tel . '</a></p>
+                                    <p><strong>Email:</strong> <a href="mailto:' . $contact_person_ausbildung_details_email . '">' . $contact_person_ausbildung_details_email . '</a></p>
+                                </div>
                             </div>
                             <div class="ausbildung_details_image">
                                 <img src="' . $ausbildung_image . '" alt="' . $ausbildung_title . '">
@@ -1262,16 +1266,6 @@ function krp_create_or_update_page() {
                 ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
                 document.getElementById("main-ausbildung-text").classList.remove("hidden");
             }
-            function updateHeroImage(jobId) {
-                const jobTile = document.querySelector(\'.job-tile[data-job-id="\' + jobId + \'"]\');
-                const heroImage = jobTile.getAttribute(\'data-hero-img\');
-                document.querySelector(\'.hero\').style.backgroundImage = \'url(\' + heroImage + \')\';
-            }
-        
-            function resetHeroImage() {
-                const defaultHeroImage = \'<?php echo esc_url($krp_website_hero_image_url); ?>\'; // Use PHP to get default hero image
-            document.querySelector(\'.hero\').style.backgroundImage = \'url(\' + defaultHeroImage + \')\';
-            }
         </script>
     ';
 
@@ -1317,6 +1311,23 @@ function krp_create_or_update_page() {
             });
         }
     }
+}
+
+function change_hero_img_job_tile($krp_website_hero_image_url) {
+    ?>
+    <script>
+        function updateHeroImage(jobId) {
+            const jobTile = document.querySelector('.job-tile[data-job-id="' + jobId + '"]');
+            const heroImage = jobTile.getAttribute('data-hero-img\');
+            document.querySelector('.hero').style.backgroundImage = 'url(' + heroImage + ')';
+        }
+
+        function resetHeroImage() {
+            const defaultHeroImage = '<?php echo esc_url($krp_website_hero_image_url); ?>'; // Use PHP to get default hero image
+            document.querySelector('.hero\').style.backgroundImage = 'url(' + defaultHeroImage + ')';
+        }
+    </script>
+    <?php
 }
 
 function filter_jobs_ausbildungen() {
