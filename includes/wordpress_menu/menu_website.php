@@ -344,6 +344,28 @@ function krp_website_main_text_jobs_field_callback() {
     <?php
 }
 
+function krp_website_main_text_jobs_select_postion_field_callback() {
+    // Hole die aktuellen Werte aus den Optionen
+    $main_text_jobs_select_position = get_option('krp_website_main_text_jobs_selection_position', 'left');
+
+    ?>
+    <div id="krp-hero-text-selection">
+        <label>
+            <input type="radio" name="krp_website_main_text_jobs_selection_position" value="left" <?php checked($main_text_jobs_select_position, 'left'); ?>>
+            Links (Standardwert)
+        </label><br>
+        <label>
+            <input type="radio" name="krp_website_main_text_jobs_selection_position" value="center" <?php checked($main_text_jobs_select_position, 'center'); ?>>
+            Mitte
+        </label><br>
+        <label>
+            <input type="radio" name="krp_website_main_text_jobs_selection_position" value="right" <?php checked($main_text_jobs_select_position, 'right'); ?>>
+            Rechts
+        </label>
+    </div>
+    <?php
+}
+
 function krp_website_main_text_jobs_color_field_callback() {
     $main_text_jobs_color_field = get_option('krp_website_main_text_jobs_color');
     ?>
@@ -426,6 +448,28 @@ function krp_website_main_text_ausbildung_field_callback() {
             editor.selectionStart = editor.selectionEnd = selectionStart + newText.length;
         }
     </script>
+    <?php
+}
+
+function krp_website_main_text_ausbildung_select_postion_field_callback() {
+    // Hole die aktuellen Werte aus den Optionen
+    $main_text_ausbildung_select_position = get_option('krp_website_main_text_ausbildung_selection_position', 'left');
+
+    ?>
+    <div id="krp-hero-text-selection">
+        <label>
+            <input type="radio" name="krp_website_main_text_ausbildung_selection_position" value="left" <?php checked($main_text_ausbildung_select_position, 'left'); ?>>
+            Links (Standardwert)
+        </label><br>
+        <label>
+            <input type="radio" name="krp_website_main_text_ausbildung_selection_position" value="center" <?php checked($main_text_ausbildung_select_position, 'center'); ?>>
+            Mitte
+        </label><br>
+        <label>
+            <input type="radio" name="krp_website_main_text_ausbildung_selection_position" value="right" <?php checked($main_text_ausbildung_select_position, 'right'); ?>>
+            Rechts
+        </label>
+    </div>
     <?php
 }
 

@@ -346,8 +346,10 @@ function krp_create_or_update_page() {
     $secondary_nav_text_color = get_option('krp_website_secondary_navigation_text_color');
 
     $main_text_jobs_field = get_option('krp_website_main_text_jobs_field');
+    $main_text_jobs_select_position = get_option('krp_website_main_text_jobs_selection_position');
     $main_text_jobs_color_field = get_option('krp_website_main_text_jobs_color');
     $main_text_ausbildung_field = get_option('krp_website_main_text_ausbildung_field');
+    $main_text_ausbildung_select_position = get_option('krp_website_main_text_ausbildung_selection_position');
     $main_text_ausbildung_color_field = get_option('krp_website_main_text_ausbildung_color');
     $main_bg_color = get_option('krp_website_main_bg_color');
     $main_details_bg_color = get_option('krp_website_main_details_bg_color');
@@ -848,6 +850,7 @@ function krp_create_or_update_page() {
             div#main-jobs-text {
                 color: ' . $main_text_jobs_color_field . ';
                 font-size: 16px;
+                text-align: ' . $main_text_jobs_select_position . ';
             }
             .job-bereich p::before {
                 content: "";
@@ -934,6 +937,7 @@ function krp_create_or_update_page() {
             div#main-ausbildung-text {
                 color: ' . $main_text_ausbildung_color_field . ';
                 font-size: 16px;
+                text-align: ' . $main_text_jobs_select_position . ';
             }
             div#main-ausbildung-text h3 {
                 color: ' . $main_text_ausbildung_color_field . ';
@@ -1233,26 +1237,12 @@ function krp_create_or_update_page() {
                 details.classList.remove("hidden");
                 document.querySelector(".job-tiles-container").classList.add("hidden");
                 document.getElementById("main-jobs-text").classList.add("hidden");
-                
-                const selectedJobTile = document.querySelector(".job-tile[data-hero-img][onclick="showJobDetails(" + jobId + ")"]");
-                if (selectedJobTile) {
-                    const heroImageUrl = selectedJobTile.getAttribute("data-hero-img");
-                    const heroElement = document.querySelector(".plugin-page .hero");
-                    if (heroElement) {
-                        heroElement.style.backgroundImage = `url(${heroImageUrl})`;
-                    }
-                }
             }
             function showJobList() {
                 document.querySelector(".job-tiles-container").classList.remove("hidden");
                 const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
                 jobDetails.forEach(detail => detail.classList.add("hidden"));
                 document.getElementById("main-jobs-text").classList.remove("hidden");
-                
-                const heroElement = document.querySelector(".plugin-page .hero");
-                    if (heroElement) {
-                        heroElement.style.backgroundImage = `url("<?php echo esc_url($krp_website_hero_image_url); ?>")`;
-                }
             }
             function showAusbildungDetails(ausbildungId) {
                 const ausbildungDetails = document.querySelectorAll("#ausbildung-details-container > .ausbildung-details");
@@ -1498,8 +1488,10 @@ function krp_register_sections_and_fields() {
 
     add_settings_section('krp_website_main_section', '', 'krp_website_main_section_callback', 'krp-settings-website');
     add_settings_field('krp_website_main_text_jobs_field', 'Job Tab Text', 'krp_website_main_text_jobs_field_callback', 'krp-settings-website', 'krp_website_main_section');
+    add_settings_field('krp_website_main_text_jobs_select_postion_field', 'Job Text Anordnung', 'krp_website_main_text_jobs_select_postion_field_callback', 'krp-settings-website', 'krp_website_main_section');
     add_settings_field('krp_website_main_text_jobs_color_field', 'Job Tab Textfarbe', 'krp_website_main_text_jobs_color_field_callback', 'krp-settings-website', 'krp_website_main_section');
     add_settings_field('krp_website_main_text_ausbildung_field', 'Ausbildung Tab Text', 'krp_website_main_text_ausbildung_field_callback', 'krp-settings-website', 'krp_website_main_section');
+    add_settings_field('krp_website_main_text_ausbildung_select_postion_field', 'Ausbildung Text Anordnung', 'krp_website_main_text_ausbildung_select_postion_field_callback', 'krp-settings-website', 'krp_website_main_section');
     add_settings_field('krp_website_main_text_ausbildung_color_field', 'Ausbildung Tab Textfarbe', 'krp_website_main_text_ausbildung_color_field_callback', 'krp-settings-website', 'krp_website_main_section');
     add_settings_field('krp_website_main_bg_color_field', 'Main Hintergrundfarbe', 'krp_website_main_bg_color_callback', 'krp-settings-website', 'krp_website_main_section');
     add_settings_field('krp_website_main_details_bg_color_field', 'Main Job/ Ausbildung Hintergrundfarbe', 'krp_website_main_details_bg_color_callback', 'krp-settings-website', 'krp_website_main_section');
@@ -1572,12 +1564,18 @@ function krp_save_settings() {
         $html_content = wp_kses_post($_POST['krp_website_main_text_jobs_field']);
         update_option('krp_website_main_text_jobs_field', $html_content);
     }
+    if (isset($_POST['krp_website_main_text_jobs_selection_position'])) {
+        update_option('krp_website_main_text_jobs_selection_position', sanitize_text_field($_POST['krp_website_main_text_jobs_selection_position']));
+    }
     if(isset($_POST['krp_website_main_text_jobs_color'])) {
         update_option('krp_website_main_text_jobs_color', sanitize_text_field($_POST['krp_website_main_text_jobs_color']));
     }
     if (isset($_POST['krp_website_main_text_ausbildung_field'])) {
         $html_content = wp_kses_post($_POST['krp_website_main_text_ausbildung_field']);
         update_option('krp_website_main_text_ausbildung_field', $html_content);
+    }
+    if (isset($_POST['krp_website_main_text_ausbildung_selection_position'])) {
+        update_option('krp_website_main_text_ausbildung_selection_position', sanitize_text_field($_POST['krp_website_main_text_ausbildung_selection_position']));
     }
     if(isset($_POST['krp_website_main_text_ausbildung_color'])) {
         update_option('krp_website_main_text_ausbildung_color', sanitize_text_field($_POST['krp_website_main_text_ausbildung_color']));
