@@ -381,6 +381,7 @@ function krp_create_or_update_page() {
     if (!empty($jobs)) {
         foreach ($jobs as $index => $job) {
             $job_image = esc_url($job['job_image']);
+            $job_more_image = esc_url($job['job_more_image']);
             $job_title = esc_html($job['job_title']);
             $job_bereich = implode(' und ', array_map('esc_html', $job['job_bereich']));
             $job_bereich_create_p_tag = implode('', array_map(function($bereich) {
@@ -444,7 +445,7 @@ function krp_create_or_update_page() {
                                 </div>
                             </div>
                             <div class="job_details_image">
-                                <img src="' . $job_image . '" alt="' . $job_title . '">
+                                <img src="' . $job_more_image . '" alt="' . $job_title . '">
                             </div>
                         </div>
                         <div class="job-details-right" style="flex: 1.1; padding: 20px;">
@@ -733,6 +734,8 @@ function krp_create_or_update_page() {
                 align-items: center;
                 color: white;
                 text-align: center;
+                background-size: cover;
+                background-repeat: no-repeat;
             }
             .plugin-page .hero h1 {
                 font-size: 8em;

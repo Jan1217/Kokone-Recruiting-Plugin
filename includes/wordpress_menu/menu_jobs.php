@@ -284,6 +284,19 @@ function krp_job_create_section_callback() {
                                         </div>
                                     </td>
                                 </tr>
+                                <!-- Weitere Bilder -->
+                                <tr>
+                                    <th><label for="job_more_image_<?php echo $key; ?>">Weitere Bilder</label></th>
+                                    <td>
+                                        <input type="hidden" id="job_more_image_<?php echo $key; ?>" name="job_more_image[]" class="job_more_image_url" value="<?php echo esc_url($job['job_more_image']); ?>">
+                                        <button type="button" class="upload_image_button" data-target="#job_more_image_<?php echo $key; ?>">Bild auswählen</button>
+                                        <div class="krp-image-preview-container">
+                                            <?php if (!empty($job['job_more_image'])): ?>
+                                                <img src="<?php echo esc_url($job['job_more_image']); ?>" alt="Bildvorschau">
+                                            <?php endif; ?>
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -512,6 +525,19 @@ function krp_job_create_section_callback() {
                                         
                                     </td>
                                 </tr>
+                                <!-- Weitere Bilder -->
+                                <tr>
+                                    <th><label for="job_more_image_${jobIndex}">Weitere Bilder</label></th>
+                                    <td>
+                                        <input type="hidden" id="job_more_image_${jobIndex}" name="job_more_image[]" class="job_more_image_url" value="<?php echo esc_url($job['job_more_image']); ?>">
+                                        <button type="button" class="upload_image_button" data-target="#job_more_image_${jobIndex}">Bild auswählen</button>
+                                        <div class="krp-image-preview-container">
+                                            <?php if (!empty($job['job_more_image'])): ?>
+                                                <img src="<?php echo esc_url($job['job_more_image']); ?>" alt="Bildvorschau">
+                                            <?php endif; ?>
+                                        </div>
+                                    </td>
+                                </tr>
                         </table>
                     </div>
                 </div>`;
@@ -677,6 +703,7 @@ function krp_save_jobs() {
         // PDF-Dateien verarbeiten
         $job_application_pdfs = isset($_FILES['job_application_pdf']) ? $_FILES['job_application_pdf'] : array();
         $job_images = isset($_POST['job_image']) ? array_map('esc_url_raw', $_POST['job_image']) : array();
+        $job_more_images = isset($_POST['job_more_image']) ? array_map('esc_url_raw', $_POST['job_more_image']) : array();
 
         $jobs = array();
         foreach ($job_titles as $key => $title) {
@@ -712,7 +739,8 @@ function krp_save_jobs() {
                 'job_tasks' => isset($job_tasks[$key]) ? $job_tasks[$key] : '',
                 'job_application' => isset($job_applications[$key]) ? $job_applications[$key] : '',
                 'job_application_pdf' => $pdf_url,
-                'job_image' => isset($job_images[$key]) ? $job_images[$key] : '', // Bild-URL hinzufügen
+                'job_image' => isset($job_images[$key]) ? $job_images[$key] : '',
+                'job_more_image' => isset($job_more_images[$key]) ? $job_more_images[$key] : '',
                 'selected_contact_job_details_name' => isset($selected_contacts_job_details_name[$key]) ? $selected_contacts_job_details_name[$key] : '',
                 'selected_contact_job_details_abteilung' => isset($selected_contacts_job_details_abteilung[$key]) ? $selected_contacts_job_details_abteilung[$key] : '',
                 'selected_contact_job_details_tel' => isset($selected_contacts_job_details_tel[$key]) ? $selected_contacts_job_details_tel[$key] : '',
