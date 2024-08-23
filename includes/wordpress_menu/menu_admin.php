@@ -742,17 +742,17 @@ function krp_create_or_update_page() {
                 font-size: 8em;
                 color: ' . $krp_hero_text_color . ';
             }
-            @media only screend and (max-width: 1200px) {
+            @media only screen and (max-width: 1200px) {
                 .plugin-page .hero h1 {
                     font-size: 6em;
                 }
             }
-            @media only screend and (max-width: 800px) {
+            @media only screen and (max-width: 800px) {
                 .plugin-page .hero h1 {
                     font-size: 4em;
                 }
             }
-            @media only screend and (max-width: 450px) {
+            @media only screen and (max-width: 450px) {
                 .plugin-page .hero h1 {
                     font-size: 2em;
                 }
@@ -944,6 +944,32 @@ function krp_create_or_update_page() {
             .jbc-single-p-tag {
                 margin-left: 10px;
             }
+            /* Für kleinere Bildschirme */
+            @media (max-width: 767px) {
+                .job-details-fullwidth,
+                .job-details-left-right {
+                    flex-direction: column;
+                }
+                
+                .job-details-left,
+                .job-details-right {
+                    flex: none;
+                    width: 100%;
+                }
+                
+                .contact-box,
+                .job_details_image {
+                    margin-bottom: 20px;
+                }
+                
+                .form-row {
+                    flex-direction: column;
+                }
+                
+                .form-column {
+                    width: 100%;
+                }
+            }
             /* Ausbildungen */
             .ausbildung-tiles-container {
                 display: grid;
@@ -1117,6 +1143,19 @@ function krp_create_or_update_page() {
                 color: red;
                 font-size: 0.875em;
                 margin-top: 10px;
+            }
+            @media (max-width: 767px) {
+                .form-row {
+                    flex-direction: column;
+                }
+                
+                .form-column {
+                    width: 100%;
+                }
+                
+                .form-group {
+                    margin-bottom: 10px;
+                }
             }
             /* Kontakt Box*/
             .contact-box {
@@ -1359,6 +1398,15 @@ function website_scripts($krp_website_hero_image_url) {
             const sections = document.querySelectorAll(".content > div");
             sections.forEach(sec => sec.classList.add("hidden"));
             document.getElementById(section).classList.remove("hidden");
+
+            // Setze das Hero-Bild auf das ursprüngliche Bild zurück
+            const hero = document.getElementById('hero');
+            if (hero) {
+                const originalHeroImg = hero.getAttribute('data-hero-img');
+                hero.style.backgroundImage = `url(${originalHeroImg})`;
+            }
+
+            window.history.pushState({}, "", window.location.pathname);
         }
         function setActive(element) {
             const items = document.querySelectorAll(".krp_sec_nav_item");
