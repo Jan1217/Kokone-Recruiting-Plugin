@@ -1228,6 +1228,13 @@ function krp_create_or_update_page() {
             </div>
         </div>
         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const params = new URLSearchParams(window.location.search);
+                const jobId = params.get("job");
+                if (jobId) {
+                    showJobDetails(jobId);
+                }
+            });
             function showContent(section) {
                 const sections = document.querySelectorAll(".content > div");
                 sections.forEach(sec => sec.classList.add("hidden"));
@@ -1245,12 +1252,18 @@ function krp_create_or_update_page() {
                 details.classList.remove("hidden");
                 document.querySelector(".job-tiles-container").classList.add("hidden");
                 document.getElementById("main-jobs-text").classList.add("hidden");
+            
+                // Ändere die URL, um die Job-Details anzuzeigen
+                window.history.pushState({}, "", "job=" + jobId);
             }
             function showJobList() {
                 document.querySelector(".job-tiles-container").classList.remove("hidden");
                 const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
                 jobDetails.forEach(detail => detail.classList.add("hidden"));
                 document.getElementById("main-jobs-text").classList.remove("hidden");
+            
+                // Setze die URL zurück
+                window.history.pushState({}, "", window.location.pathname);
             }
             function showAusbildungDetails(ausbildungId) {
                 const ausbildungDetails = document.querySelectorAll("#ausbildung-details-container > .ausbildung-details");
@@ -1312,28 +1325,6 @@ function krp_create_or_update_page() {
         }
     }
 }
-
-function change_hero_img_job_tile($krp_website_hero_image_url) {
-    ?>
-    <script>
-        function updateHeroImage(jobId) {
-            const jobTile = document.querySelector('.job-tile[data-job-id="' + jobId + '"]');
-            const heroImage = jobTile.getAttribute('data-hero-img\');
-            document.querySelector('.hero').style.backgroundImage = 'url(' + heroImage + ')';
-        }
-
-        function resetHeroImage() {
-            const defaultHeroImage = '<?php echo esc_url($krp_website_hero_image_url); ?>'; // Use PHP to get default hero image
-            document.querySelector('.hero\').style.backgroundImage = 'url(' + defaultHeroImage + ')';
-        }
-        document.getElementById("job-tile-info-button").addEventListener("click", updateHeroImage, resetHeroImage);
-    </script>
-    <?php
-}
-
-// Hook the function to wp_footer to ensure it is output on the page
-add_action('wp_footer', 'change_hero_img_job_tile');
-
 
 function filter_jobs_ausbildungen() {
     ?>
