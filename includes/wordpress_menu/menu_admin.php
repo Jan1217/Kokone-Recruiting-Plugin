@@ -784,6 +784,7 @@ function krp_create_or_update_page() {
             }
             @media only screen and (max-width: 750px) {
                 .plugin-page .secondary-nav{
+                    display: none;
                     flex-direction: column;
                     text-align: center;
                 }
@@ -1274,12 +1275,14 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
-                <button class="secondary-nav-toggle" id="secondaryNavToggle">☰</button>
                 <div class="secondary-nav" id="secondaryNav">
-                    <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
-                    <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
-                    <a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>
-                    <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
+                    <button class="secondary-nav-toggle" id="secondaryNavToggle">☰</button>
+                    <div class="seconday-nav-content">
+                        <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
+                        <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
+                        <a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>
+                        <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
+                    </div>
                 </div>
             </div>
             <div class="content">
