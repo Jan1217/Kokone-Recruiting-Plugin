@@ -1241,16 +1241,12 @@ function krp_create_or_update_page() {
                 details.classList.remove("hidden");
                 document.querySelector(".job-tiles-container").classList.add("hidden");
                 document.getElementById("main-jobs-text").classList.add("hidden");
-                
-                updateHeroImage(jobId);
             }
             function showJobList() {
                 document.querySelector(".job-tiles-container").classList.remove("hidden");
                 const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
                 jobDetails.forEach(detail => detail.classList.add("hidden"));
                 document.getElementById("main-jobs-text").classList.remove("hidden");
-                
-                resetHeroImage();
             }
             function showAusbildungDetails(ausbildungId) {
                 const ausbildungDetails = document.querySelectorAll("#ausbildung-details-container > .ausbildung-details");
