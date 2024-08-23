@@ -394,7 +394,7 @@ function krp_create_or_update_page() {
             $jobs_html .= '
             <div>
                 <div class="job-tile-main">
-                    <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="showJobDetails(' . $job_id . ')">
+                    <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" data-hero-img="' . $job_image . '" onclick="showJobDetails(' . $job_id . '); changeHeroImage(this);">
                         <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
                         <h2 class="job-title">' . $job_title . '</h2>
                         <div class="job-bereich">' . $job_bereich_create_p_tag . '</div>
@@ -851,13 +851,14 @@ function krp_create_or_update_page() {
             }
             .job-bereich p::before {
                 content: "";
-                position: absolute;
+                display: inline-block;
+                margin-right: 10px
                 width: 10px;
                 height: 10px;
                 background-color: ' . $main_bg_color . ';
             }
             .jbc-single-p-tag {
-                margin-left: 15px;
+                margin-left: 10px;
             }
             /* Ausbildungen */
             .ausbildung-tiles-container {
@@ -1249,6 +1250,18 @@ function krp_create_or_update_page() {
                 const ausbildungDetails = document.querySelectorAll("#ausbildung-details-container > .ausbildung-details");
                 ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
                 document.getElementById("main-ausbildung-text").classList.remove("hidden");
+            }
+            function changeHeroImage(tileElement) {
+                // Das neue Hero-Bild aus dem data-hero-image Attribut lesen
+                var newHeroImage = tileElement.getAttribute("data-hero-image");
+                
+                // Das Hero-Bild-Element auf der Seite finden
+                var heroElement = document.querySelector(".plugin-page .hero");
+                
+                // Überprüfen, ob das Hero-Element existiert und das Bild ändern
+                if (heroElement && newHeroImage) {
+                    heroElement.style.backgroundImage = "url(" + newHeroImage + ")";
+                }
             }
         </script>
     ';
