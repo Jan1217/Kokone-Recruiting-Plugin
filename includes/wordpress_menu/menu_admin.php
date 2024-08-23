@@ -763,13 +763,11 @@ function krp_create_or_update_page() {
                 justify-content: center;
                 background-color: ' . $secondary_nav_bg_color . ';
             }
-            
             .plugin-page .secondary-nav .contact_color {
                 background-color: ' . $secondary_nav_contact_bg_color . ';
                 border-radius: 8px;
                 margin: 4px;
             }
-            
             .plugin-page .secondary-nav a {
                 color: ' . $secondary_nav_text_color . ';
                 padding: 15px 20px;
@@ -777,7 +775,6 @@ function krp_create_or_update_page() {
                 display: inline-block;
                 margin: 4px;
             }
-            
             .krp_sec_nav_item.active {
                 font-weight: bold;
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
@@ -1263,7 +1260,6 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
-                <button class="nav-toggle" id="navToggle" onclick="toggleNav()">☰</button>
                 <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
@@ -1406,14 +1402,6 @@ function krp_create_or_update_page() {
 function website_scripts() {
     ?>
     <script>
-        function toggleNav() {
-            var nav = document.getElementById("secondaryNav");
-            if (nav.style.display === "block") {
-                nav.style.display = "none";
-            } else {
-                nav.style.display = "block";
-            }
-        }
         function showContent(section) {
             const sections = document.querySelectorAll(".content > div");
             sections.forEach(sec => sec.classList.add("hidden"));

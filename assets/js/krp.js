@@ -7,15 +7,6 @@ Die einzelnen Abschnitte sind je nach Inhalt strukturiert.
 /*
 * Website Tab
 */
-function toggleNav() {
-    var nav = document.getElementById("secondaryNav");
-    if (nav.style.display === "block") {
-        nav.style.display = "none";
-    } else {
-        nav.style.display = "block";
-    }
-}
-
 /*
 * Design Tab
 */
