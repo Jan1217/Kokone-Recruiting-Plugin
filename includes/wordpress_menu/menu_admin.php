@@ -1276,11 +1276,17 @@ function krp_create_or_update_page() {
 function website_scripts() {
     ?>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('DOMContentLoaded', (event) => {
             const params = new URLSearchParams(window.location.search);
             const jobId = params.get('job');
             if (jobId) {
                 showJobDetails(jobId);
+            }
+        });
+
+        window.addEventListener('popstate', (event) => {
+            if (event.state && event.state.jobId) {
+                showJobDetails(event.state.jobId);
             } else {
                 showJobList();
             }
