@@ -783,18 +783,19 @@ function krp_create_or_update_page() {
                 font-weight: bold;
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
             }
-            .secondary-nav-hamburger {
+            button#secondary-nav-hamburger {
                 display: none;
-                display: flex;
                 justify-content: center;
                 background-color: ' . $secondary_nav_bg_color . ';
                 transition: max-height 0.5s ease-out;
+                width: 100%;
             }
             @media only screen and (max-width: 700px) {
                 .secondary-nav-hamburger {
                     display: flex;
                 }
                 .plugin-page .secondary-nav {
+                    display: none;
                     flex-direction: column;
                     text-align: center;
                 }
@@ -1425,7 +1426,7 @@ function krp_create_or_update_page() {
 function website_scripts() {
     ?>
     <script>
-        document.getElementById('toggleButton').addEventListener('click', function() {
+        document.getElementById('secondary-nav-hamburger').addEventListener('click', function() {
             var nav = document.getElementById('secondaryNav');
             if (nav.style.display === 'none' || nav.style.display === '') {
                 nav.style.display = 'flex'; // Navigation anzeigen
