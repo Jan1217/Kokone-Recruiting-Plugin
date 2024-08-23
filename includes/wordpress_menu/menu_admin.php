@@ -758,63 +758,30 @@ function krp_create_or_update_page() {
                 }
             }
             /* Sekundäre Navigation */
-            /* Bestehende Stile */
-.plugin-page .secondary-nav {
-    display: flex;
-    justify-content: center;
-    background-color: ' . $secondary_nav_bg_color . ';
-}
-
-.plugin-page .secondary-nav .contact_color {
-    background-color: ' . $secondary_nav_contact_bg_color . ';
-    border-radius: 8px;
-    margin: 4px;
-}
-
-.plugin-page .secondary-nav a {
-    color: ' . $secondary_nav_text_color . ';
-    padding: 15px 20px;
-    text-decoration: none;
-    display: inline-block;
-    margin: 4px;
-}
-
-.krp_sec_nav_item.active {
-    font-weight: bold;
-    border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
-}
-
-/* Mobile Stile */
-@media (max-width: 768px) {
-    .secondary-nav {
-        display: none; /* Versteckt die Navigation standardmäßig */
-        flex-direction: column; /* Stellt die Links vertikal dar */
-        width: 100%;
-    }
-
-    .nav-toggle {
-        display: block; /* Zeigt den Toggle-Button an */
-        background-color: ' . $secondary_nav_bg_color . ';
-        color: ' . $secondary_nav_text_color . ';
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-        font-size: 20px;
-    }
-
-    .secondary-nav-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .plugin-page .secondary-nav a {
-        display: block; /* Links blockweise anzeigen, um den gesamten Platz einzunehmen */
-        text-align: center;
-        width: 100%;
-    }
-}
-
+            .plugin-page .secondary-nav {
+                display: flex;
+                justify-content: center;
+                background-color: ' . $secondary_nav_bg_color . ';
+            }
+            
+            .plugin-page .secondary-nav .contact_color {
+                background-color: ' . $secondary_nav_contact_bg_color . ';
+                border-radius: 8px;
+                margin: 4px;
+            }
+            
+            .plugin-page .secondary-nav a {
+                color: ' . $secondary_nav_text_color . ';
+                padding: 15px 20px;
+                text-decoration: none;
+                display: inline-block;
+                margin: 4px;
+            }
+            
+            .krp_sec_nav_item.active {
+                font-weight: bold;
+                border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
+            }
             /* Ende Sekundäre Navigation */
             .plugin-page .content {
                 background-color: ' . $main_bg_color . ';
