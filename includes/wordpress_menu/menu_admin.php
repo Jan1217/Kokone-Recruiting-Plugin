@@ -780,42 +780,47 @@ function krp_create_or_update_page() {
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
             }
            
-            /* Hamburger Menu Styles */
-            .hamburger-menu {
-                display: none;
-                background: none;
-                border: none;
-                font-size: 24px;
-                cursor: pointer;
-            }
-            
-            /* Dropdown Menu Styles */
+            /* Standard-Styling für größere Bildschirme */
             .secondary-nav-container {
                 position: relative;
             }
             
+            .hamburger-menu {
+                display: none; /* Verstecke das Hamburger-Menü-Icon standardmäßig */
+                font-size: 24px;
+                cursor: pointer;
+                padding: 15px;
+            }
+            
+            /* Stil für das Dropdown-Menü */
             .secondary-nav {
                 display: flex;
                 justify-content: center;
-                background-color: /* Deine Hintergrundfarbe */;
-                flex-direction: row;
+                background-color: #333; /* Setze hier den gewünschten Hintergrund ein */
             }
             
-            /* Mobile Styles */
+            .secondary-nav a {
+                color: #fff; /* Setze hier die gewünschte Textfarbe ein */
+            }
+            
+            /* Responsive Styling */
             @media (max-width: 768px) {
                 .secondary-nav {
-                    display: none; /* Standardmäßig ausgeblendet auf mobilen Geräten */
+                    display: none; /* Verstecke das Menü standardmäßig auf kleinen Bildschirmen */
                     flex-direction: column;
                     width: 100%;
-                    background-color: /* Deine Hintergrundfarbe */;
+                    position: absolute;
+                    top: 60px; /* Höhe des Hamburger-Menüs anpassen */
+                    left: 0;
+                    background-color: #333; /* Setze hier den gewünschten Hintergrund ein */
                 }
-            
+                
+                .secondary-nav.active {
+                    display: flex; /* Zeige das Menü an, wenn es aktiv ist */
+                }
+                
                 .hamburger-menu {
-                    display: block; /* Button sichtbar auf mobilen Geräten */
-                }
-            
-                .secondary-nav.show {
-                    display: flex; /* Menü sichtbar, wenn der Button geklickt wird */
+                    display: block; /* Zeige das Hamburger-Menü-Icon auf kleinen Bildschirmen */
                 }
             }
             /* Ende Sekundäre Navigation */
@@ -1299,7 +1304,9 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
-                <button class="hamburger-menu" id="hamburgerMenu">&#9776;</button>
+                <div class="hamburger-menu" id="hamburgerMenu">
+                    &#9776;
+                </div>
                 <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
@@ -1439,20 +1446,9 @@ function krp_create_or_update_page() {
     }
 }
 
-function website_scripts($krp_website_hero_image_url) {
+function website_scripts() {
     ?>
     <script>
-        const originalHeroImageUrl = "' . esc_url($krp_website_hero_image_url) . '";
-
-        document.addEventListener('DOMContentLoaded', function () {
-            var hamburgerMenu = document.getElementById('hamburgerMenu');
-            var secondaryNav = document.getElementById('secondaryNav');
-
-            hamburgerMenu.addEventListener('click', function () {
-                secondaryNav.classList.toggle('show');
-            });
-        });
-
         function showContent(section) {
             const sections = document.querySelectorAll(".content > div");
             sections.forEach(sec => sec.classList.add("hidden"));
@@ -1471,6 +1467,8 @@ function website_scripts($krp_website_hero_image_url) {
             const items = document.querySelectorAll(".krp_sec_nav_item");
             items.forEach(item => item.classList.remove("active"));
             element.classList.add("active");
+
+            window.history.pushState({}, "", window.location.pathname);
         }
         function showJobDetails(jobId) {
             const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
@@ -1537,7 +1535,16 @@ function website_scripts($krp_website_hero_image_url) {
             }
         });
     </script>
-
+    <script>
+        document.getElementById('hamburgerMenu').addEventListener('click', function() {
+            var nav = document.getElementById('secondaryNav');
+            if (nav.classList.contains('active')) {
+                nav.classList.remove('active');
+            } else {
+                nav.classList.add('active');
+            }
+        });
+    </script>
     <?php
 }
 
