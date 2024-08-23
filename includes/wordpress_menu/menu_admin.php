@@ -1251,18 +1251,6 @@ function krp_create_or_update_page() {
                 ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
                 document.getElementById("main-ausbildung-text").classList.remove("hidden");
             }
-            function changeHeroImage(tileElement) {
-                // Das neue Hero-Bild aus dem data-hero-image Attribut lesen
-                var newHeroImage = tileElement.getAttribute("data-hero-image");
-                
-                // Das Hero-Bild-Element auf der Seite finden
-                var heroElement = document.querySelector(".plugin-page .hero");
-                
-                // Überprüfen, ob das Hero-Element existiert und das Bild ändern
-                if (heroElement && newHeroImage) {
-                    heroElement.style.backgroundImage = "url(" + newHeroImage + ")";
-                }
-            }
         </script>
     ';
 
