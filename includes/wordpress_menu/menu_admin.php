@@ -1331,6 +1331,10 @@ function change_hero_img_job_tile($krp_website_hero_image_url) {
     <?php
 }
 
+// Hook the function to wp_footer to ensure it is output on the page
+add_action('wp_footer', 'change_hero_img_job_tile');
+
+
 function filter_jobs_ausbildungen() {
     ?>
     <script>
