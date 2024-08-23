@@ -758,59 +758,27 @@ function krp_create_or_update_page() {
                 }
             }
             /* Sekundäre Navigation */
-
-            /* Basis-Stile für die sekundäre Navigation */
-.plugin-page .secondary-nav {
-    display: flex;
-    justify-content: center;
-    background-color: ' . $secondary_nav_bg_color . '; /* Variablen können später definiert werden */
-    flex-wrap: wrap; /* Damit die Links bei kleinen Bildschirmen umgebrochen werden können */
-}
-
-/* Stile für die einzelnen Navigationslinks */
-.plugin-page .secondary-nav a {
-    color: ' . $secondary_nav_text_color . ');
-    padding: 15px 20px;
-    text-decoration: none;
-    display: inline-block;
-    margin: 4px;
-    transition: background-color 0.3s, border-bottom 0.3s; /* Sanfte Übergänge für Hintergrundfarbe und Border */
-}
-
-/* Stile für den "Kontakt"-Link */
-.plugin-page .secondary-nav .contact_color {
-    background-color: ' . $secondary_nav_contact_bg_color . ';
-    border-radius: 8px;
-    margin: 4px;
-}
-
-/* Stile für den aktiven Navigationslink */
-.plugin-page .secondary-nav a.active {
-    font-weight: bold;
-    border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . ';
-}
-
-/* Responsives Design */
-@media (max-width: 768px) {
-    .plugin-page .secondary-nav {
-        flex-direction: column; /* Vertikale Anordnung bei kleinen Bildschirmen */
-        align-items: center; /* Zentriert die Links */
-    }
-    
-    .plugin-page .secondary-nav a {
-        padding: 10px; /* Weniger Padding auf kleinen Bildschirmen */
-        margin: 2px; /* Weniger Abstand zwischen den Links */
-    }
-}
-
-/* Stile für noch kleinere Bildschirme */
-@media (max-width: 480px) {
-    .plugin-page .secondary-nav a {
-        font-size: 14px; /* Kleinere Schriftgröße auf sehr kleinen Bildschirmen */
-        padding: 8px; /* Weiterhin weniger Padding */
-    }
-}
-
+            .plugin-page .secondary-nav {
+                display: flex;
+                justify-content: center;
+                background-color: ' . $secondary_nav_bg_color . ';
+            }
+            .plugin-page .secondary-nav .contact_color {
+                background-color: ' . $secondary_nav_contact_bg_color . ';
+                border-radius: 8px;
+                margin: 4px;
+            }
+            .plugin-page .secondary-nav a {
+                color: ' . $secondary_nav_text_color . ';
+                padding: 15px 20px;
+                text-decoration: none;
+                display: inline-block;
+                margin: 4px;
+            }
+            .krp_sec_nav_item.active {
+                font-weight: bold;
+                border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
+            }
             /* Ende Sekundäre Navigation */
             .plugin-page .content {
                 background-color: ' . $main_bg_color . ';
