@@ -758,61 +758,62 @@ function krp_create_or_update_page() {
                 }
             }
             /* Sekundäre Navigation */
-            /* Grundlegende Stile für die Navigation */
-            .plugin-page .secondary-nav {
-                display: flex;
-                justify-content: center;
-                background-color: ' . $secondary_nav_bg_color . ';
-                flex-wrap: wrap; /* Erlaubt das Umbrechen der Navigation */
-            }
-            
-            .plugin-page .secondary-nav .contact_color {
-                background-color: ' . $secondary_nav_contact_bg_color . ';
-                border-radius: 8px;
-                margin: 4px;
-            }
-            
-            .plugin-page .secondary-nav a {
-                color: ' . $secondary_nav_text_color . ';
-                padding: 15px 20px;
-                text-decoration: none;
-                display: inline-block;
-                margin: 4px;
-            }
-            
-            .krp_sec_nav_item.active {
-                font-weight: bold;
-                border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . ';
-            }
-            
-            /* Stile für die mobile Ansicht */
-            @media (max-width: 768px) {
-                .plugin-page .secondary-nav {
-                    display: none; /* Standardmäßig ausblenden */
-                    flex-direction: column; /* Navigation untereinander anordnen */
-                    align-items: center;
-                }
-            
-                .plugin-page .secondary-nav-container {
-                    text-align: center;
-                }
-            
-                .nav-toggle {
-                    background-color: ' . $secondary_nav_bg_color . ';
-                    color: ' . $secondary_nav_text_color . ';
-                    border: none;
-                    padding: 10px 20px;
-                    font-size: 18px;
-                    cursor: pointer;
-                    border-radius: 5px;
-                    margin: 10px 0;
-                }
-            }
-            
-            /* Wenn die Navigation sichtbar ist, wird der display-Wert auf block gesetzt */
-            .show {
-                display: flex !important;
-            }
+            /* Bestehende Stile */
+.plugin-page .secondary-nav {
+    display: flex;
+    justify-content: center;
+    background-color: ' . $secondary_nav_bg_color . ';
+}
+
+.plugin-page .secondary-nav .contact_color {
+    background-color: ' . $secondary_nav_contact_bg_color . ';
+    border-radius: 8px;
+    margin: 4px;
+}
+
+.plugin-page .secondary-nav a {
+    color: ' . $secondary_nav_text_color . ';
+    padding: 15px 20px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px;
+}
+
+.krp_sec_nav_item.active {
+    font-weight: bold;
+    border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
+}
+
+/* Mobile Stile */
+@media (max-width: 768px) {
+    .secondary-nav {
+        display: none; /* Versteckt die Navigation standardmäßig */
+        flex-direction: column; /* Stellt die Links vertikal dar */
+        width: 100%;
+    }
+
+    .nav-toggle {
+        display: block; /* Zeigt den Toggle-Button an */
+        background-color: ' . $secondary_nav_bg_color . ';
+        color: ' . $secondary_nav_text_color . ';
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    .secondary-nav-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .plugin-page .secondary-nav a {
+        display: block; /* Links blockweise anzeigen, um den gesamten Platz einzunehmen */
+        text-align: center;
+        width: 100%;
+    }
+}
 
             /* Ende Sekundäre Navigation */
             .plugin-page .content {
@@ -1295,7 +1296,7 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
-                <button class="nav-toggle" id="navToggle" onclick="toggleNav()">☰ Menü</button>
+                <button class="nav-toggle" id="navToggle" onclick="toggleNav()">☰</button>
                 <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
@@ -1438,6 +1439,14 @@ function krp_create_or_update_page() {
 function website_scripts() {
     ?>
     <script>
+        function toggleNav() {
+            var nav = document.getElementById("secondaryNav");
+            if (nav.style.display === "block") {
+                nav.style.display = "none";
+            } else {
+                nav.style.display = "block";
+            }
+        }
         function showContent(section) {
             const sections = document.querySelectorAll(".content > div");
             sections.forEach(sec => sec.classList.add("hidden"));

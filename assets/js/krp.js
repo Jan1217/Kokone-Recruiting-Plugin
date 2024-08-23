@@ -9,8 +9,13 @@ Die einzelnen Abschnitte sind je nach Inhalt strukturiert.
 */
 function toggleNav() {
     var nav = document.getElementById("secondaryNav");
-    nav.classList.toggle("show");
+    if (nav.style.display === "block") {
+        nav.style.display = "none";
+    } else {
+        nav.style.display = "block";
+    }
 }
+
 /*
 * Design Tab
 */
