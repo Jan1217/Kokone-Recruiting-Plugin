@@ -1413,6 +1413,10 @@ function krp_create_or_update_page() {
 function website_scripts() {
     ?>
     <script>
+        function toggleSecondaryNav() {
+            var nav = document.getElementById("secondaryNav");
+            nav.classList.toggle("show");
+        }
         function showContent(section) {
             const sections = document.querySelectorAll(".content > div");
             sections.forEach(sec => sec.classList.add("hidden"));
