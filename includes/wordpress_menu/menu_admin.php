@@ -396,13 +396,13 @@ function krp_create_or_update_page() {
             $jobs_html .= '
             <div>
                 <div class="job-tile-main">
-                    <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" data-hero-img="' . $job_image . '" onclick="showJobDetails(' . $job_id . ')">
+                    <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="toggleHeroImage(); showJobDetails(' . $job_id . ')">
                         <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
                         <h2 class="job-title">' . $job_title . '</h2>
                         <div class="job-bereich">' . $job_bereich_create_p_tag . '</div>
                     </div>
                 </div>
-                <button class="job-tile-info-button" onclick="showJobDetails(' . $job_id . ')">Weitere Infos hier</button>
+                <button class="job-tile-info-button" onclick="toggleHeroImage(); showJobDetails(' . $job_id . ')">Weitere Infos hier</button>
             </div>
             ';
 
@@ -1124,6 +1124,7 @@ function krp_create_or_update_page() {
         <div class="plugin-page">
             <div class="hero">
                 <h1>' . $krp_hero_text . '</h1>
+                <img id="hero-img" src="' . esc_url($krp_website_hero_image_url) . '" alt="Hero Image">
             </div>
             <div class="secondary-nav-container">
                 <div class="secondary-nav" id="secondaryNav">
@@ -1257,6 +1258,19 @@ function krp_create_or_update_page() {
                 const ausbildungDetails = document.querySelectorAll("#ausbildung-details-container > .ausbildung-details");
                 ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
                 document.getElementById("main-ausbildung-text").classList.remove("hidden");
+            }
+            let isOriginalImage = true;
+
+            function toggleHeroImage() {
+                const heroImg = document.getElementById("hero-img");
+            
+                if (isOriginalImage) {
+                    heroImg.src = "' . $job_image . '"; // Pfad zum alternativen Bild
+                } else {
+                    heroImg.src = "' . esc_url($krp_website_hero_image_url) . '"; // Pfad zum Originalbild
+                }
+            
+                isOriginalImage = !isOriginalImage;
             }
         </script>
     ';
