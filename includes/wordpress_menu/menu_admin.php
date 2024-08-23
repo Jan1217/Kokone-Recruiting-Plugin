@@ -411,9 +411,9 @@ function krp_create_or_update_page() {
             <div class="job-tile-main">
                 <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="showContent(\'jobs\'); showJobList(); showJobDetails(' . $job_id . ')">
                     <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
-                    <p class="job_tile_standort" style="padding: unset">Standort ' . esc_attr($job['job_standort']) . '</p>
+                    <p class="job_tile_standort" style="padding: 0 0 0 10px;">Standort ' . esc_attr($job['job_standort']) . '</p>
                     <h2 class="job-title">' . $job_title . '</h2>
-                    <p class="job-bereich">Im Bereich ' . $job_bereich . '</p>
+                    <div class="job-bereich">' . $job_bereich_create_p_tag . '</div>
                 </div>
                 <button class="job-tile-info-button" onclick="showContent(\'jobs\'); showJobList(); showJobDetails(' . $job_id . ')">Weitere Infos hier</button>
             </div>
@@ -764,43 +764,42 @@ function krp_create_or_update_page() {
                 font-weight: bold;
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
             }
-            /* Stile für das Hamburger-Menü */
+            /* Hamburger-Menü Button */
             .hamburger-menu {
-                display: none;
+                display: none; /* Standardmäßig ausblenden */
+                background: none;
+                border: none;
                 font-size: 24px;
                 cursor: pointer;
-                padding: 15px;
             }
             
-            /* Stile für die Hamburger-Navigation */
-            .hamburger-nav {
-                display: none;
-                flex-direction: column;
+            /* Die Navigation für mobile Ansicht */
+            .secondary-nav {
+                display: none; /* Standardmäßig ausblenden */
+                flex-direction: column; /* Elemente untereinander anordnen */
                 position: absolute;
-                top: 60px; /* Positionierung unterhalb des Hamburger-Symbols */
-                right: 0;
-                background-color: ' . $secondary_nav_bg_color . ';
+                top: 60px; /* Höhe des Buttons oder der Navigation einhalten */
+                left: 0;
                 width: 100%;
+                background-color: ' . $secondary_nav_bg_color . '; /* Ebenfalls anpassen */
             }
             
-            .hamburger-nav a {
+            /* Navigationselemente in der mobilen Ansicht */
+            .secondary-nav a {
                 padding: 15px;
-                border-top: 1px solid #ccc;
+                display: block; /* Vollständige Breite nutzen */
+                margin: 0;
             }
             
-            /* Bei kleinen Bildschirmen: Hamburger-Menü anzeigen und sekundäre Navigation ausblenden */
-            @media (max-width: 768px) {
-                .secondary-nav {
-                    display: none;
-                }
+            /* Anzeigen des Hamburger-Menüs und der Navigation bei kleinem Bildschirm */
+            @media (max-width: 799px) {
                 .hamburger-menu {
-                    display: block;
+                    display: block; /* Button anzeigen */
                 }
-            }
             
-            /* Wenn das Hamburger-Menü geöffnet ist */
-            .hamburger-nav.active {
-                display: flex;
+                .secondary-nav.active {
+                    display: flex; /* Navigation anzeigen, wenn aktiv */
+                }
             }
             /* Ende Sekundäre Navigation */
             .plugin-page .content {
@@ -824,6 +823,7 @@ function krp_create_or_update_page() {
                 padding: 10px;
                 box-sizing: border-box;
                 min-height: 400px;
+                max-height: 400px;
             }
             .job-tile-main {
                 display: flex;
@@ -879,6 +879,7 @@ function krp_create_or_update_page() {
             .job_tile_standort {
                 background-color: ' . $secondary_nav_contact_bg_color . ';
                 color: ' . $secondary_nav_text_color . ';
+                margin-bottom: 10px;
             }
             .h1Intro {
                 display: block;
@@ -1175,16 +1176,10 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
-                <div class="secondary-nav" id="secondaryNav">
-                    <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
-                    <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
-                    <a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>
-                    <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
-                </div>
                 <div class="hamburger-menu" id="hamburgerMenu">
                     &#9776;
                 </div>
-                <div class="hamburger-nav" id="hamburgerNav">
+                <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
                     <a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>
@@ -1402,9 +1397,14 @@ function website_scripts($krp_website_hero_image_url) {
                 showJobList();
             }
         });
+
         document.getElementById('hamburgerMenu').addEventListener('click', function() {
-            var nav = document.getElementById('hamburgerNav');
-            nav.classList.toggle('active');
+            var nav = document.getElementById('secondaryNav');
+            if (nav.classList.contains('active')) {
+                nav.classList.remove('active');
+            } else {
+                nav.classList.add('active');
+            }
         });
     </script>
 
