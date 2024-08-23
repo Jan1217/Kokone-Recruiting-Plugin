@@ -1276,11 +1276,13 @@ function krp_create_or_update_page() {
 function website_scripts() {
     ?>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const params = new URLSearchParams(window.location.search);
-            const jobId = params.get("job");
+            const jobId = params.get('job');
             if (jobId) {
                 showJobDetails(jobId);
+            } else {
+                showJobList();
             }
         });
         function showContent(section) {
