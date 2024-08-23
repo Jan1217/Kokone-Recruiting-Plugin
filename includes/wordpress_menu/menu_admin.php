@@ -1129,7 +1129,7 @@ function krp_create_or_update_page() {
             }
         </style>
         <div class="plugin-page">
-            <div class="hero" id="hero">
+            <div class="hero" id="hero" data-hero-img="' . esc_url($krp_website_hero_image_url) . '">
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
@@ -1311,12 +1311,11 @@ function website_scripts($krp_website_hero_image_url) {
             jobDetails.forEach(detail => detail.classList.add("hidden"));
             document.getElementById("main-jobs-text").classList.remove("hidden");
 
-            const jobTile = document.querySelector(`.job-tile[data-job-id="${jobId}"]`);
-            const jobOriginalHeroImg = jobTile ? jobTile.getAttribute('data-hero-original-img') : '';
-
+            // Setze das Hero-Bild auf das ursprüngliche Bild zurück
             const hero = document.getElementById('hero');
             if (hero) {
-                hero.style.backgroundImage = `url(${jobOriginalHeroImg})`;
+                const originalHeroImg = hero.getAttribute('data-hero-img');
+                hero.style.backgroundImage = `url(${originalHeroImg})`;
             }
 
             window.history.pushState({}, "", window.location.pathname);
