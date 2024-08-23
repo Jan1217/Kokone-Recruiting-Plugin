@@ -983,7 +983,7 @@ function krp_create_or_update_page() {
             /* Bewerbungsformular */
              .form-container {
                 padding: 20px;
-                margin-top: 50px
+                margin-top: 50px;
                 border: 2px solid ' . $secondary_nav_bg_color . ';
                 border-radius: 8px;
             }
@@ -1233,12 +1233,26 @@ function krp_create_or_update_page() {
                 details.classList.remove("hidden");
                 document.querySelector(".job-tiles-container").classList.add("hidden");
                 document.getElementById("main-jobs-text").classList.add("hidden");
+                
+                const selectedJobTile = document.querySelector(".job-tile[data-hero-img][onclick="showJobDetails(" + jobId + ")"]");
+                if (selectedJobTile) {
+                    const heroImageUrl = selectedJobTile.getAttribute("data-hero-img");
+                    const heroElement = document.querySelector(".plugin-page .hero");
+                    if (heroElement) {
+                        heroElement.style.backgroundImage = `url(${heroImageUrl})`;
+                    }
+                }
             }
             function showJobList() {
                 document.querySelector(".job-tiles-container").classList.remove("hidden");
                 const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
                 jobDetails.forEach(detail => detail.classList.add("hidden"));
                 document.getElementById("main-jobs-text").classList.remove("hidden");
+                
+                const heroElement = document.querySelector(".plugin-page .hero");
+                    if (heroElement) {
+                        heroElement.style.backgroundImage = `url("<?php echo esc_url($krp_website_hero_image_url); ?>")`;
+                }
             }
             function showAusbildungDetails(ausbildungId) {
                 const ausbildungDetails = document.querySelectorAll("#ausbildung-details-container > .ausbildung-details");
