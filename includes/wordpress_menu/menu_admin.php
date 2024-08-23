@@ -857,8 +857,8 @@ function krp_create_or_update_page() {
                 cursor: pointer;
                 padding: 10px;
                 box-sizing: border-box;
-                min-height: 400px;
-                max-height: 400px;
+                min-height: 440px;
+                max-height: 440px;
             }
             .job-tile-main {
                 display: flex;
@@ -1074,7 +1074,7 @@ function krp_create_or_update_page() {
                 .search-filter-container select {
                     width: 100%;
                 }
-                .button.ort-restrict-filter-button {
+                button.ort-restrict-filter-button {
                     height: 40px;
                 }
             }   
