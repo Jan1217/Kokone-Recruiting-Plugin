@@ -735,6 +735,7 @@ function krp_create_or_update_page() {
                 color: white;
                 text-align: center;
                 background-size: cover;
+                background-position: center center;
                 background-repeat: no-repeat;
             }
             .plugin-page .hero h1 {
@@ -762,6 +763,44 @@ function krp_create_or_update_page() {
             .krp_sec_nav_item.active {
                 font-weight: bold;
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
+            }
+            /* Stile für das Hamburger-Menü */
+            .hamburger-menu {
+                display: none;
+                font-size: 24px;
+                cursor: pointer;
+                padding: 15px;
+            }
+            
+            /* Stile für die Hamburger-Navigation */
+            .hamburger-nav {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px; /* Positionierung unterhalb des Hamburger-Symbols */
+                right: 0;
+                background-color: ' . $secondary_nav_bg_color . ';
+                width: 100%;
+            }
+            
+            .hamburger-nav a {
+                padding: 15px;
+                border-top: 1px solid #ccc;
+            }
+            
+            /* Bei kleinen Bildschirmen: Hamburger-Menü anzeigen und sekundäre Navigation ausblenden */
+            @media (max-width: 768px) {
+                .secondary-nav {
+                    display: none;
+                }
+                .hamburger-menu {
+                    display: block;
+                }
+            }
+            
+            /* Wenn das Hamburger-Menü geöffnet ist */
+            .hamburger-nav.active {
+                display: flex;
             }
             /* Ende Sekundäre Navigation */
             .plugin-page .content {
@@ -1142,6 +1181,15 @@ function krp_create_or_update_page() {
                     <a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>
                     <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
                 </div>
+                <div class="hamburger-menu" id="hamburgerMenu">
+                    &#9776;
+                </div>
+                <div class="hamburger-nav" id="hamburgerNav">
+                    <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
+                    <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
+                    <a class="krp_sec_nav_item" href="#ort-restrict" onclick="showContent(\'ort-restrict\'); setActive(this)">Ort einschränken</a>
+                    <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
+                </div>
             </div>
             <div class="content">
                 <div id="jobs">
@@ -1353,6 +1401,10 @@ function website_scripts($krp_website_hero_image_url) {
             } else {
                 showJobList();
             }
+        });
+        document.getElementById('hamburgerMenu').addEventListener('click', function() {
+            var nav = document.getElementById('hamburgerNav');
+            nav.classList.toggle('active');
         });
     </script>
 
