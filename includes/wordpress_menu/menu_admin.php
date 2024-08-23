@@ -983,6 +983,7 @@ function krp_create_or_update_page() {
             /* Bewerbungsformular */
              .form-container {
                 padding: 20px;
+                margin-top: 50px
                 border: 2px solid ' . $secondary_nav_bg_color . ';
                 border-radius: 8px;
             }
@@ -1024,8 +1025,8 @@ function krp_create_or_update_page() {
                 cursor: pointer;
             }
             .form-group input[type="submit"]:hover {
-                color: white;
-                background-color: ' . $secondary_nav_contact_bg_color . ';
+                color: black;
+                background-color: '. $main_details_bg_color .';
             }
             .error-message {
                 color: red;
@@ -1095,6 +1096,8 @@ function krp_create_or_update_page() {
                 background: '. $main_details_bg_color .';
                 text-align: center;
                 padding: 40px;
+                font-weight: 900;
+                font-size: 18px;
                 border: 2px solid ' . $secondary_nav_bg_color . ';
             }
             .krp_kontakt_oh_display_div {
@@ -1230,6 +1233,14 @@ function krp_create_or_update_page() {
                 details.classList.remove("hidden");
                 document.querySelector(".job-tiles-container").classList.add("hidden");
                 document.getElementById("main-jobs-text").classList.add("hidden");
+                // Neues Hero-Bild anzeigen
+                const clickedTile = document.querySelector(\'.job-tile[data-job-id="\' + jobId + \'"]\');
+                const newHeroImage = clickedTile.getAttribute(\'data-hero\');
+                const heroElement = document.querySelector(\'.plugin-page .hero\');
+            
+                if (heroElement && newHeroImage) {
+                    heroElement.style.backgroundImage = \'url(\' + newHeroImage + \')\';
+                }
             }
             function showJobList() {
                 document.querySelector(".job-tiles-container").classList.remove("hidden");
