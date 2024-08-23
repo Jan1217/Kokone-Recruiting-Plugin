@@ -784,6 +784,8 @@ function krp_create_or_update_page() {
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
             }
             button#secondary-nav-hamburger {
+                display: none;
+                font-size: 20px;
                 justify-content: center;
                 background-color: ' . $secondary_nav_bg_color . ';
                 transition: max-height 0.5s ease-out;
@@ -793,7 +795,7 @@ function krp_create_or_update_page() {
                 color: ' . $secondary_nav_text_color . ';
             }
             @media only screen and (max-width: 700px) {
-                .secondary-nav-hamburger {
+                button#secondary-nav-hamburger {
                     display: flex;
                 }
                 .plugin-page .secondary-nav {
