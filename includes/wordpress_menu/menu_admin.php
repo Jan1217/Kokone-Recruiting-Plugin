@@ -779,15 +779,59 @@ function krp_create_or_update_page() {
                 font-weight: bold;
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
             }
-            /* Hamburger-Menü Button */
+            /* Hamburger Menu Button Styles */
             .hamburger-menu {
-                display: none; /* Standardmäßig ausblenden */
-                background: none;
+                display: none;
+                flex-direction: column;
+                background: transparent;
                 border: none;
-                font-size: 24px;
                 cursor: pointer;
+                padding: 10px;
+                position: absolute;
+                top: 10px;
+                right: 10px;
             }
             
+            .hamburger-menu .bar {
+                width: 25px;
+                height: 3px;
+                background: black;
+                margin: 3px 0;
+            }
+            
+            /* Hamburger Menu Styles */
+            .secondary-nav {
+                display: flex;
+                gap: 20px;
+            }
+            
+            /* Responsive Styles */
+            @media (max-width: 768px) {
+                .secondary-nav {
+                    display: none; /* Versteckt die Navigation auf kleinen Bildschirmen */
+                    flex-direction: column;
+                    width: 100%;
+                    background: white;
+                    position: absolute;
+                    top: 50px;
+                    left: 0;
+                    padding: 10px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                }
+            
+                .hamburger-menu {
+                    display: flex;
+                }
+            
+                .secondary-nav.active {
+                    display: flex; /* Zeigt die Navigation an, wenn das Menü aktiv ist */
+                }
+            
+                .krp_sec_nav_item {
+                    padding: 15px;
+                    text-align: center;
+                }
+            }           
             /* Die Navigation für mobile Ansicht */
             .secondary-nav {
                 display: none; /* Standardmäßig ausblenden */
@@ -1297,6 +1341,11 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
+                <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
                 <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
@@ -1459,6 +1508,8 @@ function website_scripts($krp_website_hero_image_url) {
             const items = document.querySelectorAll(".krp_sec_nav_item");
             items.forEach(item => item.classList.remove("active"));
             element.classList.add("active");
+
+            window.history.pushState({}, "", window.location.pathname);
         }
         function showJobDetails(jobId) {
             const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
@@ -1526,12 +1577,8 @@ function website_scripts($krp_website_hero_image_url) {
         });
 
         document.getElementById('hamburgerMenu').addEventListener('click', function() {
-            var nav = document.getElementById('secondaryNav');
-            if (nav.classList.contains('active')) {
-                nav.classList.remove('active');
-            } else {
-                nav.classList.add('active');
-            }
+            const nav = document.getElementById('secondaryNav');
+            nav.classList.toggle('active');
         });
     </script>
 
