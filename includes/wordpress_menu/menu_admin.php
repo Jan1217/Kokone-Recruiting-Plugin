@@ -1227,59 +1227,6 @@ function krp_create_or_update_page() {
                 </div>
             </div>
         </div>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const params = new URLSearchParams(window.location.search);
-                const jobId = params.get("job");
-                if (jobId) {
-                    showJobDetails(jobId);
-                }
-            });
-            function showContent(section) {
-                const sections = document.querySelectorAll(".content > div");
-                sections.forEach(sec => sec.classList.add("hidden"));
-                document.getElementById(section).classList.remove("hidden");
-            }
-            function setActive(element) {
-                const items = document.querySelectorAll(".krp_sec_nav_item");
-                items.forEach(item => item.classList.remove("active"));
-                element.classList.add("active");
-            }
-            function showJobDetails(jobId) {
-                const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
-                jobDetails.forEach(detail => detail.classList.add("hidden"));
-                const details = document.getElementById("job-details-" + jobId);
-                details.classList.remove("hidden");
-                document.querySelector(".job-tiles-container").classList.add("hidden");
-                document.getElementById("main-jobs-text").classList.add("hidden");
-            
-                // Ändere die URL, um die Job-Details anzuzeigen
-                window.history.pushState({}, "", "job=" + jobId);
-            }
-            function showJobList() {
-                document.querySelector(".job-tiles-container").classList.remove("hidden");
-                const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
-                jobDetails.forEach(detail => detail.classList.add("hidden"));
-                document.getElementById("main-jobs-text").classList.remove("hidden");
-            
-                // Setze die URL zurück
-                window.history.pushState({}, "", window.location.pathname);
-            }
-            function showAusbildungDetails(ausbildungId) {
-                const ausbildungDetails = document.querySelectorAll("#ausbildung-details-container > .ausbildung-details");
-                ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
-                const details = document.getElementById("ausbildung-details-" + ausbildungId);
-                details.classList.remove("hidden");
-                document.querySelector(".ausbildung-tiles-container").classList.add("hidden");
-                document.getElementById("main-ausbildung-text").classList.add("hidden");
-            }
-            function showAusbildungList() {
-                document.querySelector(".ausbildung-tiles-container").classList.remove("hidden");
-                const ausbildungDetails = document.querySelectorAll("#ausbildung-details-container > .ausbildung-details");
-                ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
-                document.getElementById("main-ausbildung-text").classList.remove("hidden");
-            }
-        </script>
     ';
 
     // Überprüfen, ob die Seite bereits existiert
@@ -1325,6 +1272,66 @@ function krp_create_or_update_page() {
         }
     }
 }
+
+function website_scripts() {
+    ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const params = new URLSearchParams(window.location.search);
+            const jobId = params.get("job");
+            if (jobId) {
+                showJobDetails(jobId);
+            }
+        });
+        function showContent(section) {
+            const sections = document.querySelectorAll(".content > div");
+            sections.forEach(sec => sec.classList.add("hidden"));
+            document.getElementById(section).classList.remove("hidden");
+        }
+        function setActive(element) {
+            const items = document.querySelectorAll(".krp_sec_nav_item");
+            items.forEach(item => item.classList.remove("active"));
+            element.classList.add("active");
+        }
+        function showJobDetails(jobId) {
+            const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
+            jobDetails.forEach(detail => detail.classList.add("hidden"));
+            const details = document.getElementById("job-details-" + jobId);
+            details.classList.remove("hidden");
+            document.querySelector(".job-tiles-container").classList.add("hidden");
+            document.getElementById("main-jobs-text").classList.add("hidden");
+
+            // Ändere die URL, um die Job-Details anzuzeigen
+            window.history.pushState({}, "", "job=" + jobId);
+        }
+        function showJobList() {
+            document.querySelector(".job-tiles-container").classList.remove("hidden");
+            const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
+            jobDetails.forEach(detail => detail.classList.add("hidden"));
+            document.getElementById("main-jobs-text").classList.remove("hidden");
+
+            // Setze die URL zurück
+            window.history.pushState({}, "", window.location.pathname);
+        }
+        function showAusbildungDetails(ausbildungId) {
+            const ausbildungDetails = document.querySelectorAll("#ausbildung-details-container > .ausbildung-details");
+            ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
+            const details = document.getElementById("ausbildung-details-" + ausbildungId);
+            details.classList.remove("hidden");
+            document.querySelector(".ausbildung-tiles-container").classList.add("hidden");
+            document.getElementById("main-ausbildung-text").classList.add("hidden");
+        }
+        function showAusbildungList() {
+            document.querySelector(".ausbildung-tiles-container").classList.remove("hidden");
+            const ausbildungDetails = document.querySelectorAll("#ausbildung-details-container > .ausbildung-details");
+            ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
+            document.getElementById("main-ausbildung-text").classList.remove("hidden");
+        }
+    </script>
+    <?php
+}
+
+add_action('wp_footer', 'website_scripts');
 
 function filter_jobs_ausbildungen() {
     ?>
