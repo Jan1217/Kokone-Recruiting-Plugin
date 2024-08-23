@@ -783,7 +783,17 @@ function krp_create_or_update_page() {
                 font-weight: bold;
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
             }
+            .secondary-nav-hamburger {
+                display: none;
+                display: flex;
+                justify-content: center;
+                background-color: ' . $secondary_nav_bg_color . ';
+                transition: max-height 0.5s ease-out;
+            }
             @media only screen and (max-width: 700px) {
+                .secondary-nav-hamburger {
+                    display: flex;
+                }
                 .plugin-page .secondary-nav {
                     flex-direction: column;
                     text-align: center;
@@ -1270,6 +1280,7 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
+                <button id="secondary-nav-hamburger">☰</button>
                 <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" >Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" >Ausbildung</a>
@@ -1277,7 +1288,8 @@ function krp_create_or_update_page() {
                     <a class="krp_sec_nav_item contact_color" href="#kontakt">Kontakt</a>
                 </div>
             </div>
-            <button id="toggleButton">Toggle Navigation</button>
+            
+            
             <div class="content">
                 <div id="jobs">
                     <div id="main-jobs-text" style="margin-bottom: 40px">' . $main_text_jobs_field . '</div>
