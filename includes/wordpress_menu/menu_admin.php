@@ -852,7 +852,7 @@ function krp_create_or_update_page() {
             .job-bereich p::before {
                 content: "";
                 display: inline-block;
-                margin-right: 10px
+                margin-right: 10px;
                 width: 10px;
                 height: 10px;
                 background-color: ' . $main_bg_color . ';
