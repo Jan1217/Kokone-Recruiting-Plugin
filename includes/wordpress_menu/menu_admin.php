@@ -779,85 +779,43 @@ function krp_create_or_update_page() {
                 font-weight: bold;
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
             }
-            /* Hamburger Menu Button Styles */
+           
+            /* Hamburger Menu Styles */
             .hamburger-menu {
                 display: none;
-                flex-direction: column;
-                background: transparent;
+                background: none;
                 border: none;
+                font-size: 24px;
                 cursor: pointer;
-                padding: 10px;
-                position: absolute;
-                top: 10px;
-                right: 10px;
             }
             
-            .hamburger-menu .bar {
-                width: 25px;
-                height: 3px;
-                background: black;
-                margin: 3px 0;
+            /* Dropdown Menu Styles */
+            .secondary-nav-container {
+                position: relative;
             }
             
-            /* Hamburger Menu Styles */
             .secondary-nav {
                 display: flex;
-                gap: 20px;
+                justify-content: center;
+                background-color: /* Deine Hintergrundfarbe */;
+                flex-direction: row;
             }
             
-            /* Responsive Styles */
+            /* Mobile Styles */
             @media (max-width: 768px) {
                 .secondary-nav {
-                    display: none; /* Versteckt die Navigation auf kleinen Bildschirmen */
+                    display: none; /* Standardmäßig ausgeblendet auf mobilen Geräten */
                     flex-direction: column;
                     width: 100%;
-                    background: white;
-                    position: absolute;
-                    top: 50px;
-                    left: 0;
-                    padding: 10px;
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                    background-color: /* Deine Hintergrundfarbe */;
                 }
             
                 .hamburger-menu {
-                    display: flex;
+                    display: block; /* Button sichtbar auf mobilen Geräten */
                 }
             
-                .secondary-nav.active {
-                    display: flex; /* Zeigt die Navigation an, wenn das Menü aktiv ist */
-                }
-            
-                .krp_sec_nav_item {
-                    padding: 15px;
-                    text-align: center;
-                }
-            }           
-            /* Die Navigation für mobile Ansicht */
-            .secondary-nav {
-                display: none; /* Standardmäßig ausblenden */
-                flex-direction: column; /* Elemente untereinander anordnen */
-                position: absolute;
-                top: 60px; /* Höhe des Buttons oder der Navigation einhalten */
-                left: 0;
-                width: 100%;
-                background-color: ' . $secondary_nav_bg_color . '; /* Ebenfalls anpassen */
-            }
-            
-            /* Navigationselemente in der mobilen Ansicht */
-            .secondary-nav a {
-                padding: 15px;
-                display: block; /* Vollständige Breite nutzen */
-                margin: 0;
-            }
-            
-            /* Anzeigen des Hamburger-Menüs und der Navigation bei kleinem Bildschirm */
-            @media (max-width: 799px) {
-                .hamburger-menu {
-                    display: block; /* Button anzeigen */
-                }
-            
-                .secondary-nav.active {
-                    display: flex; /* Navigation anzeigen, wenn aktiv */
+                .secondary-nav.show {
+                    display: flex; /* Menü sichtbar, wenn der Button geklickt wird */
                 }
             }
             /* Ende Sekundäre Navigation */
@@ -1341,11 +1299,7 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
-                <button class="hamburger-menu" id="hamburgerMenu" aria-label="Menu">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </button>
+                <button class="hamburger-menu" id="hamburgerMenu">&#9776;</button>
                 <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
@@ -1490,6 +1444,15 @@ function website_scripts($krp_website_hero_image_url) {
     <script>
         const originalHeroImageUrl = "' . esc_url($krp_website_hero_image_url) . '";
 
+        document.addEventListener('DOMContentLoaded', function () {
+            var hamburgerMenu = document.getElementById('hamburgerMenu');
+            var secondaryNav = document.getElementById('secondaryNav');
+
+            hamburgerMenu.addEventListener('click', function () {
+                secondaryNav.classList.toggle('show');
+            });
+        });
+
         function showContent(section) {
             const sections = document.querySelectorAll(".content > div");
             sections.forEach(sec => sec.classList.add("hidden"));
@@ -1508,8 +1471,6 @@ function website_scripts($krp_website_hero_image_url) {
             const items = document.querySelectorAll(".krp_sec_nav_item");
             items.forEach(item => item.classList.remove("active"));
             element.classList.add("active");
-
-            window.history.pushState({}, "", window.location.pathname);
         }
         function showJobDetails(jobId) {
             const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
@@ -1574,11 +1535,6 @@ function website_scripts($krp_website_hero_image_url) {
             } else {
                 showJobList();
             }
-        });
-
-        document.getElementById('hamburgerMenu').addEventListener('click', function() {
-            const nav = document.getElementById('secondaryNav');
-            nav.classList.toggle('active');
         });
     </script>
 
