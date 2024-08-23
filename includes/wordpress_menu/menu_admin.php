@@ -944,35 +944,6 @@ function krp_create_or_update_page() {
             .jbc-single-p-tag {
                 margin-left: 10px;
             }
-            /* Responsivität für größere Bildschirme */
-            @media (min-width: 768px) {
-                .job-details-left {
-                    flex: 1;
-                }
-                
-                .job-details-right {
-                    flex: 1.1;
-                }
-            }
-            
-            /* Für Bildschirmgrößen von 900px und größer */
-            @media (min-width: 900px) {
-                .job-details-fullwidth {
-                    flex-direction: column;
-                }
-                
-                .job-details-left,
-                .job-details-right {
-                    width: 100%;
-                    padding: 20px;
-                }
-            
-                .contact-box,
-                .job_details_image {
-                    margin-bottom: 20px;
-                }
-            }
-            
             /* Für kleinere Bildschirme */
             @media (max-width: 767px) {
                 .job-details-fullwidth,
@@ -982,8 +953,8 @@ function krp_create_or_update_page() {
                 
                 .job-details-left,
                 .job-details-right {
+                    flex: none;
                     width: 100%;
-                    padding: 20px;
                 }
                 
                 .contact-box,
@@ -997,10 +968,6 @@ function krp_create_or_update_page() {
                 
                 .form-column {
                     width: 100%;
-                }
-                
-                .form-group {
-                    margin-bottom: 10px;
                 }
             }
             /* Ausbildungen */
@@ -1091,11 +1058,22 @@ function krp_create_or_update_page() {
             .search-filter-container input, .search-filter-container select {
                 padding: 10px;
                 font-size: 16px;
-                width: 2200px
+                width: 50%;
             }
             .search-filter-container select {
-                width: 100%;
+                width: 50%;
             }
+            @media only screen and (max-width: 750px) {
+                .search-filter-container {
+                    flex-direction: column;
+                }
+                .search-filter-container input, .search-filter-container select {
+                    width: 100%;
+                }
+                .search-filter-container select {
+                    width: 100%;
+                }
+            }   
             .ort-restrict-headline {
                 border-bottom:2px solid ' . $secondary_nav_bg_color . ';
                 margin-bottom: 20px;
@@ -1112,6 +1090,38 @@ function krp_create_or_update_page() {
                 display: grid;
                 grid-template-columns: repeat(' . $main_selection_column_field . ', 1fr);
                 gap: 20px;
+            }
+            @media only screen and (max-width: 1200px) {
+                .ort-restrict-job-tiles-container {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+                .ort-restrict-ausbildung-tiles-container {
+                    grid-template-columns: repeat(1, 1fr);
+                }
+            }
+            @media only screen and (max-width: 1200px) {
+                .ort-restrict-job-tiles-container {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+                .ort-restrict-ausbildung-tiles-container {
+                    grid-template-columns: repeat(1, 1fr);
+                }
+            }
+            @media only screen and (max-width: 900px) {
+                .ort-restrict-job-tiles-container {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                .ort-restrict-ausbildung-tiles-container {
+                    grid-template-columns: repeat(1, 1fr);
+                }
+            }
+            @media only screen and (max-width: 700px) {
+                .ort-restrict-job-tiles-container {
+                    grid-template-columns: repeat(1, 1fr);
+                }
+                .ort-restrict-ausbildung-tiles-container {
+                    grid-template-columns: repeat(1, 1fr);
+                }
             }
             button.ort-restrict-filter-button {
                 padding: 0 15px 0 15px;
@@ -1213,6 +1223,39 @@ function krp_create_or_update_page() {
             }
             .contact-box .department {
                 font-weight: bold;
+            }
+            /* Mobile */
+            @media only screen and (max-width: 768px) {
+                .job-details-left {
+                    flex-direction: column;
+                    padding: 10px;
+                }
+                
+                .contact-box,
+                .job_details_image {
+                    margin: 0 auto;
+                    padding-top: 20px;
+                    width: 100%;
+                }
+            
+                .contact-box img,
+                .job_details_image img {
+                    max-width: 100%;
+                    height: auto;
+                    transform: none;
+                    margin: 0 auto;
+                }
+            
+                .job_details_image img {
+                    border: 2px solid ' . $secondary_nav_bg_color . ';
+                    padding: 10px;
+                    border-radius: 4px;
+                    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+                }
+            
+                .contact-box h2 {
+                    font-size: 1.2em;
+                }
             }
             .contact-person-tel-email-display {
                 display: flex;
