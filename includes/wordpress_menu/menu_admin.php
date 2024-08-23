@@ -338,6 +338,7 @@ function krp_create_or_update_page() {
     $krp_hero_text = get_option('krp_website_hero_text_field');
     $krp_hero_text_selection = get_option('krp_hero_text_selection_field');
     $krp_hero_text_color = get_option('krp_website_hero_text_color');
+    $krp_website_hero_image_url = get_option('krp_website_hero_picture', '');
     $krp_website_hero_bg_color = get_option('krp_website_hero_bg_color');
 
     $secondary_nav_bg_color = get_option('krp_website_secondary_navigation_bg_color');
@@ -395,7 +396,7 @@ function krp_create_or_update_page() {
             $jobs_html .= '
             <div>
                 <div class="job-tile-main">
-                    <div class="job-tile" data-job-id="' . $job_id . '" data-location="' . esc_attr($job['job_standort']) . '" data-hero-img="' . $job_image . '" onclick="showJobDetails(' . $job_id . ')">
+                    <div class="job-tile" data-job-id="' . $job_id . '" data-location="' . esc_attr($job['job_standort']) . '" data-hero-original-img="" data-hero-img="' . $job_image . '" onclick="showJobDetails(' . $job_id . ')">
                         <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
                         <h2 class="job-title">' . $job_title . '</h2>
                         <div class="job-bereich">' . $job_bereich_create_p_tag . '</div>
@@ -726,7 +727,6 @@ function krp_create_or_update_page() {
             }
             .plugin-page .hero {
                 background-color: ' . $krp_website_hero_bg_color . ';
-                background-image: url(' . esc_url($krp_website_hero_image_url) . ');
                 height: 300px;
                 display: flex;
                 justify-content: ' . $krp_hero_text_selection . ';
@@ -1272,7 +1272,7 @@ function krp_create_or_update_page() {
     }
 }
 
-function website_scripts() {
+function website_scripts($krp_website_hero_image_url) {
     ?>
     <script>
         const originalHeroImageUrl = "' . esc_url($krp_website_hero_image_url) . '";
@@ -1317,7 +1317,7 @@ function website_scripts() {
             // Setze das Hero-Bild auf das ursprüngliche Bild zurück
             const hero = document.getElementById('hero');
             if (hero) {
-                hero.style.backgroundImage = `url(${originalHeroImageUrl})`;
+                hero.style.backgroundImage = 'url(' + '<?php echo esc_url($krp_website_hero_image_url); ?>' + ')';
             }
 
             // Setze die URL zurück
