@@ -758,71 +758,59 @@ function krp_create_or_update_page() {
                 }
             }
             /* Sekundäre Navigation */
-            .plugin-page .secondary-nav {
-                display: flex;
-                justify-content: center;
-                background-color: ' . $secondary_nav_bg_color . ';
-            }
-            .plugin-page .secondary-nav .contact_color {
-                background-color: ' . $secondary_nav_contact_bg_color . ';
-                border-radius: 8px;
-                margin: 4px;
-            }
-            .plugin-page .secondary-nav a {
-                color: ' . $secondary_nav_text_color . ';
-                padding: 15px 20px;
-                text-decoration: none;
-                display: inline-block;
-                margin: 4px;
-            }
-            .krp_sec_nav_item.active {
-                font-weight: bold;
-                border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
-            }
-           
-            /* Standard-Styling für größere Bildschirme */
-            .secondary-nav-container {
-                position: relative;
-            }
-            
-            .hamburger-menu {
-                display: none; /* Verstecke das Hamburger-Menü-Icon standardmäßig */
-                font-size: 24px;
-                cursor: pointer;
-                padding: 15px;
-            }
-            
-            /* Stil für das Dropdown-Menü */
-            .secondary-nav {
-                display: flex;
-                justify-content: center;
-                background-color: #333; /* Setze hier den gewünschten Hintergrund ein */
-            }
-            
-            .secondary-nav a {
-                color: #fff; /* Setze hier die gewünschte Textfarbe ein */
-            }
-            
-            /* Responsive Styling */
-            @media (max-width: 768px) {
-                .secondary-nav {
-                    display: none; /* Verstecke das Menü standardmäßig auf kleinen Bildschirmen */
-                    flex-direction: column;
-                    width: 100%;
-                    position: absolute;
-                    top: 60px; /* Höhe des Hamburger-Menüs anpassen */
-                    left: 0;
-                    background-color: #333; /* Setze hier den gewünschten Hintergrund ein */
-                }
-                
-                .secondary-nav.active {
-                    display: flex; /* Zeige das Menü an, wenn es aktiv ist */
-                }
-                
-                .hamburger-menu {
-                    display: block; /* Zeige das Hamburger-Menü-Icon auf kleinen Bildschirmen */
-                }
-            }
+
+            /* Basis-Stile für die sekundäre Navigation */
+.plugin-page .secondary-nav {
+    display: flex;
+    justify-content: center;
+    background-color: ' . $secondary_nav_bg_color . '; /* Variablen können später definiert werden */
+    flex-wrap: wrap; /* Damit die Links bei kleinen Bildschirmen umgebrochen werden können */
+}
+
+/* Stile für die einzelnen Navigationslinks */
+.plugin-page .secondary-nav a {
+    color: ' . $secondary_nav_text_color . ');
+    padding: 15px 20px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px;
+    transition: background-color 0.3s, border-bottom 0.3s; /* Sanfte Übergänge für Hintergrundfarbe und Border */
+}
+
+/* Stile für den "Kontakt"-Link */
+.plugin-page .secondary-nav .contact_color {
+    background-color: ' . $secondary_nav_contact_bg_color . ';
+    border-radius: 8px;
+    margin: 4px;
+}
+
+/* Stile für den aktiven Navigationslink */
+.plugin-page .secondary-nav a.active {
+    font-weight: bold;
+    border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . ';
+}
+
+/* Responsives Design */
+@media (max-width: 768px) {
+    .plugin-page .secondary-nav {
+        flex-direction: column; /* Vertikale Anordnung bei kleinen Bildschirmen */
+        align-items: center; /* Zentriert die Links */
+    }
+    
+    .plugin-page .secondary-nav a {
+        padding: 10px; /* Weniger Padding auf kleinen Bildschirmen */
+        margin: 2px; /* Weniger Abstand zwischen den Links */
+    }
+}
+
+/* Stile für noch kleinere Bildschirme */
+@media (max-width: 480px) {
+    .plugin-page .secondary-nav a {
+        font-size: 14px; /* Kleinere Schriftgröße auf sehr kleinen Bildschirmen */
+        padding: 8px; /* Weiterhin weniger Padding */
+    }
+}
+
             /* Ende Sekundäre Navigation */
             .plugin-page .content {
                 background-color: ' . $main_bg_color . ';
@@ -1304,9 +1292,6 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
-                <div class="hamburger-menu" id="hamburgerMenu">
-                    &#9776;
-                </div>
                 <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
@@ -1532,16 +1517,6 @@ function website_scripts() {
                 showJobDetails(event.state.jobId);
             } else {
                 showJobList();
-            }
-        });
-    </script>
-    <script>
-        document.getElementById('hamburgerMenu').addEventListener('click', function() {
-            var nav = document.getElementById('secondaryNav');
-            if (nav.classList.contains('active')) {
-                nav.classList.remove('active');
-            } else {
-                nav.classList.add('active');
             }
         });
     </script>
