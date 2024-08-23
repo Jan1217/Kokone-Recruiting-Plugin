@@ -1416,7 +1416,7 @@ function website_scripts() {
         document.getElementById('toggleButton').addEventListener('click', function() {
             var nav = document.getElementById('secondaryNav');
             if (nav.style.display === 'none' || nav.style.display === '') {
-                nav.style.display = 'block'; // Navigation anzeigen
+                nav.style.display = 'flex'; // Navigation anzeigen
             } else {
                 nav.style.display = 'none'; // Navigation verstecken
             }
