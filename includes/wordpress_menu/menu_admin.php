@@ -338,7 +338,6 @@ function krp_create_or_update_page() {
     $krp_hero_text = get_option('krp_website_hero_text_field');
     $krp_hero_text_selection = get_option('krp_hero_text_selection_field');
     $krp_hero_text_color = get_option('krp_website_hero_text_color');
-    $krp_website_hero_image_url = get_option('krp_website_hero_picture', '');
     $krp_website_hero_bg_color = get_option('krp_website_hero_bg_color');
 
     $secondary_nav_bg_color = get_option('krp_website_secondary_navigation_bg_color');
@@ -1273,9 +1272,11 @@ function krp_create_or_update_page() {
     }
 }
 
-function website_scripts($krp_website_hero_image_url) {
+function website_scripts() {
     ?>
     <script>
+        const originalHeroImageUrl = "' . esc_url($krp_website_hero_image_url) . '";
+
         function showContent(section) {
             const sections = document.querySelectorAll(".content > div");
             sections.forEach(sec => sec.classList.add("hidden"));
@@ -1316,7 +1317,7 @@ function website_scripts($krp_website_hero_image_url) {
             // Setze das Hero-Bild auf das ursprüngliche Bild zurück
             const hero = document.getElementById('hero');
             if (hero) {
-                hero.style.backgroundImage = 'url(' + '<?php echo esc_url($krp_website_hero_image_url); ?>' + ')';
+                hero.style.backgroundImage = `url(${originalHeroImageUrl})`;
             }
 
             // Setze die URL zurück
