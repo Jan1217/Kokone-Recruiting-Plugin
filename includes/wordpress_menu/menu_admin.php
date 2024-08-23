@@ -394,7 +394,7 @@ function krp_create_or_update_page() {
             $jobs_html .= '
             <div>
                 <div class="job-tile-main">
-                    <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" data-hero-img="' . $job_image . '" onclick="showJobDetails(' . $job_id . '); changeHeroImage(this);">
+                    <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" data-hero-img="' . $job_image . '" onclick="showJobDetails(' . $job_id . ')">
                         <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
                         <h2 class="job-title">' . $job_title . '</h2>
                         <div class="job-bereich">' . $job_bereich_create_p_tag . '</div>
