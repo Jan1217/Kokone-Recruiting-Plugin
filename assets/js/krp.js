@@ -7,6 +7,10 @@ Die einzelnen Abschnitte sind je nach Inhalt strukturiert.
 /*
 * Website Tab
 */
+function toggleSecondaryNav() {
+    var nav = document.getElementById("secondaryNav");
+    nav.classList.toggle("show");
+}
 /*
 * Design Tab
 */

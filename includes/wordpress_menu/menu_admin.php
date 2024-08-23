@@ -762,6 +762,10 @@ function krp_create_or_update_page() {
                 display: flex;
                 justify-content: center;
                 background-color: ' . $secondary_nav_bg_color . ';
+                transition: max-height 0.5s ease-out;
+            }
+            .secondary-nav.show {
+                max-height: 500px; /* Setze eine maximale Höhe, die alle Inhalte umfasst */
             }
             .plugin-page .secondary-nav .contact_color {
                 background-color: ' . $secondary_nav_contact_bg_color . ';
@@ -778,6 +782,12 @@ function krp_create_or_update_page() {
             .krp_sec_nav_item.active {
                 font-weight: bold;
                 border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; 
+            }
+            @media only screen and (max-width: 700px) {
+                .plugin-page .secondary-nav {
+                    flex-direction: column;
+                    text-align: center;
+                }
             }
             /* Ende Sekundäre Navigation */
             .plugin-page .content {
@@ -1267,6 +1277,7 @@ function krp_create_or_update_page() {
                     <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
                 </div>
             </div>
+            <button id="toggleNavButton" onclick="toggleSecondaryNav()">Toggle Navigation</button>
             <div class="content">
                 <div id="jobs">
                     <div id="main-jobs-text" style="margin-bottom: 40px">' . $main_text_jobs_field . '</div>
