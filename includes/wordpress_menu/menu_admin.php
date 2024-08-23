@@ -433,7 +433,7 @@ function krp_create_or_update_page() {
                             </h2>
                         </div>
                     </div>
-                    <div class="job-details-left-right" style="display: flex; flex-wrap: wrap;">
+                    <div class="job-details-left-right" style="display: flex;">
                         <div class="job-details-left" style="flex: 1; padding: 20px;">
                             <div class="contact-box">
                                 <img src="' . $contact_person_job_details_image_url . '" alt="' . esc_html($job['contact_name']) . '">
@@ -948,7 +948,7 @@ function krp_create_or_update_page() {
             @media (max-width: 767px) {
                 .job-details-fullwidth,
                 .job-details-left-right {
-                    flex-direction: column;
+                    flex-direction: column-reverse;
                 }
                 
                 .job-details-left,
@@ -1066,12 +1066,16 @@ function krp_create_or_update_page() {
             @media only screen and (max-width: 750px) {
                 .search-filter-container {
                     flex-direction: column;
+                    gap: unset;
                 }
                 .search-filter-container input, .search-filter-container select {
                     width: 100%;
                 }
                 .search-filter-container select {
                     width: 100%;
+                }
+                .button.ort-restrict-filter-button {
+                    height: 40px;
                 }
             }   
             .ort-restrict-headline {
