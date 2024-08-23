@@ -1130,7 +1130,7 @@ function krp_create_or_update_page() {
             }
         </style>
         <div class="plugin-page">
-            <div class="hero">
+            <div class="hero" id="hero">
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
@@ -1273,24 +1273,9 @@ function krp_create_or_update_page() {
     }
 }
 
-function website_scripts() {
+function website_scripts($krp_website_hero_image_url) {
     ?>
     <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            const params = new URLSearchParams(window.location.search);
-            const jobId = params.get('job');
-            if (jobId) {
-                showJobDetails(jobId);
-            }
-        });
-
-        window.addEventListener('popstate', (event) => {
-            if (event.state && event.state.jobId) {
-                showJobDetails(event.state.jobId);
-            } else {
-                showJobList();
-            }
-        });
         function showContent(section) {
             const sections = document.querySelectorAll(".content > div");
             sections.forEach(sec => sec.classList.add("hidden"));
@@ -1309,14 +1294,30 @@ function website_scripts() {
             document.querySelector(".job-tiles-container").classList.add("hidden");
             document.getElementById("main-jobs-text").classList.add("hidden");
 
+            // Bild des Jobdetails holen
+            const jobTile = document.querySelector(`.job-tile[data-job-id="${jobId}"]`);
+            const jobHeroImg = jobTile ? jobTile.getAttribute('data-hero-img') : '';
+
+            // Ändere das Hero-Bild
+            const hero = document.getElementById('hero');
+            if (hero) {
+                hero.style.backgroundImage = `url(${jobHeroImg})`;
+            }
+
             // Ändere die URL, um die Job-Details anzuzeigen
-            window.history.pushState({}, "", "job=" + jobId);
+            window.history.pushState({ jobId: jobId }, "", "job=" + jobId);
         }
         function showJobList() {
             document.querySelector(".job-tiles-container").classList.remove("hidden");
             const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
             jobDetails.forEach(detail => detail.classList.add("hidden"));
             document.getElementById("main-jobs-text").classList.remove("hidden");
+
+            // Setze das Hero-Bild auf das ursprüngliche Bild zurück
+            const hero = document.getElementById('hero');
+            if (hero) {
+                hero.style.backgroundImage = 'url(' + '<?php echo esc_url($krp_website_hero_image_url); ?>' + ')';
+            }
 
             // Setze die URL zurück
             window.history.pushState({}, "", window.location.pathname);
@@ -1335,7 +1336,25 @@ function website_scripts() {
             ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
             document.getElementById("main-ausbildung-text").classList.remove("hidden");
         }
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const params = new URLSearchParams(window.location.search);
+            const jobId = params.get('job');
+            if (jobId) {
+                showJobDetails(jobId);
+            } else {
+                showJobList();
+            }
+        });
+
+        window.addEventListener('popstate', (event) => {
+            if (event.state && event.state.jobId) {
+                showJobDetails(event.state.jobId);
+            } else {
+                showJobList();
+            }
+        });
     </script>
+
     <?php
 }
 
