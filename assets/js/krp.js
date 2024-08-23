@@ -9,11 +9,7 @@ Die einzelnen Abschnitte sind je nach Inhalt strukturiert.
 */
 function toggleNav() {
     var nav = document.getElementById("secondaryNav");
-    if (nav.classList.contains("active")) {
-        nav.classList.remove("active");
-    } else {
-        nav.classList.add("active");
-    }
+    nav.classList.toggle("show");
 }
 /*
 * Design Tab

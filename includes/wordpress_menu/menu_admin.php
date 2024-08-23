@@ -758,36 +758,22 @@ function krp_create_or_update_page() {
                 }
             }
             /* Sekundäre Navigation */
-            .plugin-page .secondary-nav-container {
-                position: relative;
-            }
-            
-            .plugin-page .nav-toggle-button {
-                display: none; /* Standardmäßig ausgeblendet, wird nur bei kleineren Bildschirmen angezeigt */
-                background-color: #333;
-                color: white;
-                padding: 10px;
-                border: none;
-                cursor: pointer;
-                font-size: 18px;
-                width: 100%;
-                text-align: left;
-            }
-            
+            /* Grundlegende Stile für die Navigation */
             .plugin-page .secondary-nav {
                 display: flex;
                 justify-content: center;
-                background-color: ' . $secondary_nav_bg_color . '; /* ersetze mit deiner Farbe */
+                background-color: ' . $secondary_nav_bg_color . ';
+                flex-wrap: wrap; /* Erlaubt das Umbrechen der Navigation */
             }
             
             .plugin-page .secondary-nav .contact_color {
-                background-color: ' . $secondary_nav_contact_bg_color . '; /* ersetze mit deiner Farbe */
+                background-color: ' . $secondary_nav_contact_bg_color . ';
                 border-radius: 8px;
                 margin: 4px;
             }
             
             .plugin-page .secondary-nav a {
-                color:  ' . $secondary_nav_text_color . '; /* ersetze mit deiner Farbe */
+                color: ' . $secondary_nav_text_color . ';
                 padding: 15px 20px;
                 text-decoration: none;
                 display: inline-block;
@@ -796,33 +782,38 @@ function krp_create_or_update_page() {
             
             .krp_sec_nav_item.active {
                 font-weight: bold;
-                border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . '; /* ersetze mit deiner Farbe */
+                border-bottom: 6px solid ' . $secondary_nav_contact_bg_color . ';
             }
             
-            /* Responsive Anpassungen */
+            /* Stile für die mobile Ansicht */
             @media (max-width: 768px) {
-                .plugin-page .nav-toggle-button {
-                    display: block;
-                }
-            
                 .plugin-page .secondary-nav {
-                    display: none;
-                    flex-direction: column;
-                    align-items: flex-start;
-                    background-color:' . $secondary_nav_bg_color . '; /* ersetze mit deiner Farbe */
-                    width: 100%;
+                    display: none; /* Standardmäßig ausblenden */
+                    flex-direction: column; /* Navigation untereinander anordnen */
+                    align-items: center;
                 }
             
-                .plugin-page .secondary-nav a {
-                    width: 100%;
-                    text-align: left;
-                    padding: 10px 15px;
+                .plugin-page .secondary-nav-container {
+                    text-align: center;
                 }
             
-                .plugin-page .secondary-nav.active {
-                    display: flex;
+                .nav-toggle {
+                    background-color: ' . $secondary_nav_bg_color . ';
+                    color: ' . $secondary_nav_text_color . ';
+                    border: none;
+                    padding: 10px 20px;
+                    font-size: 18px;
+                    cursor: pointer;
+                    border-radius: 5px;
+                    margin: 10px 0;
                 }
             }
+            
+            /* Wenn die Navigation sichtbar ist, wird der display-Wert auf block gesetzt */
+            .show {
+                display: flex !important;
+            }
+
             /* Ende Sekundäre Navigation */
             .plugin-page .content {
                 background-color: ' . $main_bg_color . ';
@@ -1304,7 +1295,7 @@ function krp_create_or_update_page() {
                 <h1>' . $krp_hero_text . '</h1>
             </div>
             <div class="secondary-nav-container">
-                <button class="nav-toggle-button" onclick="toggleNav()">☰ Menü</button>
+                <button class="nav-toggle" id="navToggle" onclick="toggleNav()">☰ Menü</button>
                 <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
