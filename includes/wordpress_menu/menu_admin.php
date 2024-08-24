@@ -1440,12 +1440,15 @@ function website_scripts() {
                 nav.style.display = 'none'; // Navigation verstecken
             }
         });
+
         function showContent(section) {
             const sections = document.querySelectorAll(".content > div");
             sections.forEach(sec => sec.classList.add("hidden"));
             document.getElementById(section).classList.remove("hidden");
 
-            // Setze das Hero-Bild auf das ursprüngliche Bild zurück
+            // Speichere den aktiven Tab in sessionStorage
+            sessionStorage.setItem('activeTab', section);
+
             const hero = document.getElementById('hero');
             if (hero) {
                 const originalHeroImg = hero.getAttribute('data-hero-img');
@@ -1454,13 +1457,18 @@ function website_scripts() {
 
             window.history.pushState({}, "", window.location.pathname);
         }
+
         function setActive(element) {
             const items = document.querySelectorAll(".krp_sec_nav_item");
             items.forEach(item => item.classList.remove("active"));
             element.classList.add("active");
 
+            // Speichere das aktive Element in sessionStorage
+            sessionStorage.setItem('activeElement', element.id);
+
             window.history.pushState({}, "", window.location.pathname);
         }
+
         function showJobDetails(jobId) {
             const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
             jobDetails.forEach(detail => detail.classList.add("hidden"));
@@ -1479,13 +1487,13 @@ function website_scripts() {
 
             window.history.pushState({ jobId: jobId }, "", "job=" + jobId);
         }
+
         function showJobList() {
             document.querySelector(".job-tiles-container").classList.remove("hidden");
             const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
             jobDetails.forEach(detail => detail.classList.add("hidden"));
             document.getElementById("main-jobs-text").classList.remove("hidden");
 
-            // Setze das Hero-Bild auf das ursprüngliche Bild zurück
             const hero = document.getElementById('hero');
             if (hero) {
                 const originalHeroImg = hero.getAttribute('data-hero-img');
@@ -1494,6 +1502,7 @@ function website_scripts() {
 
             window.history.pushState({}, "", window.location.pathname);
         }
+
         function showAusbildungDetails(ausbildungId) {
             const ausbildungDetails = document.querySelectorAll("#ausbildung-details-container > .ausbildung-details");
             ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
@@ -1501,18 +1510,35 @@ function website_scripts() {
             details.classList.remove("hidden");
             document.querySelector(".ausbildung-tiles-container").classList.add("hidden");
             document.getElementById("main-ausbildung-text").classList.add("hidden");
+
+            window.history.pushState({}, "", window.location.pathname);
         }
+
         function showAusbildungList() {
             document.querySelector(".ausbildung-tiles-container").classList.remove("hidden");
             const ausbildungDetails = document.querySelectorAll("#ausbildung-details-container > .ausbildung-details");
             ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
             document.getElementById("main-ausbildung-text").classList.remove("hidden");
+
+            window.history.pushState({}, "", window.location.pathname);
         }
+
         window.addEventListener('DOMContentLoaded', (event) => {
             const params = new URLSearchParams(window.location.search);
             const jobId = params.get('job');
+            const activeTab = sessionStorage.getItem('activeTab');
+            const activeElement = sessionStorage.getItem('activeElement');
+
             if (jobId) {
                 showJobDetails(jobId);
+            } else if (activeTab) {
+                showContent(activeTab); // Zeige den gespeicherten Tab an
+                if (activeElement) {
+                    const element = document.getElementById(activeElement);
+                    if (element) {
+                        setActive(element); // Setze das gespeicherte aktive Element
+                    }
+                }
             } else {
                 showJobList();
             }
@@ -1528,6 +1554,7 @@ function website_scripts() {
     </script>
     <?php
 }
+
 
 add_action('wp_footer', 'website_scripts');
 
