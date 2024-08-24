@@ -1280,6 +1280,9 @@ function krp_create_or_update_page() {
                 display: flex;
                 width: 50%;
             }
+            .secondary-nav-container p:not([class]):not([id]):empty {
+              display: none;
+            }
         </style>
         <div class="plugin-page">
             <div class="hero" id="hero" data-hero-img="' . esc_url($krp_website_hero_image_url) . '">
@@ -1287,7 +1290,6 @@ function krp_create_or_update_page() {
             </div>
             <div class="secondary-nav-container">
                 <button id="secondary-nav-hamburger">☰</button>
-                <p class="test"></p>
                 <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
