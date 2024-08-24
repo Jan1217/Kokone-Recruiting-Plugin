@@ -1455,7 +1455,8 @@ function website_scripts() {
                 hero.style.backgroundImage = `url(${originalHeroImg})`;
             }
 
-            window.history.pushState({}, "", window.location.pathname);
+            // Ändere die URL, um den Abschnitt widerzuspiegeln
+            window.history.pushState({ section: section }, "", "#" + section);
         }
 
         function setActive(element) {
@@ -1465,8 +1466,6 @@ function website_scripts() {
 
             // Speichere das aktive Element in sessionStorage
             sessionStorage.setItem('activeElement', element.id);
-
-            window.history.pushState({}, "", window.location.pathname);
         }
 
         function showJobDetails(jobId) {
@@ -1485,7 +1484,8 @@ function website_scripts() {
                 hero.style.backgroundImage = `url(${jobHeroImg})`;
             }
 
-            window.history.pushState({ jobId: jobId }, "", "job=" + jobId);
+            // Aktualisiere die URL, um den Job anzuzeigen
+            window.history.pushState({ jobId: jobId }, "", "?job=" + jobId);
         }
 
         function showJobList() {
@@ -1500,7 +1500,8 @@ function website_scripts() {
                 hero.style.backgroundImage = `url(${originalHeroImg})`;
             }
 
-            window.history.pushState({}, "", window.location.pathname);
+            // Aktualisiere die URL für die Job-Liste
+            window.history.pushState({}, "", "#jobs");
         }
 
         function showAusbildungDetails(ausbildungId) {
@@ -1511,7 +1512,8 @@ function website_scripts() {
             document.querySelector(".ausbildung-tiles-container").classList.add("hidden");
             document.getElementById("main-ausbildung-text").classList.add("hidden");
 
-            window.history.pushState({}, "", window.location.pathname);
+            // Aktualisiere die URL, um die Ausbildungsdetails anzuzeigen
+            window.history.pushState({ ausbildungId: ausbildungId }, "", "?ausbildung=" + ausbildungId);
         }
 
         function showAusbildungList() {
@@ -1520,17 +1522,30 @@ function website_scripts() {
             ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
             document.getElementById("main-ausbildung-text").classList.remove("hidden");
 
-            window.history.pushState({}, "", window.location.pathname);
+            // Aktualisiere die URL für die Ausbildungs-Liste
+            window.history.pushState({}, "", "#ausbildung");
         }
 
         window.addEventListener('DOMContentLoaded', (event) => {
             const params = new URLSearchParams(window.location.search);
             const jobId = params.get('job');
+            const ausbildungId = params.get('ausbildung');
+            const hash = window.location.hash.substring(1);
             const activeTab = sessionStorage.getItem('activeTab');
             const activeElement = sessionStorage.getItem('activeElement');
 
             if (jobId) {
                 showJobDetails(jobId);
+            } else if (ausbildungId) {
+                showAusbildungDetails(ausbildungId);
+            } else if (hash) {
+                showContent(hash); // Zeige den Abschnitt basierend auf dem URL-Hash an
+                if (activeElement) {
+                    const element = document.getElementById(activeElement);
+                    if (element) {
+                        setActive(element); // Setze das gespeicherte aktive Element
+                    }
+                }
             } else if (activeTab) {
                 showContent(activeTab); // Zeige den gespeicherten Tab an
                 if (activeElement) {
@@ -1547,6 +1562,10 @@ function website_scripts() {
         window.addEventListener('popstate', (event) => {
             if (event.state && event.state.jobId) {
                 showJobDetails(event.state.jobId);
+            } else if (event.state && event.state.ausbildungId) {
+                showAusbildungDetails(event.state.ausbildungId);
+            } else if (event.state && event.state.section) {
+                showContent(event.state.section);
             } else {
                 showJobList();
             }
@@ -1554,7 +1573,6 @@ function website_scripts() {
     </script>
     <?php
 }
-
 
 add_action('wp_footer', 'website_scripts');
 
