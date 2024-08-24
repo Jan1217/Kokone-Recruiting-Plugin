@@ -793,6 +793,7 @@ function krp_create_or_update_page() {
                 height: 55px;
                 border: none;
                 color: ' . $secondary_nav_text_color . ';
+                align-items: center;
             }
             @media only screen and (max-width: 700px) {
                 button#secondary-nav-hamburger {
@@ -1286,6 +1287,7 @@ function krp_create_or_update_page() {
             </div>
             <div class="secondary-nav-container">
                 <button id="secondary-nav-hamburger">☰</button>
+                <p class="test"></p>
                 <div class="secondary-nav" id="secondaryNav">
                     <a class="krp_sec_nav_item" href="#jobs" onclick="showContent(\'jobs\'); showJobList(); setActive(this)">Jobs</a>
                     <a class="krp_sec_nav_item" href="#ausbildung" onclick="showContent(\'ausbildung\'); showAusbildungList(); setActive(this)">Ausbildung</a>
@@ -1293,8 +1295,6 @@ function krp_create_or_update_page() {
                     <a class="krp_sec_nav_item contact_color" href="#kontakt" onclick="showContent(\'kontakt\'); setActive(this)">Kontakt</a>
                 </div>
             </div>
-            
-            
             <div class="content">
                 <div id="jobs">
                     <div id="main-jobs-text" style="margin-bottom: 40px">' . $main_text_jobs_field . '</div>
