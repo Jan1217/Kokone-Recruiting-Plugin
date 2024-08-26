@@ -1464,7 +1464,7 @@ function website_scripts() {
             const url = new URL(window.location);
             url.searchParams.delete('job');
             url.searchParams.delete('ausbildung');
-            window.history.pushState({ section: section }, "", url.pathname + "?" + url.searchParams.toString() + "#" + section);
+            window.history.pushState({ section: section }, "", url.pathname + "#" + section);
         }
 
         function setActive(element) {
@@ -1492,11 +1492,9 @@ function website_scripts() {
                 hero.style.backgroundImage = `url(${jobHeroImg})`;
             }
 
-            // Füge die Job-ID zur URL hinzu und behalte den aktuellen Tab
             const url = new URL(window.location);
             url.searchParams.set('job', jobId);
-            url.searchParams.delete('ausbildung'); // Ausbildungs-ID entfernen, wenn vorhanden
-            window.history.pushState({ jobId: jobId }, "", url.pathname + "?" + url.searchParams.toString() + "#jobs");
+            window.history.pushState({ jobId: jobId }, "", url.pathname + "#jobs?" + url.searchParams.toString());
         }
 
         function showJobList() {
@@ -1514,7 +1512,7 @@ function website_scripts() {
             // Entferne Job-ID und setze die URL auf den Job-Tab zurück
             const url = new URL(window.location);
             url.searchParams.delete('job');
-            window.history.pushState({}, "", url.pathname + "?" + url.searchParams.toString() + "#jobs");
+            window.history.pushState({}, "", url.pathname + "#jobs");
         }
 
         function showAusbildungDetails(ausbildungId) {
@@ -1525,9 +1523,71 @@ function website_scripts() {
             document.querySelector(".ausbildung-tiles-container").classList.add("hidden");
             document.getElementById("main-ausbildung-text").classList.add("hidden");
 
-            // Füge die Ausbildungs-ID zur URL hinzu und behalte den aktuellen
+            // Füge die Ausbildungs-ID zur URL hinzu, behalte den aktuellen Tab
+            const url = new URL(window.location);
+            url.searchParams.set('ausbildung', ausbildungId);
+            window.history.pushState({ ausbildungId: ausbildungId }, "", url.pathname + "#ausbildung?" + url.searchParams.toString());
+        }
 
+        function showAusbildungList() {
+            document.querySelector(".ausbildung-tiles-container").classList.remove("hidden");
+            const ausbildungDetails = document.querySelectorAll("#ausbildung-details-container > .ausbildung-details");
+            ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
+            document.getElementById("main-ausbildung-text").classList.remove("hidden");
 
+            // Entferne Ausbildungs-ID und setze die URL auf den Ausbildungs-Tab zurück
+            const url = new URL(window.location);
+            url.searchParams.delete('ausbildung');
+            window.history.pushState({}, "", url.pathname + "#ausbildung");
+        }
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const params = new URLSearchParams(window.location.search);
+            const jobId = params.get('job');
+            const ausbildungId = params.get('ausbildung');
+            const hash = window.location.hash.substring(1);
+            const activeTab = sessionStorage.getItem('activeTab');
+            const activeElement = sessionStorage.getItem('activeElement');
+
+            if (jobId) {
+                showJobDetails(jobId);
+            } else if (ausbildungId) {
+                showAusbildungDetails(ausbildungId);
+            } else if (hash) {
+                showContent(hash); // Zeige den Abschnitt basierend auf dem URL-Hash an
+                if (activeElement) {
+                    const element = document.getElementById(activeElement);
+                    if (element) {
+                        setActive(element); // Setze das gespeicherte aktive Element
+                    }
+                }
+            } else if (activeTab) {
+                showContent(activeTab); // Zeige den gespeicherten Tab an
+                if (activeElement) {
+                    const element = document.getElementById(activeElement);
+                    if (element) {
+                        setActive(element); // Setze das gespeicherte aktive Element
+                    }
+                }
+            } else {
+                showJobList();
+            }
+        });
+
+        window.addEventListener('popstate', (event) => {
+            if (event.state && event.state.jobId) {
+                showJobDetails(event.state.jobId);
+            } else if (event.state && event.state.ausbildungId) {
+                showAusbildungDetails(event.state.ausbildungId);
+            } else if (event.state && event.state.section) {
+                showContent(event.state.section);
+            } else {
+                showJobList();
+            }
+        });
+    </script>
+    <?php
+}
 add_action('wp_footer', 'website_scripts');
 
 function filter_jobs_ausbildungen() {
@@ -1576,6 +1636,8 @@ function filter_jobs_ausbildungen() {
     </script>
     <?php
 }
+
+// Hook the function to wp_footer to ensure it is output on the page
 add_action('wp_footer', 'filter_jobs_ausbildungen');
 
 function job_bewerbung_form_handler() {
