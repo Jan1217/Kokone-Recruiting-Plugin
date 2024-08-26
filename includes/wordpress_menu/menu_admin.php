@@ -805,6 +805,11 @@ function krp_create_or_update_page() {
                     text-align: center;
                 }
             }
+            @media only screen and (min-width: 700px) {
+                .plugin-page .secondary-nav {
+                    display: flex;
+                }
+            }
             /* Ende Sekundäre Navigation */
             .plugin-page .content {
                 background-color: ' . $main_bg_color . ';
@@ -1487,10 +1492,10 @@ function website_scripts() {
                 hero.style.backgroundImage = `url(${jobHeroImg})`;
             }
 
-            // Füge die Job-ID zur URL hinzu, behalte den aktuellen Tab
+            // Füge die Job-ID und den aktuellen Tab zur URL hinzu
             const url = new URL(window.location);
-            url.searchParams.set('job', jobId);
-            window.history.pushState({ jobId: jobId }, "", url.toString());
+            const currentSection = url.hash.split('-')[0]; // Nur der Tab-Teil des Hashs
+            window.history.pushState({ jobId: jobId, section: currentSection }, "", url.pathname + "#" + currentSection + "-" + jobId);
         }
 
         function showJobList() {
@@ -1505,10 +1510,10 @@ function website_scripts() {
                 hero.style.backgroundImage = `url(${originalHeroImg})`;
             }
 
-            // Entferne Job-ID und setze die URL auf den Job-Tab zurück
+            // Setze die URL auf den vorherigen Tab zurück
             const url = new URL(window.location);
-            url.searchParams.delete('job');
-            window.history.pushState({}, "", url.pathname + "#jobs");
+            const currentSection = url.hash.split('-')[0]; // Nur der Tab-Teil des Hashs
+            window.history.pushState({}, "", url.pathname + currentSection);
         }
 
         function showAusbildungDetails(ausbildungId) {
@@ -1519,10 +1524,10 @@ function website_scripts() {
             document.querySelector(".ausbildung-tiles-container").classList.add("hidden");
             document.getElementById("main-ausbildung-text").classList.add("hidden");
 
-            // Füge die Ausbildungs-ID zur URL hinzu, behalte den aktuellen Tab
+            // Füge die Ausbildungs-ID und den aktuellen Tab zur URL hinzu
             const url = new URL(window.location);
-            url.searchParams.set('ausbildung', ausbildungId);
-            window.history.pushState({ ausbildungId: ausbildungId }, "", url.toString());
+            const currentSection = url.hash.split('-')[0]; // Nur der Tab-Teil des Hashs
+            window.history.pushState({ ausbildungId: ausbildungId, section: currentSection }, "", url.pathname + "#" + currentSection + "-" + ausbildungId);
         }
 
         function showAusbildungList() {
@@ -1531,34 +1536,31 @@ function website_scripts() {
             ausbildungDetails.forEach(detail => detail.classList.add("hidden"));
             document.getElementById("main-ausbildung-text").classList.remove("hidden");
 
-            // Entferne Ausbildungs-ID und setze die URL auf den Ausbildungs-Tab zurück
+            // Setze die URL auf den vorherigen Tab zurück
             const url = new URL(window.location);
-            url.searchParams.delete('ausbildung');
-            window.history.pushState({}, "", url.pathname + "#ausbildung");
+            const currentSection = url.hash.split('-')[0]; // Nur der Tab-Teil des Hashs
+            window.history.pushState({}, "", url.pathname + currentSection);
         }
 
         window.addEventListener('DOMContentLoaded', (event) => {
-            const params = new URLSearchParams(window.location.search);
-            const jobId = params.get('job');
-            const ausbildungId = params.get('ausbildung');
             const hash = window.location.hash.substring(1);
-            const activeTab = sessionStorage.getItem('activeTab');
+            const [activeTab, itemId] = hash.split('-'); // Trenne Tab-Namen und ID
             const activeElement = sessionStorage.getItem('activeElement');
 
-            if (jobId) {
-                showJobDetails(jobId);
-            } else if (ausbildungId) {
-                showAusbildungDetails(ausbildungId);
-            } else if (hash) {
-                showContent(hash); // Zeige den Abschnitt basierend auf dem URL-Hash an
-                if (activeElement) {
-                    const element = document.getElementById(activeElement);
-                    if (element) {
-                        setActive(element); // Setze das gespeicherte aktive Element
+            if (itemId) {
+                if (activeTab === 'jobs') {
+                    showJobDetails(itemId);
+                } else if (activeTab === 'ausbildung') {
+                    showAusbildungDetails(itemId);
+                } else if (activeTab === 'ort-rescrit') {
+                    if (itemId.startsWith('job')) {
+                        showJobDetails(itemId.replace('job-', ''));
+                    } else if (itemId.startsWith('ausbildung')) {
+                        showAusbildungDetails(itemId.replace('ausbildung-', ''));
                     }
                 }
             } else if (activeTab) {
-                showContent(activeTab); // Zeige den gespeicherten Tab an
+                showContent(activeTab); // Zeige den Abschnitt basierend auf dem URL-Hash an
                 if (activeElement) {
                     const element = document.getElementById(activeElement);
                     if (element) {
@@ -1584,7 +1586,6 @@ function website_scripts() {
     </script>
     <?php
 }
-
 
 add_action('wp_footer', 'website_scripts');
 
@@ -1652,7 +1653,7 @@ function job_bewerbung_form_handler() {
         $job_bewerbung_nachricht = sanitize_textarea_field($_POST['job_bewerbung_nachricht']);
 
         // Kontaktpersonen-E-Mail aus dem Formular abrufen
-        $job_contact_person_email = sanitize_email($_POST['job_contact_person_email']);
+        $job_contact_person_email = 'jan.loehrwald@hbwa.de';
 
         // Validierung der E-Mail-Adresse
         if (!is_email($job_bewerbung_email) || !is_email($job_contact_person_email)) {
