@@ -1688,7 +1688,7 @@ function job_bewerbung_form_handler() {
         // E-Mail-Header
         $job_bewerbung_headers = array(
             'Content-Type: text/html; charset=UTF-8',
-            'From: Bewerbung <noreply@hbwa.de>',
+            'From: Neue Bewerbung <noreply@hbwa.de>',
         );
 
         // Dateien verarbeiten und Anhänge hinzufügen
@@ -1716,6 +1716,22 @@ function job_bewerbung_form_handler() {
             return;  // Verarbeitung abbrechen
         }
 
+        // Bestätigungs-E-Mail an den Bewerber senden
+        $confirmation_subject = 'Bestätigung Ihrer Bewerbung bei HBWA';
+        $confirmation_message = "<html><body>";
+        $confirmation_message .= "<h2>Vielen Dank für Ihre Bewerbung, $job_bewerbung_vorname $job_bewerbung_nachname!</h2>";
+        $confirmation_message .= "<p>Ihre Bewerbung ist bei uns eingegangen und wird schnellstmöglich bearbeitet.</p>";
+        $confirmation_message .= "<p>Freundliche Grüße,<br>Das HBWA-Team</p>";
+        $confirmation_message .= "</body></html>";
+
+        $confirmation_headers = array(
+            'Content-Type: text/html; charset=UTF-8',
+            'From: Ihre Bewerbung <noreply@hbwa.de>',
+        );
+
+        wp_mail($job_bewerbung_email, $confirmation_subject, $confirmation_message, $confirmation_headers);
+
+        // Weiterleitung nach erfolgreicher Bearbeitung
         wp_redirect(home_url('/plugin-seite'));
         exit;
     }
