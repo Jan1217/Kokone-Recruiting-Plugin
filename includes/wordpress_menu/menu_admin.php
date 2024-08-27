@@ -394,6 +394,19 @@ function krp_create_or_update_page() {
             $contact_person_job_details_info = esc_html($job['selected_contact_job_details_info']);
             $contact_person_job_details_image_url = esc_url_raw($job['selected_contact_job_details_image_url']);
 
+            // Überprüfe, ob einer der Radio-Buttons für die Jobbörsen auf "Ja" gesetzt ist
+            $display_job_board_links = '';
+            if (!empty($job['job_board_stepstone']) && $job['job_board_stepstone'] === 'ja' || !empty($job['job_board_indeed']) && $job['job_board_indeed'] === 'ja') {
+                $job_board_links_html = '<h3>Finden Sie diesen Job auch auf anderen Plattformen:</h3>';
+                if (!empty($job['job_board_stepstone']) && $job['job_board_stepstone'] === 'ja') {
+                    $job_board_links_html .= '<p><a href="https://www.stepstone.de" target="_blank">Zur Jobanzeige auf StepStone</a></p>';
+                }
+                if (!empty($job['job_board_indeed']) && $job['job_board_indeed'] === 'ja') {
+                    $job_board_links_html .= '<p><a href="https://www.indeed.com" target="_blank">Zur Jobanzeige auf Indeed</a></p>';
+                }
+                $display_job_board_links = $job_board_links_html;
+            }
+
             $jobs_html .= '
             <div>
                 <div class="job-tile-main">
@@ -455,6 +468,7 @@ function krp_create_or_update_page() {
                             <h3>Wir freuen uns über Ihre Bewerbung, wenn Sie:</h3>
                             <p>' . wp_kses_post($job['job_application']) . '</p>
                             <a href="' . esc_url($job['job_application_pdf']) . '" target="_blank">Stellenanzeige als PDF herunterladen</a>
+                            ' . $display_job_board_links . '
                             <h3>Bitte senden Sie Ihre Bewerbungsunterlagen an</h3>
                             <div>
                                 <p style="padding-bottom: 0 !important;">' . $contact_person_job_details_name . '</p>
@@ -1636,8 +1650,6 @@ function filter_jobs_ausbildungen() {
     </script>
     <?php
 }
-
-// Hook the function to wp_footer to ensure it is output on the page
 add_action('wp_footer', 'filter_jobs_ausbildungen');
 
 function job_bewerbung_form_handler() {
