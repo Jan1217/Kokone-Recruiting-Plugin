@@ -747,8 +747,9 @@ function krp_save_jobs() {
         $job_images = isset($_POST['job_image']) ? array_map('esc_url_raw', $_POST['job_image']) : array();
         $job_more_images = isset($_POST['job_more_image']) ? array_map('esc_url_raw', $_POST['job_more_image']) : array();
 
-        $stepstone_options = isset($_POST['stepstone']) ? array_map('sanitize_text_field', $_POST['stepstone']) : array();
-        $indeed_options = isset($_POST['indeed']) ? array_map('sanitize_text_field', $_POST['indeed']) : array();
+        // Radio-Button Werte sanitieren
+        $stepstone_values = isset($_POST['stepstone']) ? array_map('sanitize_text_field', $_POST['stepstone']) : array();
+        $indeed_values = isset($_POST['indeed']) ? array_map('sanitize_text_field', $_POST['indeed']) : array();
 
         $jobs = array();
         foreach ($job_titles as $key => $title) {
@@ -792,8 +793,8 @@ function krp_save_jobs() {
                 'selected_contact_job_details_email' => isset($selected_contacts_job_details_email[$key]) ? $selected_contacts_job_details_email[$key] : '',
                 'selected_contact_job_details_info' => isset($selected_contacts_job_details_info[$key]) ? $selected_contacts_job_details_info[$key] : '',
                 'selected_contact_job_details_image_url' => isset($selected_contacts_job_details_image_url[$key]) ? $selected_contacts_job_details_image_url[$key] : '',
-                'stepstone' => isset($stepstone_options[$key]) ? $stepstone_options[$key] : 'false',
-                'indeed' => isset($indeed_options[$key]) ? $indeed_options[$key] : 'false',
+                'stepstone' => isset($stepstone_values[$key]) ? $stepstone_values[$key] : 'false',
+                'indeed' => isset($indeed_values[$key]) ? $indeed_values[$key] : 'false'
             );
         }
 
