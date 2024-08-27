@@ -747,13 +747,13 @@ function krp_save_jobs() {
         $job_images = isset($_POST['job_image']) ? array_map('esc_url_raw', $_POST['job_image']) : array();
         $job_more_images = isset($_POST['job_more_image']) ? array_map('esc_url_raw', $_POST['job_more_image']) : array();
 
-        // Radio-Button-Werte verarbeiten
-        $stepstone_values = isset($_POST['stepstone']) ? array_map('sanitize_text_field', $_POST['stepstone']) : array();
-        $indeed_values = isset($_POST['indeed']) ? array_map('sanitize_text_field', $_POST['indeed']) : array();
-
         $jobs = array();
         foreach ($job_titles as $key => $title) {
             $pdf_url = '';
+
+            // Radio Button-Werte erfassen
+            $stepstone = isset($_POST['stepstone_' . $key]) ? sanitize_text_field($_POST['stepstone_' . $key]) : 'false';
+            $indeed = isset($_POST['indeed_' . $key]) ? sanitize_text_field($_POST['indeed_' . $key]) : 'false';
 
             if (isset($job_application_pdfs['name'][$key]) && !empty($job_application_pdfs['name'][$key])) {
                 // Stelle sicher, dass die Datei-Array-Struktur korrekt verarbeitet wird
@@ -793,8 +793,8 @@ function krp_save_jobs() {
                 'selected_contact_job_details_email' => isset($selected_contacts_job_details_email[$key]) ? $selected_contacts_job_details_email[$key] : '',
                 'selected_contact_job_details_info' => isset($selected_contacts_job_details_info[$key]) ? $selected_contacts_job_details_info[$key] : '',
                 'selected_contact_job_details_image_url' => isset($selected_contacts_job_details_image_url[$key]) ? $selected_contacts_job_details_image_url[$key] : '',
-                'stepstone' => isset($stepstone_values[$key]) ? $stepstone_values[$key] : '',
-                'indeed' => isset($indeed_values[$key]) ? $indeed_values[$key] : '',
+                'stepstone' => $stepstone,
+                'indeed' => $indeed,
             );
         }
 
