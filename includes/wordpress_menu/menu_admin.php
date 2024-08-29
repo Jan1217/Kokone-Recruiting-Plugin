@@ -387,18 +387,13 @@ function krp_create_or_update_page() {
 
     if (!empty($jobs)) {
         foreach ($jobs as $index => $job) {
-            $job_image = esc_url($job['job_image'] ?? '');
-            $job_more_image = esc_url($job['job_more_image'] ?? '');
-            $job_title = esc_html($job['job_title'] ?? '');
-            if (isset($job['job_bereich']) && is_array($job['job_bereich'])) {
-                $job_bereich = implode(' und ', array_map('esc_html', $job['job_bereich']));
-                $job_bereich_create_p_tag = implode('', array_map(function($bereich) {
-                    return '<p class="jbc-single-p-tag">' . esc_html($bereich) . '</p>';
-                }, $job['job_bereich']));
-            } else {
-                $job_bereich = '';
-                $job_bereich_create_p_tag = '';
-            }
+            $job_image = esc_url($job['job_image']);
+            $job_more_image = esc_url($job['job_more_image']);
+            $job_title = esc_html($job['job_title']);
+            $job_bereich = implode(' und ', array_map('esc_html', $job['job_bereich']));
+            $job_bereich_create_p_tag = implode('', array_map(function($bereich) {
+                return '<p class="jbc-single-p-tag">' . esc_html($bereich) . '</p>';
+            }, $job['job_bereich']));
             $job_id = $index + 1; // ID für Referenz
             $contact_person_job_details_name = esc_html($job['selected_contact_job_details_name']);
             $contact_person_job_details_tel = esc_html($job['selected_contact_job_details_tel']);
