@@ -297,30 +297,6 @@ function krp_job_create_section_callback() {
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- Job Börsen Bullet Points -->
-                                <tr>
-                                    <th><label for="job_börsen_<?php echo $key; ?>">Job Börsen</label></th>
-                                    <td style="display: flex; flex-direction: column;">
-                                        <div>
-                                            <!-- StepStone Radio Buttons -->
-                                            <label for="stepstone_<?php echo $key; ?>_yes">StepStone:</label>
-                                            <input type="radio" id="stepstone_<?php echo $key; ?>_yes" name="stepstone_<?php echo $key; ?>" value="true" <?php echo (isset($job['stepstone']) && $job['stepstone'] === 'true') ? 'checked' : ''; ?>>
-                                            <label for="stepstone_<?php echo $key; ?>_yes">Ja</label>
-
-                                            <input type="radio" id="stepstone_<?php echo $key; ?>_no" name="stepstone_<?php echo $key; ?>" value="false" <?php echo (!isset($job['stepstone']) || $job['stepstone'] === 'false') ? 'checked' : ''; ?>>
-                                            <label for="stepstone_<?php echo $key; ?>_no">Nein</label>
-                                        </div>
-                                        <div>
-                                            <!-- Indeed Radio Buttons -->
-                                            <label for="indeed_<?php echo $key; ?>_yes" style="margin-left: 20px;">Indeed:</label>
-                                            <input type="radio" id="indeed_<?php echo $key; ?>_yes" name="indeed_<?php echo $key; ?>" value="true" <?php echo (isset($job['indeed']) && $job['indeed'] === 'true') ? 'checked' : ''; ?>>
-                                            <label for="indeed_<?php echo $key; ?>_yes">Ja</label>
-
-                                            <input type="radio" id="indeed_<?php echo $key; ?>_no" name="indeed_<?php echo $key; ?>" value="false" <?php echo (!isset($job['indeed']) || $job['indeed'] === 'false') ? 'checked' : ''; ?>>
-                                            <label for="indeed_<?php echo $key; ?>_no">Nein</label>
-                                        </div>
-                                    </td>
-                                </tr>
                             </table>
                         </div>
                     </div>
@@ -562,30 +538,6 @@ function krp_job_create_section_callback() {
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- Job Börsen Bullet Points -->
-                                <tr>
-                                    <th><label for="job_börsen_${jobIndex}">Job Börsen</label></th>
-                                    <td style="display: flex; flex-direction: column;">
-                                        <div>
-                                            <!-- StepStone Radio Buttons -->
-                                            <label for="stepstone_${jobIndex}_yes">StepStone:</label>
-                                            <input type="radio" id="stepstone_${jobIndex}_yes" name="stepstone_${jobIndex}" value="true" <?php echo (isset($job['stepstone']) && $job['stepstone'] === 'true') ? 'checked' : ''; ?>>
-                                            <label for="stepstone_${jobIndex}_yes">Ja</label>
-
-                                            <input type="radio" id="stepstone_${jobIndex}_no" name="stepstone_${jobIndex}" value="false" <?php echo (!isset($job['stepstone']) || $job['stepstone'] === 'false') ? 'checked' : ''; ?>>
-                                            <label for="stepstone_${jobIndex}_no">Nein</label>
-                                        </div>
-                                        <div>
-                                            <!-- Indeed Radio Buttons -->
-                                            <label for="indeed_${jobIndex}_yes" style="margin-left: 20px;">Indeed:</label>
-                                            <input type="radio" id="indeed_${jobIndex}_yes" name="indeed_${jobIndex}" value="true" <?php echo (isset($job['indeed']) && $job['indeed'] === 'true') ? 'checked' : ''; ?>>
-                                            <label for="indeed_${jobIndex}_yes">Ja</label>
-
-                                            <input type="radio" id="indeed_${jobIndex}_no" name="indeed_${jobIndex}" value="false" <?php echo (!isset($job['indeed']) || $job['indeed'] === 'false') ? 'checked' : ''; ?>>
-                                            <label for="indeed_${jobIndex}_no">Nein</label>
-                                        </div>
-                                    </td>
-                                </tr>
                         </table>
                     </div>
                 </div>`;
@@ -757,10 +709,6 @@ function krp_save_jobs() {
         foreach ($job_titles as $key => $title) {
             $pdf_url = '';
 
-            // Radio Button-Werte erfassen
-            $stepstone = isset($_POST['stepstone_' . $key]) ? sanitize_text_field($_POST['stepstone_' . $key]) : 'false';
-            $indeed = isset($_POST['indeed_' . $key]) ? sanitize_text_field($_POST['indeed_' . $key]) : 'false';
-
             if (isset($job_application_pdfs['name'][$key]) && !empty($job_application_pdfs['name'][$key])) {
                 // Stelle sicher, dass die Datei-Array-Struktur korrekt verarbeitet wird
                 $file = array(
@@ -799,8 +747,6 @@ function krp_save_jobs() {
                 'selected_contact_job_details_email' => isset($selected_contacts_job_details_email[$key]) ? $selected_contacts_job_details_email[$key] : '',
                 'selected_contact_job_details_info' => isset($selected_contacts_job_details_info[$key]) ? $selected_contacts_job_details_info[$key] : '',
                 'selected_contact_job_details_image_url' => isset($selected_contacts_job_details_image_url[$key]) ? $selected_contacts_job_details_image_url[$key] : '',
-                'stepstone' => $stepstone,
-                'indeed' => $indeed,
             );
         }
 

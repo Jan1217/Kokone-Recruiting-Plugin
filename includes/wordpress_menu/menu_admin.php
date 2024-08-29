@@ -394,26 +394,6 @@ function krp_create_or_update_page() {
             $contact_person_job_details_info = esc_html($job['selected_contact_job_details_info']);
             $contact_person_job_details_image_url = esc_url_raw($job['selected_contact_job_details_image_url']);
 
-            // Überprüfe die Radio-Button-Werte und erstelle den zusätzlichen Abschnitt
-            $job_links_html = '';
-            if ($job['stepstone'] === 'true') {
-                $job_links_html .= '<p><a href="https://www.stepstone.de" target="_blank">Zur StepStone-Seite für diesen Job</a></p>';
-            }
-            if ($job['indeed'] === 'true') {
-                $job_links_html .= '<p><a href="https://www.indeed.de" target="_blank">Zur Indeed-Seite für diesen Job</a></p>';
-            }
-
-            // Wenn $job_links_html nicht leer ist, füge den Abschnitt hinzu
-            $additional_section_html = '';
-            if (!empty($job_links_html)) {
-                $additional_section_html = '
-                <div class="additional-links">
-                    <h3>Mehr Informationen:</h3>
-                    <p>Hier finden Sie weitere Informationen zu diesem Job:</p>
-                    ' . $job_links_html . '
-                </div>';
-            }
-
             $jobs_html .= '
             <div>
                 <div class="job-tile-main">
@@ -475,7 +455,6 @@ function krp_create_or_update_page() {
                             <h3>Wir freuen uns über Ihre Bewerbung, wenn Sie:</h3>
                             <p>' . wp_kses_post($job['job_application']) . '</p>
                             <a href="' . esc_url($job['job_application_pdf']) . '" target="_blank">Stellenanzeige als PDF herunterladen</a>
-                            ' . $additional_section_html . '
                             <h3>Bitte senden Sie Ihre Bewerbungsunterlagen an</h3>
                             <div>
                                 <p style="padding-bottom: 0 !important;">' . $contact_person_job_details_name . '</p>
