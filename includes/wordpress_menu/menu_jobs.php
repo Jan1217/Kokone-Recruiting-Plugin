@@ -97,7 +97,7 @@ function krp_job_create_section_callback() {
                                 <!-- Job Name -->
                                 <tr>
                                     <th><label for="job_title_<?php echo $key; ?>">Job Name</label></th>
-                                    <td><input type="text" id="job_title_<?php echo $key; ?>" name="job_title[]" class="regular-text" value="<?php echo esc_attr($job['job_title']); ?>" required></td>
+                                    <td><input type="text" id="job_title_<?php echo $key; ?>" name="job_title[]" class="regular-text" value="<?php echo esc_attr($job['job_title'] ?? ''); ?>" required></td>
                                 </tr>
                                 <!-- Job Bereich -->
                                 <tr>
@@ -120,7 +120,7 @@ function krp_job_create_section_callback() {
                                 <tr>
                                     <th><label for="job_image_<?php echo $key; ?>">Job Bild</label></th>
                                     <td>
-                                        <input type="hidden" id="job_image_<?php echo $key; ?>" name="job_image[]" class="job_image_url" value="<?php echo esc_url($job['job_image']); ?>">
+                                        <input type="hidden" id="job_image_<?php echo $key; ?>" name="job_image[]" class="job_image_url" value="<?php echo esc_url($job['job_image'] ?? ''); ?>">
                                         <button type="button" class="upload_image_button" data-target="#job_image_<?php echo $key; ?>">Bild auswählen</button>
                                         <div class="krp-image-preview-container">
                                             <?php if (!empty($job['job_image'])): ?>
@@ -149,7 +149,7 @@ function krp_job_create_section_callback() {
                                                 <button type="button" onclick="toggleTag('h6', 'job_company_info_<?php echo $key; ?>')">H6</button>
                                             </div>
                                             <div class="editor-container">
-                                                <textarea id="job_company_info_<?php echo $key; ?>" name="job_company_info[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($job['job_company_info']); ?></textarea>
+                                                <textarea id="job_company_info_<?php echo $key; ?>" name="job_company_info[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($job['job_company_info'] ?? ''); ?></textarea>
                                             </div>
                                         </div>
                                     </td>
@@ -186,7 +186,7 @@ function krp_job_create_section_callback() {
                                                 <button type="button" onclick="toggleTag('h6', 'job_tasks_<?php echo $key; ?>')">H6</button>
                                             </div>
                                             <div class="editor-container">
-                                                <textarea id="job_tasks_<?php echo $key; ?>" name="job_tasks[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($job['job_tasks']); ?></textarea>
+                                                <textarea id="job_tasks_<?php echo $key; ?>" name="job_tasks[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($job['job_tasks'] ?? ''); ?></textarea>
                                             </div>
                                         </div>
                                     </td>
@@ -211,7 +211,7 @@ function krp_job_create_section_callback() {
                                                 <button type="button" onclick="toggleTag('h6', 'job_application_<?php echo $key; ?>')">H6</button>
                                             </div>
                                             <div class="editor-container">
-                                                <textarea id="job_application_<?php echo $key; ?>" name="job_application[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($job['job_application']); ?></textarea>
+                                                <textarea id="job_application_<?php echo $key; ?>" name="job_application[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($job['job_application'] ?? ''); ?></textarea>
                                             </div>
                                         </div>
                                     </td>
@@ -288,7 +288,7 @@ function krp_job_create_section_callback() {
                                 <tr>
                                     <th><label for="job_more_image_<?php echo $key; ?>">Weitere Bilder</label></th>
                                     <td>
-                                        <input type="hidden" id="job_more_image_<?php echo $key; ?>" name="job_more_image[]" class="job_more_image_url" value="<?php echo esc_url($job['job_more_image']); ?>">
+                                        <input type="hidden" id="job_more_image_<?php echo $key; ?>" name="job_more_image[]" class="job_more_image_url" value="<?php echo esc_url($job['job_more_image'] ?? ''); ?>">
                                         <button type="button" class="upload_image_button" data-target="#job_more_image_<?php echo $key; ?>">Bild auswählen</button>
                                         <div class="krp-image-preview-container">
                                             <?php if (!empty($job['job_more_image'])): ?>
