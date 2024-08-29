@@ -377,6 +377,7 @@ function krp_create_or_update_page() {
     $jobs_html = '';
     $job_details_html = '';
     $jobs_location_html = '';
+    $job_location_details_html = '';
 
     if (!empty($jobs)) {
         foreach ($jobs as $index => $job) {
@@ -429,13 +430,13 @@ function krp_create_or_update_page() {
 
             $jobs_location_html .= '
             <div class="job-tile-main">
-                <div class="job-tile" data-location="' . esc_attr($job['job_standort']) . '" onclick="showContent(\'jobs\'); showJobList(); showJobDetails(' . $job_id . ')">
+                <div class="job-tile" data-job-location-id="' . $job_id . '" data-location="' . esc_attr($job['job_standort']) . '" onclick="showJobLocationDetails(' . $job_id . ')">
                     <img src="' . $job_image . '" alt="' . $job_title . '" class="job-image">
                     <p class="job_tile_standort" style="padding: 0 0 0 10px;">Standort ' . esc_attr($job['job_standort']) . '</p>
                     <h2 class="job-title">' . $job_title . '</h2>
                     <div class="job-bereich">' . $job_bereich_create_p_tag . '</div>
                 </div>
-                <button class="job-tile-info-button" onclick="showContent(\'jobs\'); showJobList(); showJobDetails(' . $job_id . ')">Weitere Infos hier</button>
+                <button class="job-tile-info-button" onclick="showJobLocationDetails(' . $job_id . ')">Weitere Infos hier</button>
             </div>
             ';
 
@@ -448,6 +449,110 @@ function krp_create_or_update_page() {
                         <div class="job-details-right" style="flex: 1.1; padding: 20px;">
                             <h2>
                                 <span class="h1Intro">Zur Erweiterung unseres Teams am Standort ' . esc_html($job['job_standort']) . '</span>
+                                <span class="h1Title">' . $job_title . '</span>
+                                <span class="h1Subtitle">im Bereich ' . $job_bereich . '</span>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="job-details-left-right" style="display: flex;">
+                        <div class="job-details-left" style="flex: 1; padding: 20px;">
+                            <div class="contact-box">
+                                <img src="' . $contact_person_job_details_image_url . '" alt="' . esc_html($job['contact_name']) . '">
+                                <h2>' . $contact_person_job_details_name . '</h2>
+                                <p>' . $contact_person_job_details_info . '</p>
+                                <div class="contact-person-tel-email-display">
+                                    <p><strong>Telefon:</strong> <a href="tel:' . $contact_person_job_details_tel . '">' . $contact_person_job_details_tel . '</a></p>
+                                    <p><strong>Email:</strong> <a href="mailto:' . $contact_person_job_details_email . '">' . $contact_person_job_details_email . '</a></p>
+                                </div>
+                            </div>
+                            <div class="job_details_image">
+                                <img src="' . $job_more_image . '" alt="' . $job_title . '">
+                            </div>
+                        </div>
+                        <div class="job-details-right" style="flex: 1.1; padding: 20px;">
+                            <p>' . wp_kses_post($job['job_company_info']) . '</p>
+                            <h3>Ihre Tätigkeiten:</h3>
+                            <p>' . wp_kses_post($job['job_tasks']) . '</p>
+                            <h3>Wir freuen uns über Ihre Bewerbung, wenn Sie:</h3>
+                            <p>' . wp_kses_post($job['job_application']) . '</p>
+                            <a href="' . esc_url($job['job_application_pdf']) . '" target="_blank">Stellenanzeige als PDF herunterladen</a>
+                            ' . $additional_section_html . '
+                            <h3>Bitte senden Sie Ihre Bewerbungsunterlagen an</h3>
+                            <div>
+                                <p style="padding-bottom: 0 !important;">' . $contact_person_job_details_name . '</p>
+                                <p style="padding-bottom: 0 !important;">' . $krp_kontakt_address_street . ' ' . $krp_kontakt_address_number . '</p>
+                                <p style="padding-bottom: 0 !important;">' . $krp_kontakt_address_zip . '</p>
+                                <p style="padding-bottom: 0 !important;">' . $krp_kontakt_address_city . '</p>
+                                <p style="padding-bottom: 0 !important;">' . $krp_kontakt_address_additional . '</p>
+                                <p>' . $contact_person_job_details_email . '</p>
+                            </div>  
+                            <p><a href="#bewerbungsformular_jobs">Oder nutzen Sie das Bewerbungsformular unten</a></p>
+                            <a href="#jobs" onclick="showJobList()">Zurück zu Jobs</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Bewerbungsformular -->
+                <div class="form-container" id="bewerbungsformular_jobs">
+                    <form method="post" action="" enctype="multipart/form-data" onsubmit="return validateForm()">
+                        <input type="hidden" name="contact_person_email" value="' . $contact_person_job_details_email . '">
+                        <div class="form-row">
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="job_bewerbung_vorname" class="required">Vorname</label>
+                                    <input id="job_bewerbung_vorname" name="job_bewerbung_vorname" type="text" placeholder="Ihr Vorname">
+                                </div>
+                                <div class="form-group">
+                                    <label for="job_bewerbung_strasse" class="required">Straße, Nr</label>
+                                    <input id="job_bewerbung_strasse" name="job_bewerbung_strasse" type="text" placeholder="Straße">
+                                </div>
+                                <div class="form-group">
+                                    <label for="job_bewerbung_telefon">Telefonnummer</label>
+                                    <input id="job_bewerbung_telefon" name="job_bewerbung_telefon" type="text" placeholder="Telefonnummer">
+                                </div>
+                                 <div class="form-group">
+                                    <label for="job_bewerbung_nachricht">Ihre Nachricht (optional)</label>
+                                    <textarea id="job_bewerbung_nachricht" name="job_bewerbung_nachricht" rows="5" placeholder="Ihre Nachricht"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="job_bewerbung_nachname" class="required">Nachname</label>
+                                    <input id="job_bewerbung_nachname" name="job_bewerbung_nachname" type="text" placeholder="Ihr Nachname">
+                                </div>
+                                <div class="form-group">
+                                    <label for="job_bewerbung_ort" class="required">PLZ, Wohnort</label>
+                                    <input id="job_bewerbung_ort" name="job_bewerbung_ort" type="text" placeholder="PLZ &amp; Wohnort">
+                                </div>
+                                <div class="form-group">
+                                    <label for="job_bewerbung_email" class="required">E-Mail-Adresse</label>
+                                    <input id="job_bewerbung_email" name="job_bewerbung_email" type="email" placeholder="E-Mail-Adresse">
+                                </div>
+                                <div class="form-group">
+                                    <label for="job_bewerbung_dateien1">Bewerbungsunterlagen</label>
+                                    <p>Max. 2 Dateien, jeweils nicht größer als 10MB. Erlaubt: PDF, Word, Zip, JPG, JPEG oder PNG.</p>
+                                    <input id="job_bewerbung_dateien1" name="job_bewerbung_dateien1" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
+                                    <input id="job_bewerbung_dateien2" name="job_bewerbung_dateien2" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="job_bewerbung_submit" value="Bewerbung absenden">
+                        </div>
+                        <div class="job-bewerbung-error-message" id="error-message"></div>
+                    </form>
+                </div>
+            </div>
+            ';
+            $job_location_details_html .= '
+            <div id="job-location-details-' . $job_id . '" class="job-details hidden">
+                <div class="job-details-container">
+                    <div class="job-details-fullwidth" style="display: flex; flex-wrap: wrap; padding-top: 30px;">
+                        <div class="job-details-left" style="flex: 1; padding: 20px;">
+                        <p>' . esc_html($job['job_standort']) . '</p>
+                        </div>
+                        <div class="job-details-right" style="flex: 1.1; padding: 20px;">
+                            <h2>
+                                <span class="h1Intro">Zur Erweiterung unseres Teams suchen wir</span>
                                 <span class="h1Title">' . $job_title . '</span>
                                 <span class="h1Subtitle">im Bereich ' . $job_bereich . '</span>
                             </h2>
@@ -1356,8 +1461,8 @@ function krp_create_or_update_page() {
                         <div class="ort-restrict-job-tiles-container" id="ort-restrict-job-tiles-container">
                             ' . $jobs_location_html . '
                         </div>
-                        <div id="job-details-container">
-                            ' . $job_details_html . '
+                        <div id="job-location-details-container">
+                            ' . $job_location_details_html . '
                         </div>
                         <h3 class="ort-restrict-headline" style="margin-top: 20px;">Verfügbare Ausbildungen</h3>
                         <div class="ort-restrict-ausbildung-tiles-container" id="ort-restrict-ausbildung-tiles-container">
@@ -1516,6 +1621,26 @@ function website_scripts() {
             const url = new URL(window.location);
             url.searchParams.set('job', jobId);
             window.history.pushState({ jobId: jobId }, "", url.pathname + "#jobs?" + url.searchParams.toString());
+        }
+
+        function showJobLocationDetails(jobId) {
+            const jobLocationDetails = document.querySelectorAll("#job-location-details-container > .job-location-details");
+            jobLocationDetails.forEach(detail => detail.classList.add("hidden"));
+            const location_details = document.getElementById("job-details-" + jobId);
+            location_details.classList.remove("hidden");
+            document.querySelector(".ort-restrict-job-tiles-container").classList.add("hidden");
+
+            const jobLocationTile = document.querySelector(`.job-tile[data-job-location-id="${jobId}"]`);
+            const jobLocationHeroImg = jobLocationTile ? jobLocationTile.getAttribute('data-hero-img') : '';
+
+            const location_hero = document.getElementById('hero');
+            if (location_hero) {
+                location_hero.style.backgroundImage = `url(${jobLocationHeroImg})`;
+            }
+
+            const location_url = new URL(window.location);
+            location_url.searchParams.set('job', jobId);
+            window.history.pushState({ jobId: jobId }, "", location_url.pathname + "#ort-restrict?" + url.searchParams.toString());
         }
 
         function showJobList() {

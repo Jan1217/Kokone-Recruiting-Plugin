@@ -801,14 +801,7 @@ function krp_save_jobs() {
                 'selected_contact_job_details_image_url' => isset($selected_contacts_job_details_image_url[$key]) ? $selected_contacts_job_details_image_url[$key] : '',
                 'stepstone' => $stepstone,
                 'indeed' => $indeed,
-                'created_at' => current_time('mysql', 1),
             );
-
-            $jobs[] = $jobs;
-
-            if ($stepstone === 'ja') {
-                send_job_to_stepstone($jobs);
-            }
         }
 
         // Jobs in der Datenbank speichern
@@ -821,49 +814,3 @@ function krp_save_jobs() {
 }
 
 add_action('admin_post_save_krp_jobs', 'krp_save_jobs');
-
-// Funktion zum Senden von Jobs an StepStone
-function send_job_to_stepstone($jobs) {
-    // XML-Daten erstellen
-    $xml = new SimpleXMLElement('<jobfeed/>');
-    $joblisting = $xml->addChild('joblisting');
-    $joblisting->addAttribute('reference_id', uniqid());
-    $joblisting->addAttribute('sender_id', '12345');  // Beispiel-Sender-ID
-    $joblisting->addAttribute('organisation_id', '321');  // Beispiel-Organisations-ID
-    $joblisting->addAttribute('recruiter_id', '12345');  // Beispiel-Recruiter-ID
-    $joblisting->addAttribute('action', 'INSERT');
-
-    $jobdetails = $joblisting->addChild('jobdetails');
-    $jobdetails->addChild('jobtitle', $jobs['job_title']);
-    $jobdetails->addChild('language', 'de');
-    $jobdetails->addChild('introduction', 'Your company introduction here');
-    $jobdetails->addChild('tasks', $jobs['job_tasks']);
-    $jobdetails->addChild('profile', 'Candidate profile here');
-    $jobdetails->addChild('offer', 'Company benefits here');
-    $jobdetails->addChild('contactinfo', $jobs['selected_contact_job_details_info']);
-
-    // Andere Felder nach Bedarf hinzufügen...
-
-    // XML in eine Zeichenkette umwandeln
-    $xml_string = $xml->asXML();
-
-    // API-Request vorbereiten
-    $response = wp_remote_post('https://jobfeed.stepstone.com/listing/httpxml.cfm.utf-8', array(
-        'body' => array(
-            'username' => 'jan.loehrwald@hbwa.de',
-            'pwd' => "",
-            'xmlresponse' => 'true',
-            'xmlfile' => $xml_string
-        ),
-        'method' => 'POST',
-    ));
-
-    // Antwort von StepStone prüfen
-    if (is_wp_error($response)) {
-        error_log('StepStone API-Fehler: ' . $response->get_error_message());
-    } else {
-        $body = wp_remote_retrieve_body($response);
-        // Erfolgreiche Antwort verarbeiten
-        error_log('StepStone API-Antwort: ' . $body);
-    }
-}
