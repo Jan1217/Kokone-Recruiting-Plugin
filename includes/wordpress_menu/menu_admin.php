@@ -387,9 +387,9 @@ function krp_create_or_update_page() {
 
     if (!empty($jobs)) {
         foreach ($jobs as $index => $job) {
-            $job_image = esc_url($job['job_image']);
-            $job_more_image = esc_url($job['job_more_image']);
-            $job_title = esc_html($job['job_title']);
+            $job_image = esc_url($job['job_image'] ?? '');
+            $job_more_image = esc_url($job['job_more_image'] ?? '');
+            $job_title = esc_html($job['job_title'] ?? '');
             $job_bereich = implode(' und ', array_map('esc_html', $job['job_bereich']));
             $job_bereich_create_p_tag = implode('', array_map(function($bereich) {
                 return '<p class="jbc-single-p-tag">' . esc_html($bereich) . '</p>';
@@ -443,7 +443,7 @@ function krp_create_or_update_page() {
                     <div class="job-details-left-right" style="display: flex;">
                         <div class="job-details-left" style="flex: 1; padding: 20px;">
                             <div class="contact-box">
-                                <img src="' . $contact_person_job_details_image_url . '" alt="' . esc_html($job['contact_name']) . '">
+                                <img src="' . $contact_person_job_details_image_url . '" alt="' . esc_html($job['contact_name'] ?? '') . '">
                                 <h2>' . $contact_person_job_details_name . '</h2>
                                 <p>' . $contact_person_job_details_info . '</p>
                                 <div class="contact-person-tel-email-display">
