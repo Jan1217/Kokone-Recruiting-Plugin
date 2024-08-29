@@ -89,7 +89,7 @@ function krp_job_create_section_callback() {
                     <div class="job_entry">
                         <div class="job_title" data-job="<?php echo $key; ?>">
                             <div class="toggle_arrow"></div>
-                            <h3>#<?php echo $key + 1; ?> - <?php echo esc_html(isset($job['job_title']) ? $job['job_title'] : ''); ?></h3>
+                            <h3>#<?php echo $key + 1; ?> - <?php echo esc_html($job['job_title'] ?? ''); ?></h3>
                             <button class="delete_job_button" data-job="<?php echo $key; ?>">Löschen</button>
                         </div>
                         <div class="job_details" id="job_details_<?php echo $key; ?>">
