@@ -21,7 +21,14 @@ function krp_settings_page() {
     $license_handler = new KokoneLicenseHandler();
     $is_license_valid = $license_handler->is_license_valid(); // Lizenzüberprüfung
     $page_title = get_option('krp_website_page_title');
-    $page = get_page_by_title($page_title);
+    $args = array(
+        'post_type' => 'page',
+        'title' => $page_title,
+        'post_status' => 'publish',
+        'posts_per_page' => 1
+    );
+    $query = new WP_Query($args);
+    $page = $query->have_posts() ? $query->posts[0] : null;
     $page_url = $page ? get_permalink($page->ID) : '#';
 
     ?>
