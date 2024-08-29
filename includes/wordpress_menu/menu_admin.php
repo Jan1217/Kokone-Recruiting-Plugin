@@ -1623,26 +1623,6 @@ function website_scripts() {
             window.history.pushState({ jobId: jobId }, "", url.pathname + "#jobs?" + url.searchParams.toString());
         }
 
-        function showJobLocationDetails(jobId) {
-            const jobLocationDetails = document.querySelectorAll("#job-location-details-container > .job-location-details");
-            jobLocationDetails.forEach(detail => detail.classList.add("hidden"));
-            const location_details = document.getElementById("job-details-" + jobId);
-            location_details.classList.remove("hidden");
-            document.querySelector(".ort-restrict-job-tiles-container").classList.add("hidden");
-
-            const jobLocationTile = document.querySelector(`.job-tile[data-job-location-id="${jobId}"]`);
-            const jobLocationHeroImg = jobLocationTile ? jobLocationTile.getAttribute('data-hero-img') : '';
-
-            const location_hero = document.getElementById('hero');
-            if (location_hero) {
-                location_hero.style.backgroundImage = `url(${jobLocationHeroImg})`;
-            }
-
-            const location_url = new URL(window.location);
-            location_url.searchParams.set('job', jobId);
-            window.history.pushState({ jobId: jobId }, "", location_url.pathname + "#ort-restrict?" + url.searchParams.toString());
-        }
-
         function showJobList() {
             document.querySelector(".job-tiles-container").classList.remove("hidden");
             const jobDetails = document.querySelectorAll("#job-details-container > .job-details");
