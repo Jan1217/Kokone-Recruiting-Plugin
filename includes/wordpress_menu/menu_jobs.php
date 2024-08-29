@@ -104,14 +104,21 @@ function krp_job_create_section_callback() {
                                     <th><label for="job_bereich_<?php echo $key + 1; ?>">Job Bereich</label></th>
                                     <td>
                                         <ul id="job_bereich_list_<?php echo $key + 1; ?>">
-                                            <?php foreach ($job['job_bereich'] as $bereichKey => $bereich) : ?>
-                                                <li>
-                                                    <input type="text" name="job_bereich[<?php echo $key; ?>][]" class="regular-text" value="<?php echo esc_attr($bereich); ?>" required>
-                                                    <?php if ($bereichKey > 0) : ?>
-                                                        <button class="delete_bereich_button" data-job="<?php echo $key; ?>">X</button>
-                                                    <?php endif; ?>
-                                                </li>
-                                            <?php endforeach; ?>
+                                            <?php
+                                            // Überprüfe, ob 'job_bereich' gesetzt ist und ein Array ist
+                                            if (isset($job['job_bereich']) && is_array($job['job_bereich'])) :
+                                                foreach ($job['job_bereich'] as $bereichKey => $bereich) : ?>
+                                                    <li>
+                                                        <input type="text" name="job_bereich[<?php echo $key; ?>][]" class="regular-text" value="<?php echo esc_attr($bereich); ?>" required>
+                                                        <?php if ($bereichKey > 0) : ?>
+                                                            <button class="delete_bereich_button" data-job="<?php echo $key; ?>">X</button>
+                                                        <?php endif; ?>
+                                                    </li>
+                                                <?php endforeach;
+                                            else : ?>
+                                                <!-- Optionale Nachricht oder leerer Zustand, wenn kein Bereich vorhanden ist -->
+                                                <li>Keine Bereiche verfügbar.</li>
+                                            <?php endif; ?>
                                         </ul>
                                         <button type="button" class="add_job_bereich_button" data-job="<?php echo $key; ?>">Weiteren Bereich hinzufügen</button>
                                     </td>
@@ -351,13 +358,23 @@ function krp_job_create_section_callback() {
                             </tr>
                             <!-- Job Bereich -->
                             <tr>
-                                <th><label for="job_bereich_${jobIndex + 1}">Job Bereich</label></th>
+                                <th><label for="job_bereich_${jobIndex}">Job Bereich</label></th>
                                 <td>
-                                    <ul id="job_bereich_list_${jobIndex + 1}">
-                                        <li>
-                                            <input type="text" name="job_bereich[${jobIndex}][]" class="regular-text" required>
-                                            <button class="delete_bereich_button" data-job="${jobIndex}">X</button>
-                                        </li>
+                                    <ul id="job_bereich_list_${jobIndex}">
+                                        <?php
+                                                if (isset($job['job_bereich']) && is_array($job['job_bereich'])) :
+                                                foreach ($job['job_bereich'] as $bereichKey => $bereich) : ?>
+                                                <li>
+                                                    <input type="text" name="job_bereich[${jobIndex}][]" class="regular-text" value="<?php echo esc_attr($bereich); ?>" required>
+                                                    <?php if ($bereichKey > 0) : ?>
+                                                        <button class="delete_bereich_button" data-job="${jobIndex}">X</button>
+                                                    <?php endif; ?>
+                                                </li>
+                                            <?php endforeach;
+                                                else : ?>
+                                            <!-- Optionale Nachricht oder leerer Zustand, wenn kein Bereich vorhanden ist -->
+                                            <li>Keine Bereiche verfügbar.</li>
+                                        <?php endif; ?>
                                     </ul>
                                     <button type="button" class="add_job_bereich_button" data-job="${jobIndex}">Weiteren Bereich hinzufügen</button>
                                 </td>
