@@ -390,7 +390,13 @@ function krp_create_or_update_page() {
             $job_image = esc_url($job['job_image'] ?? '');
             $job_more_image = esc_url($job['job_more_image'] ?? '');
             $job_title = esc_html($job['job_title'] ?? '');
-            $job_bereich = implode(' und ', array_map('esc_html', $job['job_bereich']));
+            // Überprüfen, ob 'job_bereich' im Array $job existiert und ob es ein Array ist
+            if (isset($job['job_bereich']) && is_array($job['job_bereich'])) {
+                $job_bereich = implode(' und ', array_map('esc_html', $job['job_bereich']));
+            } else {
+                // Setze eine Standardnachricht oder einen leeren String, falls der Schlüssel nicht existiert oder kein Array ist
+                $job_bereich = 'Keine Angaben vorhanden';
+            }
             $job_bereich_create_p_tag = implode('', array_map(function($bereich) {
                 return '<p class="jbc-single-p-tag">' . esc_html($bereich) . '</p>';
             }, $job['job_bereich']));
