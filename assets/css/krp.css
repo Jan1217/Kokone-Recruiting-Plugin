@@ -19,3 +19,11 @@ Die einzelnen Abschnitte sind je nach Inhalt strukturiert.
     gap: 10px;
 }
 
+.platform-radio-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.platform-radio-buttons div {
+    margin-bottom: 8px;
+}
