@@ -327,7 +327,7 @@ function krp_kontakt_create_section_callback() {
                                             <button type="button" id="krp-media-select_<?php echo $key; ?>" class="krp-media-select-button" data-contact="<?php echo $key; ?>">Bild auswählen</button>
                                         </div>
                                         <div id="krp-image-preview_<?php echo $key; ?>" class="krp-image-preview-container">
-                                            <img src="<?php echo !empty($contact['contact_image_url']) ? esc_url($contact['contact_image_url']) : esc_url(get_template_directory_uri() . '/assets/img/Platzhalterbild.jpg'); ?>" alt="Bildvorschau">
+                                            <img src="<?php echo !empty($contact['contact_image_url']) ? esc_url($contact['contact_image_url']) : esc_url(wc_placeholder_img_src()); ?>" alt="Bildvorschau">
                                         </div>
                                         <input type="hidden" id="contact_image_url_<?php echo $key; ?>" name="contact_image_url[]" value="<?php echo esc_attr($contact['contact_image_url']); ?>">
                                     </td>
@@ -556,7 +556,7 @@ function krp_save_contacts() {
                 'contact_email' => sanitize_email($_POST['contact_email'][$index]),
                 'contact_abteilung' => isset($contact_abteilung[$index]) ? $contact_abteilung[$index] : array(),
                 'contact_info' => sanitize_textarea_field($_POST['contact_info'][$index]),
-                'contact_image_url' => !empty($_POST['contact_image_url'][$index]) ? esc_url_raw($_POST['contact_image_url'][$index]) : esc_url_raw(get_template_directory_uri() . '/assets/img/Platzhalterbild.jpg'),
+                'contact_image_url' => !empty($_POST['contact_image_url'][$index]) ? esc_url_raw($_POST['contact_image_url'][$index]) : esc_url_raw(wc_placeholder_img_src())
             );
         }
     }
