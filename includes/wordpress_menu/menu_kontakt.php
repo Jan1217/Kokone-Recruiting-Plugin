@@ -249,7 +249,7 @@ function krp_kontakt_select_section_callback() {
 
 function krp_kontakt_create_section_callback() {
     $contacts = get_option('krp_saved_contacts', array());
-    $placeholder_image = plugin_dir_url(__FILE__) . 'assets/img/Platzhalterbild.jpg';
+    $placeholder_image = plugin_dir_url(dirname(__FILE__, 2)) . 'assets/img/Platzhalterbild.jpg';
     ?>
 
     <style>
