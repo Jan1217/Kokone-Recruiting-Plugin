@@ -351,83 +351,83 @@ function krp_kontakt_create_section_callback() {
                 addContactButton.addEventListener('click', function() {
                     contactCount++;
 
-                    var contactHtml =
-                        <div class="contact_entry">
-                            <div class="contact_title" data-contact="${contactCount}">
-                                <div class="toggle_arrow"></div>
-                                <h3>#${contactCount} - Neuer Kontakt</h3>
-                                <button class="delete_contact_button" data-contact="${contactCount}">Löschen</button>
+                    var contactHtml = `
+        <div class="contact_entry">
+            <div class="contact_title" data-contact="${contactCount}">
+                <div class="toggle_arrow"></div>
+                <h3>#${contactCount} - Neuer Kontakt</h3>
+                <button class="delete_contact_button" data-contact="${contactCount}">Löschen</button>
+            </div>
+            <div class="contact_details" id="contact_details_${contactCount}">
+                <table class="form-table">
+                    <tr>
+                        <th><label for="contact_name_${contactCount}">Kontakt Name</label></th>
+                        <td><input type="text" id="contact_name_${contactCount}" name="contact_name[]" class="regular-text" required></td>
+                    </tr>
+                    <tr>
+                        <th><label for="contact_tel_${contactCount}">Telefon</label></th>
+                        <td><input type="text" id="contact_tel_${contactCount}" name="contact_tel[]" class="regular-text" required></td>
+                    </tr>
+                    <tr>
+                        <th><label for="contact_email_${contactCount}">Email</label></th>
+                        <td><input type="email" id="contact_email_${contactCount}" name="contact_email[]" class="regular-text" required placeholder="abc@xyz.com"></td>
+                    </tr>
+                    <tr>
+                        <th><label for="contact_abteilung_${contactCount}">Abteilung</label></th>
+                        <td>
+                            <ul id="contact_abteilung_list_${contactCount}">
+                                <li>
+                                    <input type="text" name="contact_abteilung[${contactCount}][]" class="regular-text" required>
+                                    <button class="delete_bereich_button remove-standort" data-contact="${contactCount}">X</button>
+                                </li>
+                            </ul>
+                            <button type="button" class="add_contact_abteilung_button" data-contact="${contactCount}">Weitere Abteilung hinzufügen</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="contact_info_${contactCount}">Kontakt Informationen</label></th>
+                        <td><textarea id="contact_info_${contactCount}" name="contact_info[]" class="regular-text"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th><label for="contact_image_${contactCount}">Kontakt Bild</label></th>
+                        <td>
+                            <div id="krp-hero-upload-buttons">
+                                <button type="button" id="krp-media-select_${contactCount}" class="krp-media-select-button" data-contact="${contactCount}">Bild auswählen</button>
                             </div>
-                            <div class="contact_details" id="contact_details_${contactCount}">
-                                <table class="form-table">
-                                    <tr>
-                                        <th><label for="contact_name_${contactCount}">Kontakt Name</label></th>
-                                        <td><input type="text" id="contact_name_${contactCount}" name="contact_name[]" class="regular-text" required></td>
-                                    </tr>
-                                    <tr>
-                                        <th><label for="contact_tel_${contactCount}">Telefon</label></th>
-                                        <td><input type="text" id="contact_tel_${contactCount}" name="contact_tel[]" class="regular-text" required></td>
-                                    </tr>
-                                    <tr>
-                                        <th><label for="contact_email_${contactCount}">Email</label></th>
-                                        <td><input type="email" id="contact_email_${contactCount}" name="contact_email[]" class="regular-text" required placeholder="abc@xyz.com"></td>
-                                    </tr>
-                                    <tr>
-                                        <th><label for="contact_abteilung_${contactCount}">Abteilung</label></th>
-                                        <td>
-                                            <ul id="contact_abteilung_list_${contactCount}">
-                                                <li>
-                                                    <input type="text" name="contact_abteilung[${contactCount}][]" class="regular-text" required>
-                                                        <button class="delete_bereich_button remove-standort" data-contact="${contactCount}">X</button>
-                                                </li>
-                                            </ul>
-                                            <button type="button" class="add_contact_abteilung_button" data-contact="${contactCount}">Weitere Abteilung hinzufügen</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th><label for="contact_info_${contactCount}">Kontakt Informationen</label></th>
-                                        <td><textarea id="contact_info_${contactCount}" name="contact_info[]" class="regular-text"></textarea></td>
-                                    </tr>
-                                    <tr>
-                                        <th><label for="contact_image_${contactCount}">Kontakt Bild</label></th>
-                                        <td>
-                                            <div id="krp-hero-upload-buttons">
-                                                <button type="button" id="krp-media-select_${contactCount}" class="krp-media-select-button" data-contact="${contactCount}">Bild auswählen</button>
-                                            </div>
-                                            <div id="krp-image-preview_${contactCount}" class="krp-image-preview-container"></div>
-                                            <input type="hidden" id="contact_image_url_${contactCount}" name="contact_image_url[]">
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                ;
+                            <div id="krp-image-preview_${contactCount}" class="krp-image-preview-container"></div>
+                            <input type="hidden" id="contact_image_url_${contactCount}" name="contact_image_url[]">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        `;
 
-                var contactDiv = document.createElement('div');
-                contactDiv.innerHTML = contactHtml.trim();
-                contactsContainer.appendChild(contactDiv);
+                    var contactDiv = document.createElement('div');
+                    contactDiv.innerHTML = contactHtml.trim();
+                    contactsContainer.appendChild(contactDiv);
 
-                var contactNameInput = contactDiv.querySelector(#contact_name_${contactCount});
-                var contactTitle = contactDiv.querySelector('h3');
+                    var contactNameInput = contactDiv.querySelector(`#contact_name_${contactCount}`);
+                    var contactTitle = contactDiv.querySelector('h3');
 
-                contactNameInput.addEventListener('input', function() {
-                    contactTitle.textContent = #${contactCount} - ${contactNameInput.value || 'Neuer Kontakt'};
-                });
+                    contactNameInput.addEventListener('input', function() {
+                        contactTitle.textContent = `#${contactCount} - ${contactNameInput.value || 'Neuer Kontakt'}`;
+                    });
 
-                var deleteContactButton = contactDiv.querySelector('.delete_contact_button');
-                deleteContactButton.addEventListener('click', function() {
-                    contactDiv.remove();
-                    updateContactTitles();
-                });
+                    var deleteContactButton = contactDiv.querySelector('.delete_contact_button');
+                    deleteContactButton.addEventListener('click', function() {
+                        contactDiv.remove();
+                        updateContactTitles();
+                    });
 
-                var contactTitleElement = contactDiv.querySelector('.contact_title');
-                contactTitleElement.addEventListener('click', function() {
-                    var contactDetails = document.getElementById('contact_details_' + contactTitleElement.getAttribute('data-contact'));
-                    contactDetails.classList.toggle('open');
-                    contactTitleElement.querySelector('.toggle_arrow').classList.toggle('open');
-                });
+                    var contactTitleElement = contactDiv.querySelector('.contact_title');
+                    contactTitleElement.addEventListener('click', function() {
+                        var contactDetails = document.getElementById('contact_details_' + contactTitleElement.getAttribute('data-contact'));
+                        contactDetails.classList.toggle('open');
+                        contactTitleElement.querySelector('.toggle_arrow').classList.toggle('open');
+                    });
 
-                initMediaSelectButtons();
+                    initMediaSelectButtons();
                 });
 
                 function updateContactTitles() {
@@ -435,7 +435,7 @@ function krp_kontakt_create_section_callback() {
                     contactEntries.forEach(function(contactEntry, index) {
                         var contactTitle = contactEntry.querySelector('h3');
                         var contactNameInput = contactEntry.querySelector('input[id^="contact_name_"]');
-                        contactTitle.textContent = #${index + 1} - ${contactNameInput.value || 'Neuer Kontakt'};
+                        contactTitle.textContent = `#${index + 1} - ${contactNameInput.value || 'Neuer Kontakt'}`;
                     });
                 }
 
@@ -462,7 +462,7 @@ function krp_kontakt_create_section_callback() {
                     input.addEventListener('input', function() {
                         var contactTitle = input.closest('.contact_entry').querySelector('h3');
                         var contactNumber = Array.prototype.indexOf.call(contactNameInputs, input) + 1;
-                        contactTitle.textContent = #${contactNumber} - ${input.value || 'Neuer Kontakt'};
+                        contactTitle.textContent = `#${contactNumber} - ${input.value || 'Neuer Kontakt'}`;
                     });
                 });
 
@@ -472,72 +472,72 @@ function krp_kontakt_create_section_callback() {
                         var jobDetails = document.getElementById('contact_details_' + button.getAttribute('data-contact'));
                         var contactAbteilungList = jobDetails.querySelector('ul');
                         var newContactAbteilungList = document.createElement('li');
-                        newContactAbteilungList.innerHTML =
-                            <input type="text" name="contact_abteilung[${button.getAttribute('data-contact')}][]" class="regular-text" required>
-                                <button class="delete_bereich_button remove-standort" data-contact="${button.getAttribute('data-contact')}">X</button>
-                                ;
-                                contactAbteilungList.appendChild(newContactAbteilungList);
+                        newContactAbteilungList.innerHTML = `
+                <input type="text" name="contact_abteilung[${button.getAttribute('data-contact')}][]" class="regular-text" required>
+                <button class="delete_bereich_button remove-standort" data-contact="${button.getAttribute('data-contact')}">X</button>
+            `;
+                        contactAbteilungList.appendChild(newContactAbteilungList);
 
-                                var deleteBereichButton = newContactAbteilungList.querySelector('.delete_bereich_button');
-                                deleteBereichButton.addEventListener('click', function() {
-                                newContactAbteilungList.remove();
-                            });
-                                });
-                                });
+                        var deleteBereichButton = newContactAbteilungList.querySelector('.delete_bereich_button');
+                        deleteBereichButton.addEventListener('click', function() {
+                            newContactAbteilungList.remove();
+                        });
+                    });
+                });
 
-                                var deleteBereichButtons = contactsContainer.querySelectorAll('.delete_bereich_button');
-                                deleteBereichButtons.forEach(function(button) {
-                                button.addEventListener('click', function() {
-                                    var bereichEntry = button.closest('li');
-                                    bereichEntry.remove();
-                                });
-                            });
+                var deleteBereichButtons = contactsContainer.querySelectorAll('.delete_bereich_button');
+                deleteBereichButtons.forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        var bereichEntry = button.closest('li');
+                        bereichEntry.remove();
+                    });
+                });
 
-                                function initMediaSelectButtons() {
-                                var mediaSelectButtons = document.querySelectorAll('.krp-media-select-button');
-                                mediaSelectButtons.forEach(function(button) {
-                                button.addEventListener('click', function(event) {
-                                event.preventDefault();
-                                var contactIndex = button.getAttribute('data-contact');
-                                var frame;
+                function initMediaSelectButtons() {
+                    var mediaSelectButtons = document.querySelectorAll('.krp-media-select-button');
+                    mediaSelectButtons.forEach(function(button) {
+                        button.addEventListener('click', function(event) {
+                            event.preventDefault();
+                            var contactIndex = button.getAttribute('data-contact');
+                            var frame;
 
-                                if (frame) {
+                            if (frame) {
                                 frame.open();
                                 return;
                             }
-                                frame = wp.media({
+                            frame = wp.media({
                                 title: 'Wähle oder lade ein Bild hoch',
                                 button: { text: 'Bild auswählen' },
                                 multiple: false
                             });
 
-                                frame.on('select', function() {
+                            frame.on('select', function() {
                                 var attachment = frame.state().get('selection').first().toJSON();
                                 updatePreview(attachment.url, contactIndex);
                             });
 
-                                frame.open();
-                            });
-                            });
-                            }
+                            frame.open();
+                        });
+                    });
+                }
 
-                                function updatePreview(url, contactIndex) {
-                                var previewContainer = document.getElementById('krp-image-preview_' + contactIndex);
-                                previewContainer.innerHTML = '<img src="' + url + '" alt="Bildvorschau">';
+                function updatePreview(url, contactIndex) {
+                    var previewContainer = document.getElementById('krp-image-preview_' + contactIndex);
+                    previewContainer.innerHTML = '<img src="' + url + '" alt="Bildvorschau">';
 
-                                var hiddenInput = document.getElementById('contact_image_url_' + contactIndex);
-                                if (!hiddenInput) {
-                                hiddenInput = document.createElement('input');
-                                hiddenInput.type = 'hidden';
-                                hiddenInput.id = 'contact_image_url_' + contactIndex;
-                                hiddenInput.name = 'contact_image_url[]';
-                                previewContainer.appendChild(hiddenInput);
-                            }
-                                hiddenInput.value = url;
-                            }
+                    var hiddenInput = document.getElementById('contact_image_url_' + contactIndex);
+                    if (!hiddenInput) {
+                        hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.id = 'contact_image_url_' + contactIndex;
+                        hiddenInput.name = 'contact_image_url[]';
+                        previewContainer.appendChild(hiddenInput);
+                    }
+                    hiddenInput.value = url;
+                }
 
-                                initMediaSelectButtons();
-                                });
+                initMediaSelectButtons();
+            });
         </script>
     </div>
     <?php
@@ -571,5 +571,6 @@ function krp_save_contacts() {
 }
 
 add_action('admin_post_save_krp_contacts', 'krp_save_contacts');
+
 
 ?>
