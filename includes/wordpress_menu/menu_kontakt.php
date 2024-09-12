@@ -329,7 +329,7 @@ function krp_kontakt_create_section_callback() {
                                         </div>
                                         <div id="krp-image-preview_<?php echo $key; ?>" class="krp-image-preview-container">
                                             <?php
-                                            $image_url = !empty($contact['contact_image_url']) ? esc_url($contact['contact_image_url']) : esc_url($placeholder_image);
+                                            $image_url = !empty($contact['contact_image_url']) ? esc_url($contact['contact_image_url']) : $placeholder_image;
                                             ?>
                                             <img src="<?php echo $image_url; ?>" alt="Bildvorschau">
                                         </div>
