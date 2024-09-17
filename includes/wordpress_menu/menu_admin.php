@@ -108,29 +108,28 @@ function krp_settings_page() {
                     ?>
                 </div>
             </form>
-
-            <!-- Form für Dokumentation -->
-            <form id="krp-settings-form-readme" method="post">
-                <div id="krp-tab-readme" class="krp-tab-content" style="display: none;">
-                    <h2>Dokumentation</h2>
-                    <?php
-                    // URL der README.md-Datei im Rohformat von GitHub
-                    $readme_url = 'https://raw.githubusercontent.com/Jan1217/Kokone-Recruiting-Plugin/main/README.md';
-
-                    // Abrufen des Inhalts der README.md-Datei
-                    $response = wp_remote_get($readme_url);
-
-                    if (is_wp_error($response)) {
-                        echo '<p>Fehler beim Laden der Dokumentation.</p>';
-                    } else {
-                        $readme_content = wp_remote_retrieve_body($response);
-                        $readme_html = '<pre>' . esc_html($readme_content) . '</pre>'; // Zum Beispiel als einfacher Text
-                        echo $readme_html;
-                    }
-                    ?>
-                </div>
-            </form>
         <?php endif; ?>
+        <!-- Form für Dokumentation -->
+        <form id="krp-settings-form-readme" method="post">
+            <div id="krp-tab-readme" class="krp-tab-content" style="display: none;">
+                <h2>Dokumentation</h2>
+                <?php
+                // URL der README.md-Datei im Rohformat von GitHub
+                $readme_url = 'https://raw.githubusercontent.com/Jan1217/Kokone-Recruiting-Plugin/main/README.md';
+
+                // Abrufen des Inhalts der README.md-Datei
+                $response = wp_remote_get($readme_url);
+
+                if (is_wp_error($response)) {
+                    echo '<p>Fehler beim Laden der Dokumentation.</p>';
+                } else {
+                    $readme_content = wp_remote_retrieve_body($response);
+                    $readme_html = '<pre>' . esc_html($readme_content) . '</pre>'; // Zum Beispiel als einfacher Text
+                    echo $readme_html;
+                }
+                ?>
+            </div>
+        </form>
     </div>
 
     <script>
