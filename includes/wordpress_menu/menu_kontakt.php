@@ -577,5 +577,4 @@ function krp_save_contacts() {
 
 add_action('admin_post_save_krp_contacts', 'krp_save_contacts');
 
-
 ?>

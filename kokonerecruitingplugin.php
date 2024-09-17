@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Kokone Recruiting Plugin
  * Plugin URI: https://kokone.de
-     * Description: Das Kokone Recruiting Plugin verwaltet Stellenausschreibungen auf WordPress-Websites und bietet einfache Tools für Erstellung, Kontakt und Bewerbung. Ideal zur Optimierung von Recruiting-Prozessen.
- * Version: 3.0.8
+ * Description: Das Kokone Recruiting Plugin verwaltet Stellenausschreibungen auf WordPress-Websites und bietet einfache Tools für Erstellung, Kontakt und Bewerbung. Ideal zur Optimierung von Recruiting-Prozessen.
+ * Version: 3.0.9
  * Author: Jan Lörwald
  * Author URI: https://hbwa.de
  * License: GPL3

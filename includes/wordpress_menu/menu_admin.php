@@ -81,6 +81,7 @@ function krp_settings_page() {
                         submit_button('Aktualisieren', 'primary', 'krp_update_plugin_page');
                         submit_button('Seite Löschen', 'delete', 'krp_delete_plugin_page');
                         ?>
+                        <a href="https://github.com/Jan1217/Kokone-Recruiting-Plugin/blob/main/README.md" target="_blank">GitHub Readme anzeigen</a>
                     </div>
                     <?php
                 }
