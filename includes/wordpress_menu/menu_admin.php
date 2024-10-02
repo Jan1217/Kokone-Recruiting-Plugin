@@ -33,7 +33,10 @@ function krp_settings_page() {
 
     ?>
     <div class="wrap">
-        <h1>Kokone Recruiting Plugin</h1>
+        <h1 style="display: inline-block; margin-right: 10px;">
+            Kokone Recruiting Plugin
+        </h1>
+        <img src="<?php echo plugin_dir_url(__FILE__) . 'assets/img/KKN_LogoWortmarke_weiss_2.png'; ?>" alt="Kokone Logo" style="display: inline-block; vertical-align: middle;">
         <p>
             Willkommen beim Kokone Recruiting Plugin. Zu der Plugin Seite <a href="<?php echo esc_url($page_url); ?>" target="_blank"><?php echo esc_html($page_title); ?></a>
         </p>
@@ -1716,15 +1719,6 @@ function job_bewerbung_form_handler() {
             }
         }
 
-        // Bewerbung senden
-        if (!wp_mail($job_bewerbung_email_1, $job_bewerbung_subject, $job_bewerbung_application_message, $job_bewerbung_headers, $job_bewerbung_attachments)) {
-            echo '<script>
-                    document.getElementById("job-bewerbung-error-message").innerHTML = "Es gab ein Problem beim Senden Ihrer Bewerbung.";
-                    document.getElementById("job-bewerbung-error-message").style.display = "block";
-                  </script>';
-            return;  // Verarbeitung abbrechen
-        }
-
         // Bestätigungs-E-Mail an den Bewerber senden
         $confirmation_subject = 'Bestätigung Ihrer Bewerbung';
         $confirmation_message = "<html><body>";
@@ -1737,7 +1731,14 @@ function job_bewerbung_form_handler() {
             'From: Ihre Bewerbung',
         );
 
-        wp_mail($job_bewerbung_email, $confirmation_subject, $confirmation_message, $confirmation_headers);
+        // Bewerbung senden
+        if (!wp_mail($job_bewerbung_email_1, $job_bewerbung_subject, $job_bewerbung_application_message, $job_bewerbung_headers, $job_bewerbung_attachments) && !wp_mail($job_bewerbung_email, $confirmation_subject, $confirmation_message, $confirmation_headers)) {
+            echo '<script>
+                    document.getElementById("job-bewerbung-error-message").innerHTML = "Es gab ein Problem beim Senden Ihrer Bewerbung.";
+                    document.getElementById("job-bewerbung-error-message").style.display = "block";
+                  </script>';
+            return;  // Verarbeitung abbrechen
+        }
 
         exit;
     }
