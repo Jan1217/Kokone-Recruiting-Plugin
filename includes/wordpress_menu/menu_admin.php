@@ -36,7 +36,7 @@ function krp_settings_page() {
         <h1 style="display: inline-block; margin-right: 10px;">
             Kokone Recruiting Plugin
         </h1>
-        <img src="<?php echo plugin_dir_url(__FILE__) . 'assets/img/KKN_LogoWortmarke_weiss_2.png'; ?>" alt="Kokone Logo" style="display: inline-block; vertical-align: middle;">
+        <img src="<?php echo plugin_dir_url(dirname(__FILE__, 2)) . 'assets/img/KKN_LogoWortmarke_weiss_2.png'; ?>" alt="Kokone Logo" style="display: inline-block; vertical-align: middle;">
         <p>
             Willkommen beim Kokone Recruiting Plugin. Zu der Plugin Seite <a href="<?php echo esc_url($page_url); ?>" target="_blank"><?php echo esc_html($page_title); ?></a>
         </p>
@@ -1719,28 +1719,13 @@ function job_bewerbung_form_handler() {
             }
         }
 
-        // Bestätigungs-E-Mail an den Bewerber senden
-        $confirmation_subject = 'Bestätigung Ihrer Bewerbung';
-        $confirmation_message = "<html><body>";
-        $confirmation_message .= "<h2>Vielen Dank für Ihre Bewerbung, $job_bewerbung_vorname $job_bewerbung_nachname!</h2>";
-        $confirmation_message .= "<p>Ihre Bewerbung ist bei uns eingegangen und wird schnellstmöglich bearbeitet.</p>";
-        $confirmation_message .= "</body></html>";
-
-        $confirmation_headers = array(
-            'Content-Type: text/html; charset=UTF-8',
-            'From: Ihre Bewerbung',
-        );
-
         // Bewerbung senden
-        if (!wp_mail($job_bewerbung_email_1, $job_bewerbung_subject, $job_bewerbung_application_message, $job_bewerbung_headers, $job_bewerbung_attachments) && !wp_mail($job_bewerbung_email, $confirmation_subject, $confirmation_message, $confirmation_headers)) {
+        if (!wp_mail($job_bewerbung_email_1, $job_bewerbung_subject, $job_bewerbung_application_message, $job_bewerbung_headers, $job_bewerbung_attachments)) {
             echo '<script>
                     document.getElementById("job-bewerbung-error-message").innerHTML = "Es gab ein Problem beim Senden Ihrer Bewerbung.";
                     document.getElementById("job-bewerbung-error-message").style.display = "block";
                   </script>';
-            return;  // Verarbeitung abbrechen
         }
-
-        exit;
     }
 }
 add_action('init', 'job_bewerbung_form_handler');
