@@ -37,7 +37,7 @@ function krp_settings_page() {
             <h1 style="margin-right: 10px;">
                 Kokone Recruiting Plugin
             </h1>
-            <img src="<?php echo plugin_dir_url(dirname(__FILE__, 2)) . 'assets/img/KKN_LogoWortmarke_weiss_2.png'; ?>" alt="Kokone Logo" style="height: 50px;">
+            <img src="<?php echo plugin_dir_url(dirname(__FILE__, 2)) . 'assets/img/KKN_LogoWortmarke_weiss_2.png'; ?>" alt="Kokone Logo" style="height: 50px; padding-top: 8px;">
         </div>
         <p>
             Willkommen beim Kokone Recruiting Plugin. Zu der Plugin Seite <a href="<?php echo esc_url($page_url); ?>" target="_blank"><?php echo esc_html($page_title); ?></a>
@@ -1730,7 +1730,7 @@ function job_bewerbung_form_handler($page_url) {
             return;
         }
 
-        wp_redirect($page_url);
+        wp_redirect(esc_url($page_url));
         exit;
     }
 }
