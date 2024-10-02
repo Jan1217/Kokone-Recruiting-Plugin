@@ -33,10 +33,12 @@ function krp_settings_page() {
 
     ?>
     <div class="wrap">
-        <h1 style="display: inline-block; margin-right: 10px;">
-            Kokone Recruiting Plugin
-        </h1>
-        <img src="<?php echo plugin_dir_url(dirname(__FILE__, 2)) . 'assets/img/KKN_LogoWortmarke_weiss_2.png'; ?>" alt="Kokone Logo" style="display: inline-block; vertical-align: middle;">
+        <div style="display: flex; align-items: center;">
+            <h1 style="margin-right: 10px;">
+                Kokone Recruiting Plugin
+            </h1>
+            <img src="<?php echo plugin_dir_url(dirname(__FILE__, 2)) . 'assets/img/KKN_LogoWortmarke_weiss_2.png'; ?>" alt="Kokone Logo" style="height: 50px;">
+        </div>
         <p>
             Willkommen beim Kokone Recruiting Plugin. Zu der Plugin Seite <a href="<?php echo esc_url($page_url); ?>" target="_blank"><?php echo esc_html($page_title); ?></a>
         </p>
@@ -1651,7 +1653,7 @@ function filter_jobs_ausbildungen() {
 }
 add_action('wp_footer', 'filter_jobs_ausbildungen');
 
-function job_bewerbung_form_handler() {
+function job_bewerbung_form_handler($page_url) {
     if (isset($_POST['job_bewerbung_submit'])) {
         $errors = array();
 
@@ -1725,7 +1727,11 @@ function job_bewerbung_form_handler() {
                     document.getElementById("job-bewerbung-error-message").innerHTML = "Es gab ein Problem beim Senden Ihrer Bewerbung.";
                     document.getElementById("job-bewerbung-error-message").style.display = "block";
                   </script>';
+            return;
         }
+
+        wp_redirect($page_url);
+        exit;
     }
 }
 add_action('init', 'job_bewerbung_form_handler');

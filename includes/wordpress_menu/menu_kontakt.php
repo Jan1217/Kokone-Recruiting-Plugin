@@ -5,7 +5,7 @@
 
 function krp_kontakt_section_callback() {
     ?>
-        <p>Kontakt-Einstellungen für das Plugin. Hier kannst du allgemeine Kontakt Informationen Angeben. Unten kannst du über den Button Kontakt Personen erstellen. Diese können dann bei den contacts und Ausbildungsstellen zugeordnet werden.</p>
+        <p>Kontakt-Einstellungen für das Plugin. Hier kannst du allgemeine Kontakt Informationen Angeben. Unten kannst du über den Button Kontakt Personen erstellen. Diese können dann bei den Jobs und Ausbildungsstellen zugeordnet werden.</p>
     <?php
 }
 
