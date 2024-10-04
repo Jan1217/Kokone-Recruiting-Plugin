@@ -37,7 +37,7 @@ function krp_settings_page() {
             <h1 style="margin-right: 10px;">
                 Kokone Recruiting Plugin
             </h1>
-            <img src="<?php echo plugin_dir_url(dirname(__FILE__, 2)) . 'assets/img/KKN_LogoWortmarke_weiss_2.png'; ?>" alt="Kokone Logo" style="height: 50px; padding-top: 8px;">
+            <!--<img src="<?php echo plugin_dir_url(dirname(__FILE__, 2)) . 'assets/img/KKN_LogoWortmarke_weiss_2.png'; ?>" alt="Kokone Logo" style="height: 50px; padding-top: 8px;">-->
         </div>
         <p>
             Willkommen beim Kokone Recruiting Plugin. Zu der Plugin Seite <a href="<?php echo esc_url($page_url); ?>" target="_blank"><?php echo esc_html($page_title); ?></a>
@@ -493,38 +493,47 @@ function krp_create_or_update_page() {
                                 <div class="form-group">
                                     <label for="job_bewerbung_vorname" class="required">Vorname</label>
                                     <input id="job_bewerbung_vorname" name="job_bewerbung_vorname" type="text" placeholder="Ihr Vorname">
+                                    <div class="error-message" id="error-vorname"></div> <!-- Fehleranzeige -->
                                 </div>
                                 <div class="form-group">
                                     <label for="job_bewerbung_strasse" class="required">Straße, Nr</label>
                                     <input id="job_bewerbung_strasse" name="job_bewerbung_strasse" type="text" placeholder="Straße">
+                                    <div class="error-message" id="error-strasse"></div> <!-- Fehleranzeige -->
                                 </div>
                                 <div class="form-group">
                                     <label for="job_bewerbung_telefon">Telefonnummer</label>
                                     <input id="job_bewerbung_telefon" name="job_bewerbung_telefon" type="text" placeholder="Telefonnummer">
+                                    <div class="error-message" id="error-telefon"></div> <!-- Fehleranzeige -->
                                 </div>
-                                 <div class="form-group">
+                                <div class="form-group">
                                     <label for="job_bewerbung_nachricht">Ihre Nachricht (optional)</label>
                                     <textarea id="job_bewerbung_nachricht" name="job_bewerbung_nachricht" rows="5" placeholder="Ihre Nachricht"></textarea>
+                                    <div class="error-message" id="error-nachricht"></div> <!-- Fehleranzeige -->
                                 </div>
                             </div>
                             <div class="form-column">
                                 <div class="form-group">
                                     <label for="job_bewerbung_nachname" class="required">Nachname</label>
                                     <input id="job_bewerbung_nachname" name="job_bewerbung_nachname" type="text" placeholder="Ihr Nachname">
+                                    <div class="error-message" id="error-nachname"></div> <!-- Fehleranzeige -->
                                 </div>
                                 <div class="form-group">
                                     <label for="job_bewerbung_ort" class="required">PLZ, Wohnort</label>
                                     <input id="job_bewerbung_ort" name="job_bewerbung_ort" type="text" placeholder="PLZ &amp; Wohnort">
+                                    <div class="error-message" id="error-ort"></div> <!-- Fehleranzeige -->
                                 </div>
                                 <div class="form-group">
                                     <label for="job_bewerbung_email" class="required">E-Mail-Adresse</label>
                                     <input id="job_bewerbung_email" name="job_bewerbung_email" type="email" placeholder="E-Mail-Adresse">
+                                    <div class="error-message" id="error-email"></div> <!-- Fehleranzeige -->
                                 </div>
                                 <div class="form-group">
                                     <label for="job_bewerbung_dateien1">Bewerbungsunterlagen</label>
                                     <p>Max. 2 Dateien, jeweils nicht größer als 10MB. Erlaubt: PDF, Word, Zip, JPG, JPEG oder PNG.</p>
                                     <input id="job_bewerbung_dateien1" name="job_bewerbung_dateien1" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
+                                    <div class="error-message" id="error-dateien1"></div> <!-- Fehleranzeige -->
                                     <input id="job_bewerbung_dateien2" name="job_bewerbung_dateien2" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
+                                    <div class="error-message" id="error-dateien2"></div> <!-- Fehleranzeige -->
                                 </div>
                             </div>
                         </div>
@@ -1663,7 +1672,7 @@ function job_bewerbung_form_handler($page_url) {
         $job_bewerbung_strasse = sanitize_text_field($_POST['job_bewerbung_strasse']);
         $job_bewerbung_ort = sanitize_text_field($_POST['job_bewerbung_ort']);
         $job_bewerbung_telefon = sanitize_text_field($_POST['job_bewerbung_telefon']);
-        $job_bewerbung_email = 'loerwald.jan@gmail.com';
+        $job_bewerbung_email = sanitize_email($_POST['job_bewerbung_email']); // E-Mail-Adresse aus dem Formular
         $job_bewerbung_nachricht = sanitize_textarea_field($_POST['job_bewerbung_nachricht']);
 
         // Kontaktpersonen-E-Mail aus dem Formular abrufen
@@ -1671,15 +1680,32 @@ function job_bewerbung_form_handler($page_url) {
 
         // Validierung der E-Mail-Adresse
         if (!is_email($job_bewerbung_email) || !is_email($job_contact_person_email)) {
-            $errors[] = 'Ungültige E-Mail-Adresse.';
+            $errors['email'] = 'Ungültige E-Mail-Adresse.';
+        }
+        if (empty($job_bewerbung_vorname)) {
+            $errors['vorname'] = 'Vorname ist erforderlich.';
+        }
+        if (empty($job_bewerbung_nachname)) {
+            $errors['nachname'] = 'Nachname ist erforderlich.';
+        }
+        if (empty($job_bewerbung_strasse)) {
+            $errors['strasse'] = 'Straße ist erforderlich.';
+        }
+        if (empty($job_bewerbung_ort)) {
+            $errors['ort'] = 'PLZ und Wohnort sind erforderlich.';
+        }
+        if (empty($job_bewerbung_telefon)) {
+            $errors['telefon'] = 'Telefonnummer ist erforderlich.';
         }
 
-        // Wenn es Fehler gibt, Fehlermeldungen in die Div schreiben
+        // Wenn es Fehler gibt, Fehlermeldungen in die entsprechende Div schreiben
         if (!empty($errors)) {
-            echo '<script>
-                    document.getElementById("job-bewerbung-error-message").innerHTML = "' . implode('<br>', $errors) . '";
-                    document.getElementById("job-bewerbung-error-message").style.display = "block";
-                  </script>';
+            foreach ($errors as $field => $message) {
+                echo '<script>
+                        document.getElementById("error-' . $field . '").innerHTML = "' . $message . '";
+                        document.getElementById("error-' . $field . '").style.display = "block";
+                      </script>';
+            }
             return;  // Verarbeitung abbrechen
         }
 
@@ -1699,39 +1725,13 @@ function job_bewerbung_form_handler($page_url) {
         $job_bewerbung_application_message .= "<p><strong>Nachricht:</strong><br>$job_bewerbung_nachricht</p>";
         $job_bewerbung_application_message .= "</body></html>";
 
-        // E-Mail-Header
-        $job_bewerbung_headers = array(
-            'Content-Type: text/html; charset=UTF-8',
-            'From: Neue Bewerbung',
-        );
+        // E-Mail senden
+        $headers = array('Content-Type: text/html; charset=UTF-8', 'From: ' . $job_bewerbung_email);
+        wp_mail($job_bewerbung_email_1, $job_bewerbung_subject, $job_bewerbung_application_message, $headers);
 
-        // Dateien verarbeiten und Anhänge hinzufügen
-        $job_bewerbung_attachments = array();
-        $job_bewerbung_upload_dir = wp_upload_dir();
-
-        for ($i = 1; $i <= 2; $i++) {
-            if (!empty($_FILES['dateien' . $i]['name'])) {
-                $job_bewerbung_uploaded_file = $_FILES['dateien' . $i];
-                if (is_uploaded_file($job_bewerbung_uploaded_file['tmp_name'])) {
-                    $job_bewerbung_upload_file_path = $job_bewerbung_upload_dir['path'] . '/' . basename($job_bewerbung_uploaded_file['name']);
-                    if (move_uploaded_file($job_bewerbung_uploaded_file['tmp_name'], $job_bewerbung_upload_file_path)) {
-                        $job_bewerbung_attachments[] = $job_bewerbung_upload_file_path;
-                    }
-                }
-            }
-        }
-
-        // Bewerbung senden
-        if (!wp_mail($job_bewerbung_email_1, $job_bewerbung_subject, $job_bewerbung_application_message, $job_bewerbung_headers, $job_bewerbung_attachments)) {
-            echo '<script>
-                    document.getElementById("job-bewerbung-error-message").innerHTML = "Es gab ein Problem beim Senden Ihrer Bewerbung.";
-                    document.getElementById("job-bewerbung-error-message").style.display = "block";
-                  </script>';
-            return;
-        }
-
-        wp_redirect(esc_url($page_url));
-        exit;
+        // Umleitung zur Dankesseite
+        wp_redirect('kokone.de');
+        exit; // Beenden Sie das Skript nach der Umleitung
     }
 }
 add_action('init', 'job_bewerbung_form_handler');
