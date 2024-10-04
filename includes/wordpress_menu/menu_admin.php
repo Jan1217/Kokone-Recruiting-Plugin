@@ -1730,7 +1730,7 @@ function job_bewerbung_form_handler($page_url) {
         wp_mail($job_bewerbung_email_1, $job_bewerbung_subject, $job_bewerbung_application_message, $headers);
 
         // Umleitung zur Dankesseite
-        wp_redirect('kokone.de');
+        wp_redirect('https://kokone.de/');
         exit; // Beenden Sie das Skript nach der Umleitung
     }
 }
