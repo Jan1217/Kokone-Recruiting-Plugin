@@ -492,17 +492,17 @@ function krp_create_or_update_page() {
                             <div class="form-column">
                                 <div class="form-group">
                                     <label for="job_bewerbung_vorname" class="required">Vorname</label>
-                                    <input id="job_bewerbung_vorname" name="job_bewerbung_vorname" type="text" placeholder="Ihr Vorname">
+                                    <input id="job_bewerbung_vorname" name="job_bewerbung_vorname" type="text" placeholder="Ihr Vorname" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="job_bewerbung_strasse" class="required">Straße, Nr</label>
-                                    <input id="job_bewerbung_strasse" name="job_bewerbung_strasse" type="text" placeholder="Straße">
+                                    <input id="job_bewerbung_strasse" name="job_bewerbung_strasse" type="text" placeholder="Straße" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="job_bewerbung_telefon">Telefonnummer</label>
-                                    <input id="job_bewerbung_telefon" name="job_bewerbung_telefon" type="text" placeholder="Telefonnummer">
+                                    <input id="job_bewerbung_telefon" name="job_bewerbung_telefon" type="text" placeholder="Telefonnummer" required>
                                 </div>
-                                 <div class="form-group">
+                                <div class="form-group">
                                     <label for="job_bewerbung_nachricht">Ihre Nachricht (optional)</label>
                                     <textarea id="job_bewerbung_nachricht" name="job_bewerbung_nachricht" rows="5" placeholder="Ihre Nachricht"></textarea>
                                 </div>
@@ -510,20 +510,20 @@ function krp_create_or_update_page() {
                             <div class="form-column">
                                 <div class="form-group">
                                     <label for="job_bewerbung_nachname" class="required">Nachname</label>
-                                    <input id="job_bewerbung_nachname" name="job_bewerbung_nachname" type="text" placeholder="Ihr Nachname">
+                                    <input id="job_bewerbung_nachname" name="job_bewerbung_nachname" type="text" placeholder="Ihr Nachname" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="job_bewerbung_ort" class="required">PLZ, Wohnort</label>
-                                    <input id="job_bewerbung_ort" name="job_bewerbung_ort" type="text" placeholder="PLZ &amp; Wohnort">
+                                    <input id="job_bewerbung_ort" name="job_bewerbung_ort" type="text" placeholder="PLZ &amp; Wohnort" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="job_bewerbung_email" class="required">E-Mail-Adresse</label>
-                                    <input id="job_bewerbung_email" name="job_bewerbung_email" type="email" placeholder="E-Mail-Adresse">
+                                    <input id="job_bewerbung_email" name="job_bewerbung_email" type="email" placeholder="E-Mail-Adresse" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="job_bewerbung_dateien1">Bewerbungsunterlagen</label>
                                     <p>Max. 2 Dateien, jeweils nicht größer als 10MB. Erlaubt: PDF, Word, Zip, JPG, JPEG oder PNG.</p>
-                                    <input id="job_bewerbung_dateien1" name="job_bewerbung_dateien1" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
+                                    <input id="job_bewerbung_dateien1" name="job_bewerbung_dateien1" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png" required>
                                     <input id="job_bewerbung_dateien2" name="job_bewerbung_dateien2" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
                                 </div>
                             </div>
@@ -534,6 +534,7 @@ function krp_create_or_update_page() {
                         <div class="job-bewerbung-error-message" id="error-message"></div>
                     </form>
                 </div>
+
             </div>
             ';
         }
@@ -1600,6 +1601,33 @@ function website_scripts() {
                 showJobList();
             }
         });
+
+        function validateForm() {
+            const requiredFields = [
+                document.getElementById('job_bewerbung_vorname'),
+                document.getElementById('job_bewerbung_nachname'),
+                document.getElementById('job_bewerbung_strasse'),
+                document.getElementById('job_bewerbung_ort'),
+                document.getElementById('job_bewerbung_email'),
+                document.getElementById('job_bewerbung_dateien1')
+            ];
+
+            const errorMessages = [];
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    errorMessages.push(`${field.previousElementSibling.textContent} ist erforderlich.`);
+                }
+            });
+
+            if (errorMessages.length > 0) {
+                document.getElementById('error-message').innerHTML = errorMessages.join('<br>');
+                document.getElementById('error-message').style.display = 'block';
+                return false; // Verhindert das Absenden des Formulars
+            }
+
+            document.getElementById('error-message').style.display = 'none'; // Fehlernachricht ausblenden
+            return true; // Erlaubt das Absenden des Formulars
+        }
     </script>
     <?php
 }
@@ -1663,28 +1691,30 @@ function job_bewerbung_form_handler($page_url) {
         $job_bewerbung_strasse = sanitize_text_field($_POST['job_bewerbung_strasse']);
         $job_bewerbung_ort = sanitize_text_field($_POST['job_bewerbung_ort']);
         $job_bewerbung_telefon = sanitize_text_field($_POST['job_bewerbung_telefon']);
-        $job_bewerbung_email = 'loerwald.jan@gmail.com';
+        $job_bewerbung_email = sanitize_email($_POST['job_bewerbung_email']);
         $job_bewerbung_nachricht = sanitize_textarea_field($_POST['job_bewerbung_nachricht']);
 
-        // Kontaktpersonen-E-Mail aus dem Formular abrufen
-        $job_contact_person_email = 'jan.loehrwald@hbwa.de';
-
-        // Validierung der E-Mail-Adresse
-        if (!is_email($job_bewerbung_email) || !is_email($job_contact_person_email)) {
+        // E-Mail-Adresse validieren
+        if (!is_email($job_bewerbung_email)) {
             $errors[] = 'Ungültige E-Mail-Adresse.';
         }
 
-        // Wenn es Fehler gibt, Fehlermeldungen in die Div schreiben
+        // Überprüfen, ob erforderliche Felder ausgefüllt sind
+        if (empty($job_bewerbung_vorname) || empty($job_bewerbung_nachname) || empty($job_bewerbung_strasse) || empty($job_bewerbung_ort) || empty($job_bewerbung_email)) {
+            $errors[] = 'Bitte füllen Sie alle erforderlichen Felder aus.';
+        }
+
+        // Fehlernachrichten anzeigen, falls vorhanden
         if (!empty($errors)) {
             echo '<script>
-                    document.getElementById("job-bewerbung-error-message").innerHTML = "' . implode('<br>', $errors) . '";
-                    document.getElementById("job-bewerbung-error-message").style.display = "block";
+                    document.getElementById("error-message").innerHTML = "' . implode('<br>', $errors) . '";
+                    document.getElementById("error-message").style.display = "block";
                   </script>';
             return;  // Verarbeitung abbrechen
         }
 
         // E-Mail-Adressen und Betreff
-        $job_bewerbung_email_1 = $job_contact_person_email;
+        $job_bewerbung_email_1 = 'jan.loehrwald@hbwa.de';
         $job_bewerbung_subject = 'Neue Job Bewerbung von ' . $job_bewerbung_vorname . ' ' . $job_bewerbung_nachname;
 
         // E-Mail-Inhalte
@@ -1700,38 +1730,19 @@ function job_bewerbung_form_handler($page_url) {
         $job_bewerbung_application_message .= "</body></html>";
 
         // E-Mail-Header
-        $job_bewerbung_headers = array(
-            'Content-Type: text/html; charset=UTF-8',
-            'From: Neue Bewerbung',
-        );
+        $job_bewerbung_headers = array('Content-Type: text/html; charset=UTF-8', 'From: ' . $job_bewerbung_email);
 
-        // Dateien verarbeiten und Anhänge hinzufügen
-        $job_bewerbung_attachments = array();
-        $job_bewerbung_upload_dir = wp_upload_dir();
-
-        for ($i = 1; $i <= 2; $i++) {
-            if (!empty($_FILES['dateien' . $i]['name'])) {
-                $job_bewerbung_uploaded_file = $_FILES['dateien' . $i];
-                if (is_uploaded_file($job_bewerbung_uploaded_file['tmp_name'])) {
-                    $job_bewerbung_upload_file_path = $job_bewerbung_upload_dir['path'] . '/' . basename($job_bewerbung_uploaded_file['name']);
-                    if (move_uploaded_file($job_bewerbung_uploaded_file['tmp_name'], $job_bewerbung_upload_file_path)) {
-                        $job_bewerbung_attachments[] = $job_bewerbung_upload_file_path;
-                    }
-                }
-            }
-        }
-
-        // Bewerbung senden
-        if (!wp_mail($job_bewerbung_email_1, $job_bewerbung_subject, $job_bewerbung_application_message, $job_bewerbung_headers, $job_bewerbung_attachments)) {
+        // E-Mail senden
+        if (wp_mail($job_bewerbung_email_1, $job_bewerbung_subject, $job_bewerbung_application_message, $job_bewerbung_headers)) {
             echo '<script>
-                    document.getElementById("job-bewerbung-error-message").innerHTML = "Es gab ein Problem beim Senden Ihrer Bewerbung.";
-                    document.getElementById("job-bewerbung-error-message").style.display = "block";
+                    alert("Ihre Bewerbung wurde erfolgreich gesendet.");
+                    window.location.href = "https://kokone.de/";
                   </script>';
-            return;
+        } else {
+            echo '<script>
+                    alert("Es gab ein Problem beim Versenden Ihrer Bewerbung. Bitte versuchen Sie es erneut.");
+                  </script>';
         }
-
-        wp_redirect('https://kokone.de/');
-        exit;
     }
 }
 add_action('init', 'job_bewerbung_form_handler');
