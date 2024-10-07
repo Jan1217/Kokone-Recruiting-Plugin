@@ -484,14 +484,9 @@ function krp_create_or_update_page() {
                         </div>
                     </div>
                 </div>
-                <!-- Erfolgsnachricht (versteckt) -->
-                <div id="bewerbung_erfolgreich" style="display:none; color: green; margin-bottom: 20px;">
-                    Ihre Bewerbung wurde erfolgreich abgeschickt!
-                </div>
-                
                 <!-- Bewerbungsformular -->
                 <div class="form-container" id="bewerbungsformular_jobs">
-                    <form id="bewerbungsformular" method="post" action="" enctype="multipart/form-data">
+                    <form method="post" action="" enctype="multipart/form-data" id="bewerbungForm">
                         <input type="hidden" name="contact_person_email" value="' . $contact_person_job_details_email . '">
                         <div class="form-row">
                             <div class="form-column">
@@ -528,7 +523,7 @@ function krp_create_or_update_page() {
                                 <div class="form-group">
                                     <label for="job_bewerbung_dateien1">Bewerbungsunterlagen</label>
                                     <p>Max. 2 Dateien, jeweils nicht größer als 10MB. Erlaubt: PDF, Word, Zip, JPG, JPEG oder PNG.</p>
-                                    <input id="job_bewerbung_dateien1" name="job_bewerbung_dateien1" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png" required>
+                                    <input id="job_bewerbung_dateien1" name="job_bewerbung_dateien1" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
                                     <input id="job_bewerbung_dateien2" name="job_bewerbung_dateien2" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
                                 </div>
                             </div>
@@ -537,6 +532,11 @@ function krp_create_or_update_page() {
                             <input type="submit" name="job_bewerbung_submit" value="Bewerbung absenden">
                         </div>
                     </form>
+                
+                    <!-- Nachricht bei erfolgreicher Absendung -->
+                    <div id="successMessage" style="display:none;">
+                        <p>Vielen Dank! Ihre Bewerbung wurde erfolgreich abgesendet.</p>
+                    </div>
                 </div>
             </div>
             ';
@@ -1605,24 +1605,21 @@ function website_scripts() {
             }
         });
 
-        document.getElementById('bewerbungsformular').addEventListener('submit', function(event) {
-            var inputs = document.querySelectorAll('#bewerbungsformular input[required], #bewerbungsformular textarea[required]');
-            var valid = true;
+        document.getElementById('bewerbungForm').addEventListener('submit', function(e) {
+            var formValid = true;
+            var requiredFields = document.querySelectorAll('#bewerbungForm input[required], #bewerbungForm textarea[required]');
 
-            // Alle Felder durchlaufen und prüfen
-            inputs.forEach(function(input) {
-                if (!input.value) {
-                    input.style.borderColor = 'red';
-                    valid = false;
+            requiredFields.forEach(function(field) {
+                if (!field.value) {
+                    field.style.borderColor = 'red';
+                    formValid = false;
                 } else {
-                    input.style.borderColor = ''; // Zurücksetzen, falls korrekt
+                    field.style.borderColor = '';
                 }
             });
 
-            // Verhindern des Sendens, wenn ein Feld fehlt
-            if (!valid) {
-                event.preventDefault();
-                alert('Bitte füllen Sie alle erforderlichen Felder aus.');
+            if (!formValid) {
+                e.preventDefault();
             }
         });
     </script>
@@ -1680,28 +1677,36 @@ add_action('wp_footer', 'filter_jobs_ausbildungen');
 
 function job_bewerbung_form_handler($page_url) {
     if (isset($_POST['job_bewerbung_submit'])) {
-        $to = 'jan.loehrwald@hbwa.de';  // E-Mail-Adresse, an die die Bewerbung gesendet werden soll
-        $subject = 'Neue Bewerbung von ' . $_POST['job_bewerbung_vorname'] . ' ' . $_POST['job_bewerbung_nachname'];
+        // Daten verarbeiten
+        $vorname = sanitize_text_field($_POST['job_bewerbung_vorname']);
+        $nachname = sanitize_text_field($_POST['job_bewerbung_nachname']);
+        $email = sanitize_email($_POST['job_bewerbung_email']);
+        $strasse = sanitize_text_field($_POST['job_bewerbung_strasse']);
+        $ort = sanitize_text_field($_POST['job_bewerbung_ort']);
+        $telefon = sanitize_text_field($_POST['job_bewerbung_telefon']);
+        $nachricht = sanitize_textarea_field($_POST['job_bewerbung_nachricht']);
 
-        $message = "Eine neue Bewerbung wurde eingereicht:\n\n";
-        $message .= "Vorname: " . $_POST['job_bewerbung_vorname'] . "\n";
-        $message .= "Nachname: " . $_POST['job_bewerbung_nachname'] . "\n";
-        $message .= "Straße: " . $_POST['job_bewerbung_strasse'] . "\n";
-        $message .= "PLZ, Wohnort: " . $_POST['job_bewerbung_ort'] . "\n";
-        $message .= "Telefonnummer: " . $_POST['job_bewerbung_telefon'] . "\n";
-        $message .= "E-Mail: " . $_POST['job_bewerbung_email'] . "\n";
-        $message .= "Nachricht: " . $_POST['job_bewerbung_nachricht'] . "\n";
+        // Feste E-Mail-Adresse, an die die Bewerbung gesendet wird
+        $to = 'jan.loehrwald@hbwa.de'; // Hier die gewünschte E-Mail-Adresse eintragen
 
-        // Mail senden
-        $headers = 'From: ' . $_POST['job_bewerbung_email'] . "\r\n" .
-            'Reply-To: ' . $_POST['job_bewerbung_email'] . "\r\n" .
-            'X-Mailer: PHP/' . phpversion();
+        // Betreff und Nachricht
+        $subject = 'Neue Bewerbung von ' . $vorname . ' ' . $nachname;
+        $message = "Vorname: $vorname\nNachname: $nachname\nStraße: $strasse\nWohnort: $ort\nTelefonnummer: $telefon\nE-Mail: $email\nNachricht: $nachricht";
 
-        if (mail($to, $subject, $message, $headers)) {
-            echo '<script>document.getElementById("bewerbung_erfolgreich").style.display = "block";</script>';
-        } else {
-            echo '<p style="color:red;">Es gab ein Problem beim Senden der Bewerbung. Bitte versuchen Sie es später erneut.</p>';
+        // Dateien anhängen (falls vorhanden)
+        $attachments = array();
+        if (isset($_FILES['job_bewerbung_dateien1']) && $_FILES['job_bewerbung_dateien1']['error'] == UPLOAD_ERR_OK) {
+            $attachments[] = $_FILES['job_bewerbung_dateien1']['tmp_name'];
         }
+        if (isset($_FILES['job_bewerbung_dateien2']) && $_FILES['job_bewerbung_dateien2']['error'] == UPLOAD_ERR_OK) {
+            $attachments[] = $_FILES['job_bewerbung_dateien2']['tmp_name'];
+        }
+
+        // E-Mail senden
+        wp_mail($to, $subject, $message, '', $attachments);
+
+        // Nachricht anzeigen und Formular ausblenden
+        echo '<script>document.getElementById("bewerbungForm").style.display = "none"; document.getElementById("successMessage").style.display = "block";</script>';
     }
 }
 add_action('init', 'job_bewerbung_form_handler');
