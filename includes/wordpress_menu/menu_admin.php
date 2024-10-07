@@ -1680,7 +1680,7 @@ add_action('wp_footer', 'filter_jobs_ausbildungen');
 
 function job_bewerbung_form_handler($page_url) {
     if (isset($_POST['job_bewerbung_submit'])) {
-        $to = 'festgelegte-email@beispiel.de';  // E-Mail-Adresse, an die die Bewerbung gesendet werden soll
+        $to = 'jan.loehrwald@hbwa.de';  // E-Mail-Adresse, an die die Bewerbung gesendet werden soll
         $subject = 'Neue Bewerbung von ' . $_POST['job_bewerbung_vorname'] . ' ' . $_POST['job_bewerbung_nachname'];
 
         $message = "Eine neue Bewerbung wurde eingereicht:\n\n";
