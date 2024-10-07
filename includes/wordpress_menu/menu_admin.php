@@ -484,9 +484,14 @@ function krp_create_or_update_page() {
                         </div>
                     </div>
                 </div>
+                <!-- Erfolgsnachricht (versteckt) -->
+                <div id="bewerbung_erfolgreich" style="display:none; color: green; margin-bottom: 20px;">
+                    Ihre Bewerbung wurde erfolgreich abgeschickt!
+                </div>
+                
                 <!-- Bewerbungsformular -->
                 <div class="form-container" id="bewerbungsformular_jobs">
-                    <form method="post" action="" enctype="multipart/form-data" onsubmit="return validateForm()">
+                    <form id="bewerbungsformular" method="post" action="" enctype="multipart/form-data">
                         <input type="hidden" name="contact_person_email" value="' . $contact_person_job_details_email . '">
                         <div class="form-row">
                             <div class="form-column">
@@ -531,10 +536,8 @@ function krp_create_or_update_page() {
                         <div class="form-group">
                             <input type="submit" name="job_bewerbung_submit" value="Bewerbung absenden">
                         </div>
-                        <div class="job-bewerbung-error-message" id="error-message"></div>
                     </form>
                 </div>
-
             </div>
             ';
         }
@@ -1602,32 +1605,26 @@ function website_scripts() {
             }
         });
 
-        function validateForm() {
-            const requiredFields = [
-                document.getElementById('job_bewerbung_vorname'),
-                document.getElementById('job_bewerbung_nachname'),
-                document.getElementById('job_bewerbung_strasse'),
-                document.getElementById('job_bewerbung_ort'),
-                document.getElementById('job_bewerbung_email'),
-                document.getElementById('job_bewerbung_dateien1')
-            ];
+        document.getElementById('bewerbungsformular').addEventListener('submit', function(event) {
+            var inputs = document.querySelectorAll('#bewerbungsformular input[required], #bewerbungsformular textarea[required]');
+            var valid = true;
 
-            const errorMessages = [];
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    errorMessages.push(`${field.previousElementSibling.textContent} ist erforderlich.`);
+            // Alle Felder durchlaufen und prüfen
+            inputs.forEach(function(input) {
+                if (!input.value) {
+                    input.style.borderColor = 'red';
+                    valid = false;
+                } else {
+                    input.style.borderColor = ''; // Zurücksetzen, falls korrekt
                 }
             });
 
-            if (errorMessages.length > 0) {
-                document.getElementById('error-message').innerHTML = errorMessages.join('<br>');
-                document.getElementById('error-message').style.display = 'block';
-                return false; // Verhindert das Absenden des Formulars
+            // Verhindern des Sendens, wenn ein Feld fehlt
+            if (!valid) {
+                event.preventDefault();
+                alert('Bitte füllen Sie alle erforderlichen Felder aus.');
             }
-
-            document.getElementById('error-message').style.display = 'none'; // Fehlernachricht ausblenden
-            return true; // Erlaubt das Absenden des Formulars
-        }
+        });
     </script>
     <?php
 }
@@ -1683,65 +1680,27 @@ add_action('wp_footer', 'filter_jobs_ausbildungen');
 
 function job_bewerbung_form_handler($page_url) {
     if (isset($_POST['job_bewerbung_submit'])) {
-        $errors = array();
+        $to = 'festgelegte-email@beispiel.de';  // E-Mail-Adresse, an die die Bewerbung gesendet werden soll
+        $subject = 'Neue Bewerbung von ' . $_POST['job_bewerbung_vorname'] . ' ' . $_POST['job_bewerbung_nachname'];
 
-        // Daten sammeln und validieren
-        $job_bewerbung_vorname = sanitize_text_field($_POST['job_bewerbung_vorname']);
-        $job_bewerbung_nachname = sanitize_text_field($_POST['job_bewerbung_nachname']);
-        $job_bewerbung_strasse = sanitize_text_field($_POST['job_bewerbung_strasse']);
-        $job_bewerbung_ort = sanitize_text_field($_POST['job_bewerbung_ort']);
-        $job_bewerbung_telefon = sanitize_text_field($_POST['job_bewerbung_telefon']);
-        $job_bewerbung_email = sanitize_email($_POST['job_bewerbung_email']);
-        $job_bewerbung_nachricht = sanitize_textarea_field($_POST['job_bewerbung_nachricht']);
+        $message = "Eine neue Bewerbung wurde eingereicht:\n\n";
+        $message .= "Vorname: " . $_POST['job_bewerbung_vorname'] . "\n";
+        $message .= "Nachname: " . $_POST['job_bewerbung_nachname'] . "\n";
+        $message .= "Straße: " . $_POST['job_bewerbung_strasse'] . "\n";
+        $message .= "PLZ, Wohnort: " . $_POST['job_bewerbung_ort'] . "\n";
+        $message .= "Telefonnummer: " . $_POST['job_bewerbung_telefon'] . "\n";
+        $message .= "E-Mail: " . $_POST['job_bewerbung_email'] . "\n";
+        $message .= "Nachricht: " . $_POST['job_bewerbung_nachricht'] . "\n";
 
-        // E-Mail-Adresse validieren
-        if (!is_email($job_bewerbung_email)) {
-            $errors[] = 'Ungültige E-Mail-Adresse.';
-        }
+        // Mail senden
+        $headers = 'From: ' . $_POST['job_bewerbung_email'] . "\r\n" .
+            'Reply-To: ' . $_POST['job_bewerbung_email'] . "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
 
-        // Überprüfen, ob erforderliche Felder ausgefüllt sind
-        if (empty($job_bewerbung_vorname) || empty($job_bewerbung_nachname) || empty($job_bewerbung_strasse) || empty($job_bewerbung_ort) || empty($job_bewerbung_email)) {
-            $errors[] = 'Bitte füllen Sie alle erforderlichen Felder aus.';
-        }
-
-        // Fehlernachrichten anzeigen, falls vorhanden
-        if (!empty($errors)) {
-            echo '<script>
-                    document.getElementById("error-message").innerHTML = "' . implode('<br>', $errors) . '";
-                    document.getElementById("error-message").style.display = "block";
-                  </script>';
-            return;  // Verarbeitung abbrechen
-        }
-
-        // E-Mail-Adressen und Betreff
-        $job_bewerbung_email_1 = 'jan.loehrwald@hbwa.de';
-        $job_bewerbung_subject = 'Neue Job Bewerbung von ' . $job_bewerbung_vorname . ' ' . $job_bewerbung_nachname;
-
-        // E-Mail-Inhalte
-        $job_bewerbung_application_message = "<html><body>";
-        $job_bewerbung_application_message .= "<h2>Neue Job Bewerbung</h2>";
-        $job_bewerbung_application_message .= "<p><strong>Vorname:</strong> $job_bewerbung_vorname</p>";
-        $job_bewerbung_application_message .= "<p><strong>Nachname:</strong> $job_bewerbung_nachname</p>";
-        $job_bewerbung_application_message .= "<p><strong>Straße und Hausnummer:</strong> $job_bewerbung_strasse</p>";
-        $job_bewerbung_application_message .= "<p><strong>PLZ, Wohnort:</strong> $job_bewerbung_ort</p>";
-        $job_bewerbung_application_message .= "<p><strong>Telefonnummer:</strong> $job_bewerbung_telefon</p>";
-        $job_bewerbung_application_message .= "<p><strong>Email:</strong> $job_bewerbung_email</p>";
-        $job_bewerbung_application_message .= "<p><strong>Nachricht:</strong><br>$job_bewerbung_nachricht</p>";
-        $job_bewerbung_application_message .= "</body></html>";
-
-        // E-Mail-Header
-        $job_bewerbung_headers = array('Content-Type: text/html; charset=UTF-8', 'From: ' . $job_bewerbung_email);
-
-        // E-Mail senden
-        if (wp_mail($job_bewerbung_email_1, $job_bewerbung_subject, $job_bewerbung_application_message, $job_bewerbung_headers)) {
-            echo '<script>
-                    alert("Ihre Bewerbung wurde erfolgreich gesendet.");
-                    window.location.href = "https://kokone.de/";
-                  </script>';
+        if (mail($to, $subject, $message, $headers)) {
+            echo '<script>document.getElementById("bewerbung_erfolgreich").style.display = "block";</script>';
         } else {
-            echo '<script>
-                    alert("Es gab ein Problem beim Versenden Ihrer Bewerbung. Bitte versuchen Sie es erneut.");
-                  </script>';
+            echo '<p style="color:red;">Es gab ein Problem beim Senden der Bewerbung. Bitte versuchen Sie es später erneut.</p>';
         }
     }
 }
