@@ -1686,7 +1686,7 @@ function job_bewerbung_form_handler() {
         }
 
         // E-Mail senden
-        $to = 'andere@beispiel.com';  // Hier die gewünschte E-Mail-Adresse
+        $to = 'jan.loehrwald@hbwa.de';  // Hier die gewünschte E-Mail-Adresse
         $subject = 'Neue Bewerbung von ' . $_POST['job_bewerbung_vorname'] . ' ' . $_POST['job_bewerbung_nachname'];
         $body = "Vorname: " . $_POST['job_bewerbung_vorname'] . "\n";
         $body .= "Nachname: " . $_POST['job_bewerbung_nachname'] . "\n";
