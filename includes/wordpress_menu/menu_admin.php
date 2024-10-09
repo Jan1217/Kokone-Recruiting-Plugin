@@ -486,7 +486,7 @@ function krp_create_or_update_page() {
                 </div>
                 <!-- Bewerbungsformular -->
                 <div class="form-container" id="bewerbungsformular_jobs">
-                    <form method="post" action="" enctype="multipart/form-data" id="bewerbungForm">
+                    <form method="post" action="" enctype="multipart/form-data">
                         <input type="hidden" name="contact_person_email" value="' . $contact_person_job_details_email . '">
                         <div class="form-row">
                             <div class="form-column">
@@ -523,7 +523,7 @@ function krp_create_or_update_page() {
                                 <div class="form-group">
                                     <label for="job_bewerbung_dateien1">Bewerbungsunterlagen</label>
                                     <p>Max. 2 Dateien, jeweils nicht größer als 10MB. Erlaubt: PDF, Word, Zip, JPG, JPEG oder PNG.</p>
-                                    <input id="job_bewerbung_dateien1" name="job_bewerbung_dateien1" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
+                                    <input id="job_bewerbung_dateien1" name="job_bewerbung_dateien1" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png" required>
                                     <input id="job_bewerbung_dateien2" name="job_bewerbung_dateien2" type="file" accept=".pdf, .doc, .docx, .zip, .jpg, .jpeg, .png">
                                 </div>
                             </div>
@@ -532,11 +532,6 @@ function krp_create_or_update_page() {
                             <input type="submit" name="job_bewerbung_submit" value="Bewerbung absenden">
                         </div>
                     </form>
-                
-                    <!-- Nachricht bei erfolgreicher Absendung -->
-                    <div id="successMessage" style="display:none;">
-                        <p>Vielen Dank! Ihre Bewerbung wurde erfolgreich abgesendet.</p>
-                    </div>
                 </div>
             </div>
             ';
@@ -1677,36 +1672,7 @@ add_action('wp_footer', 'filter_jobs_ausbildungen');
 
 function job_bewerbung_form_handler($page_url) {
     if (isset($_POST['job_bewerbung_submit'])) {
-        // Daten verarbeiten
-        $vorname = sanitize_text_field($_POST['job_bewerbung_vorname']);
-        $nachname = sanitize_text_field($_POST['job_bewerbung_nachname']);
-        $email = sanitize_email($_POST['job_bewerbung_email']);
-        $strasse = sanitize_text_field($_POST['job_bewerbung_strasse']);
-        $ort = sanitize_text_field($_POST['job_bewerbung_ort']);
-        $telefon = sanitize_text_field($_POST['job_bewerbung_telefon']);
-        $nachricht = sanitize_textarea_field($_POST['job_bewerbung_nachricht']);
 
-        // Feste E-Mail-Adresse, an die die Bewerbung gesendet wird
-        $to = 'jan.loehrwald@hbwa.de'; // Hier die gewünschte E-Mail-Adresse eintragen
-
-        // Betreff und Nachricht
-        $subject = 'Neue Bewerbung von ' . $vorname . ' ' . $nachname;
-        $message = "Vorname: $vorname\nNachname: $nachname\nStraße: $strasse\nWohnort: $ort\nTelefonnummer: $telefon\nE-Mail: $email\nNachricht: $nachricht";
-
-        // Dateien anhängen (falls vorhanden)
-        $attachments = array();
-        if (isset($_FILES['job_bewerbung_dateien1']) && $_FILES['job_bewerbung_dateien1']['error'] == UPLOAD_ERR_OK) {
-            $attachments[] = $_FILES['job_bewerbung_dateien1']['tmp_name'];
-        }
-        if (isset($_FILES['job_bewerbung_dateien2']) && $_FILES['job_bewerbung_dateien2']['error'] == UPLOAD_ERR_OK) {
-            $attachments[] = $_FILES['job_bewerbung_dateien2']['tmp_name'];
-        }
-
-        // E-Mail senden
-        wp_mail($to, $subject, $message, '', $attachments);
-
-        // Nachricht anzeigen und Formular ausblenden
-        echo '<script>document.getElementById("bewerbungForm").style.display = "none"; document.getElementById("successMessage").style.display = "block";</script>';
     }
 }
 add_action('init', 'job_bewerbung_form_handler');
