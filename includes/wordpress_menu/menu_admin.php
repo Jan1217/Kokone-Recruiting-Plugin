@@ -1654,9 +1654,6 @@ add_action('wp_footer', 'filter_jobs_ausbildungen');
 
 function job_bewerbung_form_handler($page_url) {
     if (isset($_POST['job_bewerbung_submit'])) {
-        $recipient_email = 'jan.loehrwald@hbwa.de';
-
-        // Formulardaten sichern
         $vorname = sanitize_text_field($_POST['job_bewerbung_vorname']);
         $nachname = sanitize_text_field($_POST['job_bewerbung_nachname']);
         $strasse = sanitize_text_field($_POST['job_bewerbung_strasse']);
@@ -1665,37 +1662,39 @@ function job_bewerbung_form_handler($page_url) {
         $email = sanitize_email($_POST['job_bewerbung_email']);
         $nachricht = sanitize_textarea_field($_POST['job_bewerbung_nachricht']);
 
-        // E-Mail-Inhalt erstellen
+        // Dateien verarbeiten
+        $dateien = [];
+        for ($i = 1; $i <= 2; $i++) {
+            if (!empty($_FILES["job_bewerbung_dateien{$i}"]["name"])) {
+                $file = $_FILES["job_bewerbung_dateien{$i}"];
+                // Datei hochladen und sicherstellen, dass sie erfolgreich ist
+                if ($file['error'] === UPLOAD_ERR_OK) {
+                    // Zielverzeichnis für den Upload
+                    $upload_dir = wp_upload_dir();
+                    $upload_file = $upload_dir['path'] . '/' . basename($file['name']);
+
+                    // Datei verschieben
+                    if (move_uploaded_file($file['tmp_name'], $upload_file)) {
+                        $dateien[] = $upload_file; // Erfolgreich hochgeladene Datei zur Liste hinzufügen
+                    }
+                }
+            }
+        }
+
+        // E-Mail an die Kontaktperson
+        $to = 'jan.loehrwald@hbwa.de'; // E-Mail-Adresse der Kontaktperson
         $subject = 'Neue Bewerbung von ' . $vorname . ' ' . $nachname;
-        $message = "Vorname: $vorname\nNachname: $nachname\nStraße: $strasse\nPLZ, Wohnort: $ort\nTelefonnummer: $telefon\nE-Mail-Adresse: $email\nNachricht: $nachricht";
+        $message = "Vorname: $vorname\nNachname: $nachname\nStraße: $strasse\nOrt: $ort\nTelefon: $telefon\nE-Mail: $email\nNachricht: $nachricht\n";
 
-        // E-Mail an den Empfänger senden
-        wp_mail($recipient_email, $subject, $message);
-
-        // Datei-Upload verarbeiten
-        if (!empty($_FILES['job_bewerbung_dateien1']['name'])) {
-            // Hochgeladene Dateien speichern
-            $uploaded_file1 = $_FILES['job_bewerbung_dateien1'];
-            $upload_overrides = array('test_form' => false);
-            $movefile1 = wp_handle_upload($uploaded_file1, $upload_overrides);
-            if ($movefile1 && !isset($movefile1['error'])) {
-                // Erfolgreich hochgeladen
-            } else {
-                // Fehlerbehandlung für Datei 1
-                error_log($movefile1['error']);
-            }
+        // Anhänge hinzufügen, falls vorhanden
+        if ($dateien) {
+            $attachments = $dateien;
+        } else {
+            $attachments = [];
         }
 
-        if (!empty($_FILES['job_bewerbung_dateien2']['name'])) {
-            $uploaded_file2 = $_FILES['job_bewerbung_dateien2'];
-            $movefile2 = wp_handle_upload($uploaded_file2, $upload_overrides);
-            if ($movefile2 && !isset($movefile2['error'])) {
-                // Erfolgreich hochgeladen
-            } else {
-                // Fehlerbehandlung für Datei 2
-                error_log($movefile2['error']);
-            }
-        }
+        // E-Mail senden
+        wp_mail($to, $subject, $message, [], $attachments);
 
         // Umleitung je nach aktivem Tab
         $active_tab = isset($_SESSION['activeTab']) ? $_SESSION['activeTab'] : 'jobs'; // Standard ist 'jobs'
