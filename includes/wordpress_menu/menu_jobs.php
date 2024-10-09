@@ -750,6 +750,9 @@ function krp_save_jobs() {
             );
         }
 
+        // Nachdem die Jobs gespeichert wurden, sende sie an StepStone
+        send_job_to_stepstone($jobs);
+
         // Zurück zur vorherigen Seite mit Erfolgsmeldung
         wp_redirect(add_query_arg('updated', 'true', wp_get_referer()));
         exit;
@@ -757,3 +760,54 @@ function krp_save_jobs() {
 }
 
 add_action('admin_post_save_krp_jobs', 'krp_save_jobs');
+
+function generate_stepstone_xml($job_data) {
+    $xml = new SimpleXMLElement('<jobfeed></jobfeed>');
+
+    foreach ($job_data as $job) {
+        $offer = $xml->addChild('offer');
+        $offer->addChild('job_title', $job['job_title']);
+        $offer->addChild('job_bereich', implode(', ', $job['job_bereich']));
+        $offer->addChild('job_company_info', $job['job_company_info']);
+        $offer->addChild('job_standort', $job['job_standort']);
+        $offer->addChild('job_tasks', $job['job_tasks']);
+        $offer->addChild('job_application', $job['job_application']);
+        $offer->addChild('job_application_pdf', $job['job_application_pdf']);
+    }
+
+    return $xml->asXML();
+}
+
+function send_job_to_stepstone($job_data, $job_id) {
+    $xml_data = generate_stepstone_xml($job_data);
+
+    // URL und Zugangsdaten (angepasst auf deine spezifischen StepStone-Daten)
+    $stepstone_url = 'https://jobfeed.stepstone.com/listing/httpxml.cfm.utf-8';
+    $username = 'dein_username';
+    $password = 'dein_passwort';
+
+    $response = wp_remote_post($stepstone_url, array(
+        'body' => $xml_data,
+        'headers' => array(
+            'Content-Type' => 'application/xml',
+            'Authorization' => 'Basic ' . base64_encode("$username:$password")
+        )
+    ));
+
+    if (is_wp_error($response)) {
+        // Fehlerbehandlung
+        error_log('Fehler beim Senden der Jobs an StepStone: ' . $response->get_error_message());
+    } else {
+        // Erfolgsmeldung oder weiteres Verarbeiten der Antwort
+        $response_body = wp_remote_retrieve_body($response);
+        // Überprüfe die Antwort von StepStone (z.B. auf Statuscode)
+
+        $to = 'jan.loehrwald@hbwa.de';
+        $subject = 'Bestätigung: Job auf StepStone hochgeladen';
+        $message = 'Der Job mit der ID ' . $job_id . ' wurde erfolgreich auf StepStone hochgeladen.';
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+
+        // Sende die E-Mail
+        wp_mail($to, $subject, $message, $headers);
+    }
+}
