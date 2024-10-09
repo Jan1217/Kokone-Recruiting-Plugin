@@ -5,20 +5,8 @@ Die einzelnen Abschnitte sind je nach Inhalt strukturiert.
  */
 
 /*
-* Website Tab
-*/
-/*
-* Design Tab
-*/
-/*
-* Job Tab
-*/
-/*
-* Ausbildung Tab
-*/
-/*
-* Kontakt Tab
-*/
+* Text Eingabe Felder
+ */
 function makeBold() {
     formatText("<strong>", "</strong>");
 }
