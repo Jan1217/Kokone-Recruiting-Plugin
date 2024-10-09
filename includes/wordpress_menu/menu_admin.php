@@ -1689,7 +1689,7 @@ function job_bewerbung_form_handler($page_url) {
         // E-Mail an die Kontaktperson
         $to = 'jan.loehrwald@hbwa.de'; // E-Mail-Adresse der Kontaktperson
         $subject = 'Neue Bewerbung für ' . $job_bewerbung_title . ' (ID: ' . $job_bewerbung_id . ') von ' . $vorname . ' ' . $nachname;
-        $message = "Vorname: $vorname\nNachname: $nachname\nStraße: $strasse\nOrt: $ort\nTelefon: $telefon\nE-Mail: $email\nNachricht: $nachricht\nJob-ID: $job_bewerbung_id\nJobname: $job_bewerbung_title\n";
+        $message = "Vorname: $vorname\nNachname: $nachname\nStraße: $strasse\nOrt: $ort\nTelefon: $telefon\nE-Mail: $email\nNachricht: $nachricht\nJob-ID: $job_bewerbung_id\nJob-Titel: $job_bewerbung_title\n";
 
         // Anhänge hinzufügen, falls vorhanden
         if ($dateien) {
