@@ -749,6 +749,7 @@ function krp_save_jobs() {
                 'selected_contact_job_details_image_url' => isset($selected_contacts_job_details_image_url[$key]) ? $selected_contacts_job_details_image_url[$key] : '',
             );
         }
+
         // Zurück zur vorherigen Seite mit Erfolgsmeldung
         wp_redirect(add_query_arg('updated', 'true', wp_get_referer()));
         exit;
