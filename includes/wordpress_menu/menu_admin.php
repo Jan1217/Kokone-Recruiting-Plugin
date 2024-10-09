@@ -488,8 +488,8 @@ function krp_create_or_update_page() {
                 <div class="form-container" id="bewerbungsformular_jobs">
                     <form method="post" action="" enctype="multipart/form-data">
                         <input type="hidden" name="contact_person_email" value="' . $contact_person_job_details_email . '">
-                        <input type="hidden" name="job_id" value="<?php echo esc_attr($job_id); ?>">
-                        <input type="hidden" name="job_name" value="<?php echo esc_attr($job_name); ?>">
+                        <input type="hidden" name="job_bewerbung_id" value="' . $job_id . '">
+                        <input type="hidden" name="job_bewerbung_title" value="' . $job_title . '">
                         <div class="form-row">
                             <div class="form-column">
                                 <div class="form-group">
@@ -1654,7 +1654,7 @@ function filter_jobs_ausbildungen() {
 }
 add_action('wp_footer', 'filter_jobs_ausbildungen');
 
-function job_bewerbung_form_handler($page_url) {
+function job_bewerbung_form_handler($page_url, $job_bewerbung_id, $job_bewerbung_title) {
     if (isset($_POST['job_bewerbung_submit'])) {
         $vorname = sanitize_text_field($_POST['job_bewerbung_vorname']);
         $nachname = sanitize_text_field($_POST['job_bewerbung_nachname']);
@@ -1663,9 +1663,6 @@ function job_bewerbung_form_handler($page_url) {
         $telefon = sanitize_text_field($_POST['job_bewerbung_telefon']);
         $email = sanitize_email($_POST['job_bewerbung_email']);
         $nachricht = sanitize_textarea_field($_POST['job_bewerbung_nachricht']);
-
-        $job_id = sanitize_text_field($_POST['job_id']);
-        $job_name = sanitize_text_field($_POST['job_name']);
 
         // Dateien verarbeiten
         $dateien = [];
@@ -1688,8 +1685,8 @@ function job_bewerbung_form_handler($page_url) {
 
         // E-Mail an die Kontaktperson
         $to = 'jan.loehrwald@hbwa.de'; // E-Mail-Adresse der Kontaktperson
-        $subject = 'Neue Bewerbung für ' . $job_name . ' (ID: ' . $job_id . ') von ' . $vorname . ' ' . $nachname;
-        $message = "Vorname: $vorname\nNachname: $nachname\nStraße: $strasse\nOrt: $ort\nTelefon: $telefon\nE-Mail: $email\nNachricht: $nachricht\nJob-ID: $job_id\nJobname: $job_name\n";
+        $subject = 'Neue Bewerbung für ' . $job_bewerbung_title . ' (ID: ' . $job_bewerbung_id . ') von ' . $vorname . ' ' . $nachname;
+        $message = "Vorname: $vorname\nNachname: $nachname\nStraße: $strasse\nOrt: $ort\nTelefon: $telefon\nE-Mail: $email\nNachricht: $nachricht\nJob-ID: $job_bewerbung_id\nJobname: $job_bewerbung_title\n";
 
         // Anhänge hinzufügen, falls vorhanden
         if ($dateien) {
