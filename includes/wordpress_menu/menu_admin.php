@@ -1672,11 +1672,6 @@ function job_bewerbung_form_handler($page_url) {
         // E-Mail an den Empfänger senden
         wp_mail($recipient_email, $subject, $message);
 
-        // E-Mail an den Bewerber senden
-        $confirmation_subject = 'Ihre Bewerbung bei uns';
-        $confirmation_message = "Vielen Dank, $vorname, für Ihre Bewerbung. Wir werden uns bald bei Ihnen melden.";
-        wp_mail($email, $confirmation_subject, $confirmation_message);
-
         // Datei-Upload verarbeiten
         if (!empty($_FILES['job_bewerbung_dateien1']['name'])) {
             // Hochgeladene Dateien speichern
@@ -1702,7 +1697,10 @@ function job_bewerbung_form_handler($page_url) {
             }
         }
 
-        // Optional: Umleitung nach dem Senden der Bewerbung
+        //Umleitung nach dem Senden der Bewerbung
+        if (ob_get_length()) {
+            ob_end_clean(); // Puffer leeren
+        }
         wp_redirect($page_url . '?bewerbung=success');
         exit;
     }
