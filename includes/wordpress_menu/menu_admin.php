@@ -1654,7 +1654,7 @@ function filter_jobs_ausbildungen() {
 }
 add_action('wp_footer', 'filter_jobs_ausbildungen');
 
-function job_bewerbung_form_handler($page_url, $job_bewerbung_id, $job_bewerbung_title) {
+function job_bewerbung_form_handler($page_url) {
     if (isset($_POST['job_bewerbung_submit'])) {
         $vorname = sanitize_text_field($_POST['job_bewerbung_vorname']);
         $nachname = sanitize_text_field($_POST['job_bewerbung_nachname']);
@@ -1663,6 +1663,9 @@ function job_bewerbung_form_handler($page_url, $job_bewerbung_id, $job_bewerbung
         $telefon = sanitize_text_field($_POST['job_bewerbung_telefon']);
         $email = sanitize_email($_POST['job_bewerbung_email']);
         $nachricht = sanitize_textarea_field($_POST['job_bewerbung_nachricht']);
+
+        $job_bewerbung_id = sanitize_text_field($_POST['job_bewerbung_id']);
+        $job_bewerbung_title = sanitize_text_field($_POST['job_bewerbung_title']);
 
         // Dateien verarbeiten
         $dateien = [];
