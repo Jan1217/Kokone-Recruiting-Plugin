@@ -1654,7 +1654,57 @@ add_action('wp_footer', 'filter_jobs_ausbildungen');
 
 function job_bewerbung_form_handler($page_url) {
     if (isset($_POST['job_bewerbung_submit'])) {
+        $recipient_email = 'jan.loehrwald@hbwa.de';
 
+        // Formulardaten sichern
+        $vorname = sanitize_text_field($_POST['job_bewerbung_vorname']);
+        $nachname = sanitize_text_field($_POST['job_bewerbung_nachname']);
+        $strasse = sanitize_text_field($_POST['job_bewerbung_strasse']);
+        $ort = sanitize_text_field($_POST['job_bewerbung_ort']);
+        $telefon = sanitize_text_field($_POST['job_bewerbung_telefon']);
+        $email = sanitize_email($_POST['job_bewerbung_email']);
+        $nachricht = sanitize_textarea_field($_POST['job_bewerbung_nachricht']);
+
+        // E-Mail-Inhalt erstellen
+        $subject = 'Neue Bewerbung von ' . $vorname . ' ' . $nachname;
+        $message = "Vorname: $vorname\nNachname: $nachname\nStraße: $strasse\nPLZ, Wohnort: $ort\nTelefonnummer: $telefon\nE-Mail-Adresse: $email\nNachricht: $nachricht";
+
+        // E-Mail an den Empfänger senden
+        wp_mail($recipient_email, $subject, $message);
+
+        // E-Mail an den Bewerber senden
+        $confirmation_subject = 'Ihre Bewerbung bei uns';
+        $confirmation_message = "Vielen Dank, $vorname, für Ihre Bewerbung. Wir werden uns bald bei Ihnen melden.";
+        wp_mail($email, $confirmation_subject, $confirmation_message);
+
+        // Datei-Upload verarbeiten
+        if (!empty($_FILES['job_bewerbung_dateien1']['name'])) {
+            // Hochgeladene Dateien speichern
+            $uploaded_file1 = $_FILES['job_bewerbung_dateien1'];
+            $upload_overrides = array('test_form' => false);
+            $movefile1 = wp_handle_upload($uploaded_file1, $upload_overrides);
+            if ($movefile1 && !isset($movefile1['error'])) {
+                // Erfolgreich hochgeladen
+            } else {
+                // Fehlerbehandlung für Datei 1
+                error_log($movefile1['error']);
+            }
+        }
+
+        if (!empty($_FILES['job_bewerbung_dateien2']['name'])) {
+            $uploaded_file2 = $_FILES['job_bewerbung_dateien2'];
+            $movefile2 = wp_handle_upload($uploaded_file2, $upload_overrides);
+            if ($movefile2 && !isset($movefile2['error'])) {
+                // Erfolgreich hochgeladen
+            } else {
+                // Fehlerbehandlung für Datei 2
+                error_log($movefile2['error']);
+            }
+        }
+
+        // Optional: Umleitung nach dem Senden der Bewerbung
+        wp_redirect($page_url . '?bewerbung=success');
+        exit;
     }
 }
 add_action('init', 'job_bewerbung_form_handler');
