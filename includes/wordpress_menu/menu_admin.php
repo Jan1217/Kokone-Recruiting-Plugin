@@ -1697,11 +1697,9 @@ function job_bewerbung_form_handler($page_url) {
             }
         }
 
-        //Umleitung nach dem Senden der Bewerbung
-        if (ob_get_length()) {
-            ob_end_clean(); // Puffer leeren
-        }
-        wp_redirect($page_url . '?bewerbung=success');
+        // Umleitung je nach aktivem Tab
+        $active_tab = isset($_SESSION['activeTab']) ? $_SESSION['activeTab'] : 'jobs'; // Standard ist 'jobs'
+        wp_redirect($page_url . '#' . $active_tab);
         exit;
     }
 }
