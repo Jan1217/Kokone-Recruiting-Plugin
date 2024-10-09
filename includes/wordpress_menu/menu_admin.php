@@ -488,6 +488,8 @@ function krp_create_or_update_page() {
                 <div class="form-container" id="bewerbungsformular_jobs">
                     <form method="post" action="" enctype="multipart/form-data">
                         <input type="hidden" name="contact_person_email" value="' . $contact_person_job_details_email . '">
+                        <input type="hidden" name="job_id" value="<?php echo esc_attr($job_id); ?>">
+                        <input type="hidden" name="job_name" value="<?php echo esc_attr($job_name); ?>">
                         <div class="form-row">
                             <div class="form-column">
                                 <div class="form-group">
@@ -1662,6 +1664,9 @@ function job_bewerbung_form_handler($page_url) {
         $email = sanitize_email($_POST['job_bewerbung_email']);
         $nachricht = sanitize_textarea_field($_POST['job_bewerbung_nachricht']);
 
+        $job_id = sanitize_text_field($_POST['job_id']);
+        $job_name = sanitize_text_field($_POST['job_name']);
+
         // Dateien verarbeiten
         $dateien = [];
         for ($i = 1; $i <= 2; $i++) {
@@ -1683,8 +1688,8 @@ function job_bewerbung_form_handler($page_url) {
 
         // E-Mail an die Kontaktperson
         $to = 'jan.loehrwald@hbwa.de'; // E-Mail-Adresse der Kontaktperson
-        $subject = 'Neue Bewerbung von ' . $vorname . ' ' . $nachname;
-        $message = "Vorname: $vorname\nNachname: $nachname\nStraße: $strasse\nOrt: $ort\nTelefon: $telefon\nE-Mail: $email\nNachricht: $nachricht\n";
+        $subject = 'Neue Bewerbung für ' . $job_name . ' (ID: ' . $job_id . ') von ' . $vorname . ' ' . $nachname;
+        $message = "Vorname: $vorname\nNachname: $nachname\nStraße: $strasse\nOrt: $ort\nTelefon: $telefon\nE-Mail: $email\nNachricht: $nachricht\nJob-ID: $job_id\nJobname: $job_name\n";
 
         // Anhänge hinzufügen, falls vorhanden
         if ($dateien) {
