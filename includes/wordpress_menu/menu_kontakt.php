@@ -249,7 +249,6 @@ function krp_kontakt_select_section_callback() {
 
 function krp_kontakt_create_section_callback() {
     $contacts = get_option('krp_saved_contacts', array());
-    $placeholder_image = plugin_dir_url(dirname(__FILE__, 2)) . 'assets/img/Platzhalterbild.jpg';
     ?>
 
     <style>
@@ -328,10 +327,7 @@ function krp_kontakt_create_section_callback() {
                                             <button type="button" id="krp-media-select_<?php echo $key; ?>" class="krp-media-select-button" data-contact="<?php echo $key; ?>">Bild auswählen</button>
                                         </div>
                                         <div id="krp-image-preview_<?php echo $key; ?>" class="krp-image-preview-container">
-                                            <?php
-                                            $image_url = !empty($contact['contact_image_url']) ? esc_url($contact['contact_image_url']) : $placeholder_image;
-                                            ?>
-                                            <img src="<?php echo $image_url; ?>" alt="Bildvorschau">
+                                            <img src="<?php echo !empty($contact['contact_image_url']) ? esc_url($contact['contact_image_url']) : esc_url(get_template_directory_uri() . '/assets/img/Platzhalterbild.jpg'); ?>" alt="Bildvorschau">
                                         </div>
                                         <input type="hidden" id="contact_image_url_<?php echo $key; ?>" name="contact_image_url[]" value="<?php echo esc_attr($contact['contact_image_url']); ?>">
                                     </td>
@@ -525,10 +521,7 @@ function krp_kontakt_create_section_callback() {
 
                 function updatePreview(url, contactIndex) {
                     var previewContainer = document.getElementById('krp-image-preview_' + contactIndex);
-                    var defaultImage = '<?php echo esc_url($placeholder_image); ?>';
-                    var imageUrl = url || defaultImage;
-
-                    previewContainer.innerHTML = '<img src="' + imageUrl + '" alt="Bildvorschau">';
+                    previewContainer.innerHTML = '<img src="' + url + '" alt="Bildvorschau">';
 
                     var hiddenInput = document.getElementById('contact_image_url_' + contactIndex);
                     if (!hiddenInput) {
@@ -562,8 +555,11 @@ function krp_save_contacts() {
                 'contact_tel' => sanitize_text_field($_POST['contact_tel'][$index]),
                 'contact_email' => sanitize_email($_POST['contact_email'][$index]),
                 'contact_abteilung' => isset($contact_abteilung[$index]) ? $contact_abteilung[$index] : array(),
+
+
                 'contact_info' => sanitize_textarea_field($_POST['contact_info'][$index]),
-                'contact_image_url' => esc_url_raw($_POST['contact_image_url'][$index])
+                'contact_image_url' => !empty($_POST['contact_image_url'][$index]) ? esc_url_raw($_POST['contact_image_url'][$index]) : esc_url_raw(get_template_directory_uri() . '/assets/img/Platzhalterbild.jpg')
+
             );
         }
     }
@@ -576,5 +572,6 @@ function krp_save_contacts() {
 }
 
 add_action('admin_post_save_krp_contacts', 'krp_save_contacts');
+
 
 ?>

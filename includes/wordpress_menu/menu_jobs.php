@@ -297,6 +297,32 @@ function krp_job_create_section_callback() {
                                         </div>
                                     </td>
                                 </tr>
+                                <!-- Job Börsen Auswahl -->
+                                <tr>
+                                    <th><label for="upload_to_platform_<?php echo $key; ?>">Job auf Plattform hochladen</label></th>
+                                    <td>
+                                        <div class="platform-radio-buttons">
+                                            <!-- StepStone Optionen -->
+                                            <div>
+                                                <label>Auf StepStone hochladen:</label><br>
+                                                <input type="radio" id="upload_to_stepstone_yes_<?php echo $key; ?>" name="upload_to_stepstone[<?php echo $key; ?>]" value="1" <?php checked($job['upload_to_stepstone'], '1'); ?>>
+                                                <label for="upload_to_stepstone_yes_<?php echo $key; ?>">Ja</label>
+
+                                                <input type="radio" id="upload_to_stepstone_no_<?php echo $key; ?>" name="upload_to_stepstone[<?php echo $key; ?>]" value="0" <?php checked($job['upload_to_stepstone'], '0'); ?> <?php if (!isset($job['upload_to_stepstone']) || $job['upload_to_stepstone'] === '0') echo 'checked'; ?>>
+                                                <label for="upload_to_stepstone_no_<?php echo $key; ?>">Nein</label>
+                                            </div>
+                                            <!-- Indeed Optionen -->
+                                            <div>
+                                                <label>Auf Indeed hochladen:</label><br>
+                                                <input type="radio" id="upload_to_indeed_yes_<?php echo $key; ?>" name="upload_to_indeed[<?php echo $key; ?>]" value="1" <?php checked($job['upload_to_indeed'], '1'); ?>>
+                                                <label for="upload_to_indeed_yes_<?php echo $key; ?>">Ja</label>
+
+                                                <input type="radio" id="upload_to_indeed_no_<?php echo $key; ?>" name="upload_to_indeed[<?php echo $key; ?>]" value="0" <?php checked($job['upload_to_indeed'], '0'); ?> <?php if (!isset($job['upload_to_indeed']) || $job['upload_to_indeed'] === '0') echo 'checked'; ?>>
+                                                <label for="upload_to_indeed_no_<?php echo $key; ?>">Nein</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -750,6 +776,21 @@ function krp_save_jobs() {
             );
         }
 
+        // Jobs in der Datenbank speichern
+        update_option('krp_saved_jobs', $jobs);
+
+        foreach ($jobs as $job) {
+            if ($job['upload_to_stepstone'] === '1') {
+                // Funktion zum Hochladen auf StepStone aufrufen
+                krp_upload_to_stepstone($job);
+            }
+
+            if ($job['upload_to_indeed'] === '1') {
+                // Funktion zum Hochladen auf Indeed aufrufen
+                krp_upload_to_indeed($job);
+            }
+        }
+
         // Zurück zur vorherigen Seite mit Erfolgsmeldung
         wp_redirect(add_query_arg('updated', 'true', wp_get_referer()));
         exit;
@@ -757,3 +798,12 @@ function krp_save_jobs() {
 }
 
 add_action('admin_post_save_krp_jobs', 'krp_save_jobs');
+
+// Beispiel-Funktionen für das Hochladen der Jobs auf StepStone und Indeed
+function krp_upload_to_stepstone($job) {
+    error_log('Job auf StepStone hochgeladen: ' . print_r($job, true));
+}
+
+function krp_upload_to_indeed($job) {
+    error_log('Job auf Indeed hochgeladen: ' . print_r($job, true));
+}
