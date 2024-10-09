@@ -1664,7 +1664,7 @@ function job_bewerbung_form_handler($page_url) {
         $email = sanitize_email($_POST['job_bewerbung_email']);
         $nachricht = sanitize_textarea_field($_POST['job_bewerbung_nachricht']);
 
-        $job_bewerbung_to_email = sanitize_text_field($_POST['contact_person_job_details_email']);
+        $job_bewerbung_to_email = sanitize_email($_POST['contact_person_job_details_email']);
         $job_bewerbung_id = sanitize_text_field($_POST['job_bewerbung_id']);
         $job_bewerbung_title = sanitize_text_field($_POST['job_bewerbung_title']);
 
