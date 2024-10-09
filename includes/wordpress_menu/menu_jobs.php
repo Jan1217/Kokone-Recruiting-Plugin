@@ -778,7 +778,7 @@ function generate_stepstone_xml($job_data) {
     return $xml->asXML();
 }
 
-function send_job_to_stepstone($job_data, $job_id) {
+function send_job_to_stepstone($job_data) {
     $xml_data = generate_stepstone_xml($job_data);
 
     // URL und Zugangsdaten (angepasst auf deine spezifischen StepStone-Daten)
@@ -804,7 +804,7 @@ function send_job_to_stepstone($job_data, $job_id) {
 
         $to = 'jan.loehrwald@hbwa.de';
         $subject = 'Bestätigung: Job auf StepStone hochgeladen';
-        $message = 'Der Job mit der ID ' . $job_id . ' wurde erfolgreich auf StepStone hochgeladen.';
+        $message = 'Ein neuer Job wurde auf StepStone hochgeladen';
         $headers = array('Content-Type: text/html; charset=UTF-8');
 
         // Sende die E-Mail
