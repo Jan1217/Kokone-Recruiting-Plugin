@@ -801,13 +801,29 @@ function send_job_to_stepstone($job_data) {
         // Erfolgsmeldung oder weiteres Verarbeiten der Antwort
         $response_body = wp_remote_retrieve_body($response);
         // Überprüfe die Antwort von StepStone (z.B. auf Statuscode)
+    }
+}
 
+function send_confirmation_email_if_stepstone($job_id) {
+    // Hole die Job-Daten ab (hier wird angenommen, dass die StepStone-Option als Meta-Daten gespeichert wird)
+    $upload_to_stepstone = get_post_meta($job_id, 'upload_to_stepstone', true);
+
+    // Prüfen, ob die StepStone-Option aktiviert ist
+    if ($upload_to_stepstone) {
+        // Hier generierst du die StepStone-Job-URL (ersetze diesen Teil durch die korrekte URL)
+        $stepstone_job_url = get_post_meta($job_id, 'stepstone_job_url', true);
+
+        // Details der E-Mail
         $to = 'jan.loehrwald@hbwa.de';
         $subject = 'Bestätigung: Job auf StepStone hochgeladen';
-        $message = 'Ein neuer Job wurde auf StepStone hochgeladen';
+        $message = 'Der Job mit der ID ' . $job_id . ' wurde erfolgreich auf StepStone hochgeladen.<br>';
+        $message .= 'Du kannst den Job unter folgendem Link aufrufen: <a href="' . esc_url($stepstone_job_url) . '">' . esc_url($stepstone_job_url) . '</a>';
         $headers = array('Content-Type: text/html; charset=UTF-8');
 
         // Sende die E-Mail
         wp_mail($to, $subject, $message, $headers);
     }
 }
+
+// Funktion auslösen, wenn ein Job auf StepStone hochgeladen wird
+add_action('stepstone_job_upload_action', 'send_confirmation_email_if_stepstone');
