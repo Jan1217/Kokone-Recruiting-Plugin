@@ -581,8 +581,7 @@ function krp_job_create_section_callback() {
             var contacts = <?php echo json_encode($saved_contacts); ?>;
 
             // Funktion zum Aktualisieren der anderen Select-Felder
-            function updateContactDetails(contact) {
-                var key = contact.key; // Der Key sollte hier aus dem Kontakt-Daten erhalten werden
+            function updateContactDetails(contact, key) {
                 document.querySelector(`#job_select_contact_job_details_tel_${key}`).value = contact.contact_tel || '';
                 document.querySelector(`#job_select_contact_job_details_email_${key}`).value = contact.contact_email || '';
                 document.querySelector(`#job_select_contact_job_details_info_${key}`).value = contact.contact_info || '';
@@ -590,7 +589,7 @@ function krp_job_create_section_callback() {
             }
 
             // Event Listener für die Änderung des Kontakt-Selects
-            document.querySelectorAll(".contact-select[name='selected_contact_job_details_name[]']").forEach(function(selectElement) {
+            document.querySelectorAll(".contact-name").forEach(function(selectElement) {
                 selectElement.addEventListener("change", function() {
                     var selectedContactNameAbteilung = this.value;
                     var key = this.id.split('_').pop(); // Extrahiere den Schlüssel aus der ID
@@ -604,9 +603,8 @@ function krp_job_create_section_callback() {
                     });
 
                     if (contact) {
-                        contact.key = key; // Setze den Schlüssel im Kontakt-Objekt
                         // Update die anderen Select-Felder basierend auf dem ausgewählten Kontakt
-                        updateContactDetails(contact);
+                        updateContactDetails(contact, key);
                     } else {
                         // Falls kein Kontakt gefunden wird, setze die Werte auf leer
                         document.querySelector(`#job_select_contact_job_details_tel_${key}`).value = '';
@@ -617,7 +615,6 @@ function krp_job_create_section_callback() {
                 });
             });
         });
-
     </script>
     <script>
         function getEditor(id) {
