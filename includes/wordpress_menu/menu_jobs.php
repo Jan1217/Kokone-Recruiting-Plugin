@@ -566,46 +566,44 @@ function krp_job_create_section_callback() {
                     $(`#job_details_${jobIndex}`).toggleClass('open');
                     $(this).find('.toggle_arrow').toggleClass('open');
                 });
+
+                // Kontaktinformationen in ein JavaScript-Objekt laden
+                var contacts = <?php echo json_encode($saved_contacts); ?>;
+
+                // Funktion zum Aktualisieren der anderen Select-Felder
+                function updateContactDetails(contact, key) {
+                    document.querySelector(`#job_select_contact_job_details_tel_${key}`).value = contact.contact_tel || '';
+                    document.querySelector(`#job_select_contact_job_details_email_${key}`).value = contact.contact_email || '';
+                    document.querySelector(`#job_select_contact_job_details_info_${key}`).value = contact.contact_info || '';
+                    document.querySelector(`#job_select_contact_job_details_image_url_${key}`).value = contact.contact_image_url || '';
+                }
+
+                // Event Listener für die Änderung des Kontakt-Selects
+                document.querySelectorAll(".contact-name-select").forEach(function(selectElement) {
+                    selectElement.addEventListener("change", function() {
+                        var selectedValue = this.value; // Name und Abteilung
+                        var key = this.id.split('_').pop(); // Extrahiere den Schlüssel aus der ID
+
+                        // Kontakt finden basierend auf dem Namen und der Abteilung
+                        var [selectedContactName, selectedContactAbteilung] = selectedValue.split(' , ');
+                        var contact = contacts.find(function(c) {
+                            var abteilung = c.contact_abteilung.join(' und ');
+                            return c.contact_name === selectedContactName && abteilung === selectedContactAbteilung;
+                        });
+
+                        if (contact) {
+                            // Wenn Kontakt gefunden, aktualisiere die anderen Felder
+                            updateContactDetails(contact, key);
+                        } else {
+                            // Falls kein Kontakt gefunden, leere die Felder
+                            updateContactDetails({contact_tel: '', contact_email: '', contact_info: '', contact_image_url: ''}, key);
+                        }
+                    });
+                });
             });
         })(jQuery);
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Kontaktinformationen in ein JavaScript-Objekt laden
-            var contacts = <?php echo json_encode($saved_contacts); ?>;
 
-            // Funktion zum Aktualisieren der anderen Select-Felder
-            function updateContactDetails(contact, key) {
-                document.querySelector(`#job_select_contact_job_details_tel_${key}`).value = contact.contact_tel || '';
-                document.querySelector(`#job_select_contact_job_details_email_${key}`).value = contact.contact_email || '';
-                document.querySelector(`#job_select_contact_job_details_info_${key}`).value = contact.contact_info || '';
-                document.querySelector(`#job_select_contact_job_details_image_url_${key}`).value = contact.contact_image_url || '';
-            }
-
-            // Event Listener für die Änderung des Kontakt-Selects
-            document.querySelectorAll(".contact-name-select").forEach(function(selectElement) {
-                selectElement.addEventListener("change", function() {
-                    var selectedValue = this.value; // Name und Abteilung
-                    var key = this.id.split('_').pop(); // Extrahiere den Schlüssel aus der ID
-
-                    // Kontakt finden basierend auf dem Namen und der Abteilung
-                    var [selectedContactName, selectedContactAbteilung] = selectedValue.split(' , ');
-                    var contact = contacts.find(function(c) {
-                        var abteilung = c.contact_abteilung.join(' und ');
-                        return c.contact_name === selectedContactName && abteilung === selectedContactAbteilung;
-                    });
-
-                    if (contact) {
-                        // Wenn Kontakt gefunden, aktualisiere die anderen Felder
-                        updateContactDetails(contact, key);
-                    } else {
-                        // Falls kein Kontakt gefunden, leere die Felder
-                        updateContactDetails({contact_tel: '', contact_email: '', contact_info: '', contact_image_url: ''}, key);
-                    }
-                });
-            });
-        });
-    </script>
     <script>
         function getEditor(id) {
             return document.getElementById(id);
