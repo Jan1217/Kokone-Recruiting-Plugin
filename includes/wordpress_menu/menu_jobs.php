@@ -572,34 +572,36 @@ function krp_job_create_section_callback() {
                 // Speichere die Kontaktinformationen in einem JavaScript-Objekt
                 var contacts = <?php echo json_encode($saved_contacts); ?>;
 
-                // Funktion zum Aktualisieren der Kontakt-Details
+                // Funktion zum Aktualisieren der Kontaktinformationen
                 function updateContactDetails(contact, key) {
-                    $(`#job_select_contact_job_details_tel_${key}`).val(contact.contact_tel || '');
-                    $(`#job_select_contact_job_details_email_${key}`).val(contact.contact_email || '');
-                    $(`#job_select_contact_job_details_info_${key}`).val(contact.contact_info || '');
-                    $(`#job_select_contact_job_details_image_url_${key}`).val(contact.contact_image_url || '');
+                    document.querySelector(`#job_select_contact_job_details_tel_${key}`).value = contact.contact_tel || '';
+                    document.querySelector(`#job_select_contact_job_details_email_${key}`).value = contact.contact_email || '';
+                    document.querySelector(`#job_select_contact_job_details_info_${key}`).value = contact.contact_info || '';
+                    document.querySelector(`#job_select_contact_job_details_image_url_${key}`).value = contact.contact_image_url || '';
                 }
 
-                // Event Listener für die Änderung des Kontakt-Selects
-                $(document).on('change', ".contact-select[name='selected_contact_job_details_name[]']", function() {
-                    var selectedContactNameAbteilung = $(this).val();
-                    var key = $(this).attr('id').split('_').pop(); // Extrahiere den Schlüssel aus der ID
+                // Event Listener für die Änderung des Kontakt-Selects (Name und Abteilung)
+                document.querySelectorAll(".contact-select[name='selected_contact_job_details_name[]']").forEach(function(selectElement) {
+                    selectElement.addEventListener("change", function() {
+                        var selectedContactNameAbteilung = this.value;
+                        var key = this.id.split('_').pop(); // Extrahiere den Schlüssel aus der ID
 
-                    // Finde den Kontakt basierend auf dem Namen und der Abteilung
-                    var [selectedContactName, selectedContactAbteilung] = selectedContactNameAbteilung.split(' , ');
+                        // Finde den Kontakt basierend auf dem Namen und der Abteilung
+                        var [selectedContactName, selectedContactAbteilung] = selectedContactNameAbteilung.split(' , ');
 
-                    var contact = contacts.find(c => {
-                        var abteilung = c.contact_abteilung.join(' und ');
-                        return c.contact_name === selectedContactName && abteilung === selectedContactAbteilung;
+                        var contact = contacts.find(c => {
+                            var abteilung = c.contact_abteilung.join(' und ');
+                            return c.contact_name === selectedContactName && abteilung === selectedContactAbteilung;
+                        });
+
+                        if (contact) {
+                            // Aktualisiere die anderen Select-Felder basierend auf dem ausgewählten Kontakt
+                            updateContactDetails(contact, key);
+                        } else {
+                            // Setze die Werte auf leer, falls kein Kontakt gefunden wurde
+                            updateContactDetails({ contact_tel: '', contact_email: '', contact_info: '', contact_image_url: '' }, key);
+                        }
                     });
-
-                    if (contact) {
-                        // Update die anderen Felder basierend auf dem ausgewählten Kontakt
-                        updateContactDetails(contact, key);
-                    } else {
-                        // Falls kein Kontakt gefunden wird, setze die Felder auf leer
-                        updateContactDetails({ contact_tel: '', contact_email: '', contact_info: '', contact_image_url: '' }, key);
-                    }
                 });
             });
         })(jQuery);
