@@ -569,38 +569,39 @@ function krp_job_create_section_callback() {
                 });
 
                 // Kontakt-Auswahl
-                // Kontaktinformationen abrufen
+                // Speichere die Kontaktinformationen in einem JavaScript-Objekt
                 var contacts = <?php echo json_encode($saved_contacts); ?>;
 
-                // Funktion zum Aktualisieren der Felder basierend auf dem ausgewählten Kontakt
+                // Funktion zum Aktualisieren der anderen Select-Felder
                 function updateContactDetails(contact, key) {
-                    $(`#job_select_contact_job_details_tel_${key}`).val(contact.contact_tel || '');
-                    $(`#job_select_contact_job_details_email_${key}`).val(contact.contact_email || '');
-                    $(`#job_select_contact_job_details_info_${key}`).val(contact.contact_info || '');
-                    $(`#job_select_contact_job_details_image_url_${key}`).val(contact.contact_image_url || '');
+                    document.querySelector(#job_select_contact_job_details_tel_${key}).value = contact.contact_tel || '';
+                    document.querySelector(#job_select_contact_job_details_email_${key}).value = contact.contact_email || '';
+                    document.querySelector(#job_select_contact_job_details_info_${key}).value = contact.contact_info || '';
+                    document.querySelector(#job_select_contact_job_details_image_url_${key}).value = contact.contact_image_url || '';
                 }
 
-                // Event Listener für die Auswahl eines Kontakts im ersten Dropdown-Feld
-                $(document).on('change', '.contact-select[name="selected_contact_job_details_name[]"]', function() {
-                    var selectedValue = $(this).val();
-                    var key = $(this).attr('id').split('_').pop(); // Schlüssel aus der ID extrahieren
+                // Event Listener für die Änderung des Kontakt-Selects
+                document.querySelectorAll(".contact-select[name='selected_contact_job_details_name[]']").forEach(function(selectElement) {
+                    selectElement.addEventListener("change", function() {
+                        var selectedContactNameAbteilung = this.value;
+                        var key = this.id.split('_').pop(); // Extrahiere den Schlüssel aus der ID
 
-                    // Name und Abteilung trennen
-                    var [selectedName, selectedAbteilung] = selectedValue.split(' , ');
+                        // Finde den Kontakt basierend auf dem Namen und der Abteilung
+                        var [selectedContactName, selectedContactAbteilung] = selectedContactNameAbteilung.split(' , ');
 
-                    // Passenden Kontakt in den gespeicherten Kontakten finden
-                    var contact = contacts.find(c => {
-                        var abteilung = c.contact_abteilung.join(' und ');
-                        return c.contact_name === selectedName && abteilung === selectedAbteilung;
+                        var contact = contacts.find(c => {
+                            var abteilung = c.contact_abteilung.join(' und ');
+                            return c.contact_name === selectedContactName && abteilung === selectedContactAbteilung;
+                        });
+
+                        if (contact) {
+                            // Update die anderen Select-Felder basierend auf dem ausgewählten Kontakt
+                            updateContactDetails(contact, key);
+                        } else {
+                            // Falls kein Kontakt gefunden wird, setze die Werte auf leer
+                            updateContactDetails({ contact_tel: '', contact_email: '', contact_info: '', contact_image_url: '' }, key);
+                        }
                     });
-
-                    if (contact) {
-                        // Felder automatisch aktualisieren
-                        updateContactDetails(contact, key);
-                    } else {
-                        // Felder leeren, falls kein passender Kontakt gefunden wurde
-                        updateContactDetails({ contact_tel: '', contact_email: '', contact_info: '', contact_image_url: '' }, key);
-                    }
                 });
             });
         })(jQuery);
