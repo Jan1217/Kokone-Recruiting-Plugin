@@ -374,29 +374,26 @@ function krp_job_create_section_callback() {
                     $(`#job_select_contact_job_details_image_url_${key}`).val(contact.contact_image_url || '');
                 }
 
-                // Event Listener für die Änderung der Kontakt-Select-Felder
-                $(".contact-select[name='selected_contact_job_details_name[]']").each(function() {
-                    $(this).on("change", function() {
-                        var selectedValue = $(this).val();
-                        var key = $(this).attr('id').split('_').pop(); // Schlüssel extrahieren
+                // Event Listener für die Änderung des Kontakt-Selects
+                $(document).on('change', ".contact-select[name='selected_contact_job_details_name[]']", function() {
+                    var selectedContactNameAbteilung = $(this).val();
+                    var key = $(this).attr('id').split('_').pop(); // Extrahiere den Schlüssel aus der ID
 
-                        // Splitte den Kontakt-Namen und die Abteilung
-                        var [selectedContactName, selectedContactAbteilung] = selectedValue.split(' , ');
+                    // Finde den Kontakt basierend auf dem Namen und der Abteilung
+                    var [selectedContactName, selectedContactAbteilung] = selectedContactNameAbteilung.split(' , ');
 
-                        // Finde den entsprechenden Kontakt
-                        var contact = contacts.find(function(c) {
-                            var abteilung = c.contact_abteilung.join(' und ');
-                            return c.contact_name === selectedContactName && abteilung === selectedContactAbteilung;
-                        });
-
-                        if (contact) {
-                            // Aktualisiere die Kontakt-Details
-                            updateContactDetails(contact, key);
-                        } else {
-                            // Leere Felder, falls kein Kontakt gefunden wird
-                            updateContactDetails({ contact_tel: '', contact_email: '', contact_info: '', contact_image_url: '' }, key);
-                        }
+                    var contact = contacts.find(c => {
+                        var abteilung = c.contact_abteilung.join(' und ');
+                        return c.contact_name === selectedContactName && abteilung === selectedContactAbteilung;
                     });
+
+                    if (contact) {
+                        // Update die anderen Felder basierend auf dem ausgewählten Kontakt
+                        updateContactDetails(contact, key);
+                    } else {
+                        // Falls kein Kontakt gefunden wird, setze die Felder auf leer
+                        updateContactDetails({ contact_tel: '', contact_email: '', contact_info: '', contact_image_url: '' }, key);
+                    }
                 });
             });
         })(jQuery);
