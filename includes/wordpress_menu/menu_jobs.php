@@ -231,7 +231,6 @@ function krp_job_create_section_callback() {
                                     <th><label for="job_select_contact_job_details_<?php echo $key; ?>">Kontakt Auswahl für Job</label></th>
                                     <td>
                                         <div class="contact-selection-container">
-                                            <!-- Dropdown für die Kontaktperson -->
                                             <select class="contact-select" id="job_select_contact_job_details_<?php echo $key; ?>" name="selected_contact_job_details_name[]">
                                                 <option value="" disabled selected>Kontakt auswählen</option>
                                                 <?php
@@ -240,18 +239,48 @@ function krp_job_create_section_callback() {
                                                     $contact_name_job_details = esc_html($contact['contact_name']);
                                                     $contact_abteilung_job_details = implode(' und ', array_map('esc_html', $contact['contact_abteilung']));
                                                     $contact_name_abteilung_job_details = $contact_name_job_details . ' , ' . $contact_abteilung_job_details;
-                                                    echo '<option value="' . esc_attr($contact_name_abteilung_job_details) . '">' . esc_html($contact_name_abteilung_job_details) . '</option>';
+                                                    echo '<option value="' . esc_attr($contact_name_abteilung_job_details) . '"' . selected($job['selected_contact_job_details_name'], $contact_name_abteilung_job_details, false) . '>' . esc_html($contact_name_abteilung_job_details) . '</option>';
                                                 }
                                                 ?>
                                             </select>
                                         </div>
-
-                                        <!-- Felder für die Kontaktinformationen, die automatisch ausgefüllt werden -->
                                         <div class="contact-details-container">
-                                            <input type="text" id="job_select_contact_job_details_tel_<?php echo $key; ?>" name="selected_contact_job_details_tel[]" placeholder="Telefon" readonly>
-                                            <input type="text" id="job_select_contact_job_details_email_<?php echo $key; ?>" name="selected_contact_job_details_email[]" placeholder="Email" readonly>
-                                            <input type="text" id="job_select_contact_job_details_info_<?php echo $key; ?>" name="selected_contact_job_details_info[]" placeholder="Info" readonly>
-                                            <input type="text" id="job_select_contact_job_details_image_url_<?php echo $key; ?>" name="selected_contact_job_details_image_url[]" placeholder="Bild URL" readonly>
+                                            <select class="contact-select" id="job_select_contact_job_details_tel_<?php echo $key; ?>" name="selected_contact_job_details_tel[]" >
+                                                <option value="" disabled selected>Telefon auswählen</option>
+                                                <?php
+                                                foreach ($saved_contacts as $contact) {
+                                                    $contact_tel_job_details = esc_html($contact['contact_tel']);
+                                                    echo '<option value="' . esc_attr($contact_tel_job_details) . '"' . selected($job['selected_contact_job_details_tel'], $contact_tel_job_details, false) . '>' . esc_html($contact_tel_job_details) . '</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                            <select class="contact-select" id="job_select_contact_job_details_email_<?php echo $key; ?>" name="selected_contact_job_details_email[]" >
+                                                <option value="" disabled selected>Email auswählen</option>
+                                                <?php
+                                                foreach ($saved_contacts as $contact) {
+                                                    $contact_email_job_details = esc_html($contact['contact_email']);
+                                                    echo '<option value="' . esc_attr($contact_email_job_details) . '"' . selected($job['selected_contact_job_details_email'], $contact_email_job_details, false) . '>' . esc_html($contact_email_job_details) . '</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                            <select class="contact-select" id="job_select_contact_job_details_info_<?php echo $key; ?>" name="selected_contact_job_details_info[]" >
+                                                <option value="" disabled selected>Info auswählen</option>
+                                                <?php
+                                                foreach ($saved_contacts as $contact) {
+                                                    $contact_info_job_details = esc_html($contact['contact_info']);
+                                                    echo '<option value="' . esc_attr($contact_info_job_details) . '"' . selected($job['selected_contact_job_details_info'], $contact_info_job_details, false) . '>' . esc_html($contact_info_job_details) . '</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                            <select class="contact-select" id="job_select_contact_job_details_image_url_<?php echo $key; ?>" name="selected_contact_job_details_image_url[]" >
+                                                <option value="" disabled selected>Bild URL auswählen</option>
+                                                <?php
+                                                foreach ($saved_contacts as $contact) {
+                                                    $contact_image_url_job_details = esc_url_raw($contact['contact_image_url']);
+                                                    echo '<option value="' . esc_attr($contact_image_url_job_details) . '"' . selected($job['selected_contact_job_details_image_url'], $contact_image_url_job_details, false) . '>' . esc_html($contact_image_url_job_details) . '</option>';
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </td>
                                 </tr>
@@ -435,35 +464,62 @@ function krp_job_create_section_callback() {
                                     <input type="file" id="job_application_pdf_${jobIndex}" name="job_application_pdf[]" class="regular-text">
                                 </td>
                             </tr>
-                            <!-- Kontakt Auswahl -->
-                                <tr>
-                                    <th><label for="job_select_contact_job_details_<?php echo $key; ?>">Kontakt Auswahl für Job</label></th>
-                                    <td>
-                                        <div class="contact-selection-container">
-                                            <!-- Dropdown für die Kontaktperson -->
-                                            <select class="contact-select" id="job_select_contact_job_details_<?php echo $key; ?>" name="selected_contact_job_details_name[]">
-                                                <option value="" disabled selected>Kontakt auswählen</option>
-                                                <?php
+                            <!-- Kontakt Auswahl-->
+                            <tr>
+                                <th><label for="job_select_contact_job_details_<?php echo $key; ?>">Kontakt Auswahl für Job</label></th>
+                                <td>
+                                    <div class="contact-selection-container">
+                                        <select class="contact-select contact-name-select" id="job_select_contact_job_details_<?php echo $key; ?>" name="selected_contact_job_details_name[]">
+                                            <option value="" disabled selected>Kontakt auswählen</option>
+                                            <?php
                     $saved_contacts = get_option('krp_saved_contacts', array());
                     foreach ($saved_contacts as $contact) {
-                        $contact_name_job_details = esc_html($contact['contact_name']);
-                        $contact_abteilung_job_details = implode(' und ', array_map('esc_html', $contact['contact_abteilung']));
-                        $contact_name_abteilung_job_details = $contact_name_job_details . ' , ' . $contact_abteilung_job_details;
+                        $contact_name_abteilung_job_details = esc_html($contact['contact_name']) . ' , ' . implode(' und ', array_map('esc_html', $contact['contact_abteilung']));
                         echo '<option value="' . esc_attr($contact_name_abteilung_job_details) . '">' . esc_html($contact_name_abteilung_job_details) . '</option>';
                     }
                     ?>
-                                            </select>
-                                        </div>
-
-                                        <!-- Felder für die Kontaktinformationen, die automatisch ausgefüllt werden -->
-                                        <div class="contact-details-container">
-                                            <input type="text" id="job_select_contact_job_details_tel_<?php echo $key; ?>" name="selected_contact_job_details_tel[]" placeholder="Telefon" readonly>
-                                            <input type="text" id="job_select_contact_job_details_email_<?php echo $key; ?>" name="selected_contact_job_details_email[]" placeholder="Email" readonly>
-                                            <input type="text" id="job_select_contact_job_details_info_<?php echo $key; ?>" name="selected_contact_job_details_info[]" placeholder="Info" readonly>
-                                            <input type="text" id="job_select_contact_job_details_image_url_<?php echo $key; ?>" name="selected_contact_job_details_image_url[]" placeholder="Bild URL" readonly>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </select>
+                                    </div>
+                                    <div class="contact-details-container">
+                                        <!-- Tel -->
+                                        <select class="contact-select" id="job_select_contact_job_details_tel_<?php echo $key; ?>" name="selected_contact_job_details_tel[]">
+                                            <option value="" disabled selected>Kontakt auswählen</option>
+                                            <?php
+                    foreach ($saved_contacts as $contact) {
+                        echo '<option value="' . esc_attr($contact['contact_tel']) . '">' . esc_html($contact['contact_tel']) . '</option>';
+                    }
+                    ?>
+                                        </select>
+                                        <!-- Email -->
+                                        <select class="contact-select" id="job_select_contact_job_details_email_<?php echo $key; ?>" name="selected_contact_job_details_email[]">
+                                            <option value="" disabled selected>Kontakt auswählen</option>
+                                            <?php
+                    foreach ($saved_contacts as $contact) {
+                        echo '<option value="' . esc_attr($contact['contact_email']) . '">' . esc_html($contact['contact_email']) . '</option>';
+                    }
+                    ?>
+                                        </select>
+                                        <!-- Info -->
+                                        <select class="contact-select" id="job_select_contact_job_details_info_<?php echo $key; ?>" name="selected_contact_job_details_info[]">
+                                            <option value="" disabled selected>Kontakt auswählen</option>
+                                            <?php
+                    foreach ($saved_contacts as $contact) {
+                        echo '<option value="' . esc_attr($contact['contact_info']) . '">' . esc_html($contact['contact_info']) . '</option>';
+                    }
+                    ?>
+                                        </select>
+                                        <!-- Image URL -->
+                                        <select class="contact-select" id="job_select_contact_job_details_image_url_<?php echo $key; ?>" name="selected_contact_job_details_image_url[]">
+                                            <option value="" disabled selected>Kontakt auswählen</option>
+                                            <?php
+                    foreach ($saved_contacts as $contact) {
+                        echo '<option value="' . esc_attr($contact['contact_image_url']) . '">' . esc_html($contact['contact_image_url']) . '</option>';
+                    }
+                    ?>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
                             <!-- Weitere Bilder -->
                             <tr>
                                 <th><label for="job_more_image_${jobIndex}">Weitere Bilder</label></th>
@@ -513,35 +569,36 @@ function krp_job_create_section_callback() {
                 });
 
                 // Kontakt-Auswahl
-                // Kontaktinformationen als JavaScript-Objekt abrufen
+                // Kontaktinformationen abrufen
                 var contacts = <?php echo json_encode($saved_contacts); ?>;
 
-                // Funktion zum automatischen Ausfüllen der Felder
+                // Funktion zum Aktualisieren der Felder basierend auf dem ausgewählten Kontakt
                 function updateContactDetails(contact, key) {
-                    $('#job_select_contact_job_details_tel_' + key).val(contact.contact_tel || '');
-                    $('#job_select_contact_job_details_email_' + key).val(contact.contact_email || '');
-                    $('#job_select_contact_job_details_info_' + key).val(contact.contact_info || '');
-                    $('#job_select_contact_job_details_image_url_' + key).val(contact.contact_image_url || '');
+                    $(`#job_select_contact_job_details_tel_${key}`).val(contact.contact_tel || '');
+                    $(`#job_select_contact_job_details_email_${key}`).val(contact.contact_email || '');
+                    $(`#job_select_contact_job_details_info_${key}`).val(contact.contact_info || '');
+                    $(`#job_select_contact_job_details_image_url_${key}`).val(contact.contact_image_url || '');
                 }
 
-                // Event Listener für die Änderung des Dropdowns
-                $('.contact-select').on('change', function() {
-                    var selectedContactNameAbteilung = $(this).val();
-                    var key = $(this).attr('id').split('_').pop(); // Extrahiere den Schlüssel aus der ID
+                // Event Listener für die Auswahl eines Kontakts im ersten Dropdown-Feld
+                $(document).on('change', '.contact-select[name="selected_contact_job_details_name[]"]', function() {
+                    var selectedValue = $(this).val();
+                    var key = $(this).attr('id').split('_').pop(); // Schlüssel aus der ID extrahieren
 
-                    // Finde den Kontakt basierend auf dem Namen und der Abteilung
-                    var [selectedContactName, selectedContactAbteilung] = selectedContactNameAbteilung.split(' , ');
+                    // Name und Abteilung trennen
+                    var [selectedName, selectedAbteilung] = selectedValue.split(' , ');
 
-                    var contact = contacts.find(function(c) {
+                    // Passenden Kontakt in den gespeicherten Kontakten finden
+                    var contact = contacts.find(c => {
                         var abteilung = c.contact_abteilung.join(' und ');
-                        return c.contact_name === selectedContactName && abteilung === selectedContactAbteilung;
+                        return c.contact_name === selectedName && abteilung === selectedAbteilung;
                     });
 
                     if (contact) {
-                        // Wenn der Kontakt gefunden wird, fülle die Felder aus
+                        // Felder automatisch aktualisieren
                         updateContactDetails(contact, key);
                     } else {
-                        // Falls kein Kontakt gefunden wird, setze die Felder leer
+                        // Felder leeren, falls kein passender Kontakt gefunden wurde
                         updateContactDetails({ contact_tel: '', contact_email: '', contact_info: '', contact_image_url: '' }, key);
                     }
                 });
