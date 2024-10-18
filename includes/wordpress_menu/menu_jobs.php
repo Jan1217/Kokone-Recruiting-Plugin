@@ -331,7 +331,213 @@ function krp_job_create_section_callback() {
                     frame.open();
                 });
 
-
+                // Job hinzufügen
+                $('#add_job_button').click(function() {
+                    const jobIndex = $('#jobs_container .job_entry').length;
+                    const jobHtml = `
+                <div class="job_entry">
+                    <div class="job_title" data-job="${jobIndex}">
+                        <div class="toggle_arrow"></div>
+                        <h3>#${jobIndex + 1} - Neuer Job</h3>
+                        <button class="delete_job_button" data-job="${jobIndex}">Löschen</button>
+                    </div>
+                    <div class="job_details" id="job_details_${jobIndex}">
+                        <table class="form-table">
+                            <!-- Job Name -->
+                            <tr>
+                                <th><label for="job_title_${jobIndex}">Job Name</label></th>
+                                <td><input type="text" id="job_title_${jobIndex}" name="job_title[]" class="regular-text" required></td>
+                            </tr>
+                            <!-- Job Bereich -->
+                            <tr>
+                                <th><label for="job_bereich_${jobIndex + 1}">Job Bereich</label></th>
+                                <td>
+                                    <ul id="job_bereich_list_${jobIndex + 1}">
+                                        <li>
+                                            <input type="text" name="job_bereich[${jobIndex}][]" class="regular-text" required>
+                                            <button class="delete_bereich_button" data-job="${jobIndex}">X</button>
+                                        </li>
+                                    </ul>
+                                    <button type="button" class="add_job_bereich_button" data-job="${jobIndex}">Weiteren Bereich hinzufügen</button>
+                                </td>
+                            </tr>
+                            <!-- Job Bild -->
+                            <tr>
+                                <th><label for="job_image_${jobIndex}">Job Bild</label></th>
+                                <td>
+                                    <input type="hidden" id="job_image_${jobIndex}" name="job_image[]" class="job_image_url">
+                                    <button type="button" class="upload_image_button" data-target="#job_image_${jobIndex}">Bild auswählen</button>
+                                    <div class="krp-image-preview-container"></div>
+                                </td>
+                            </tr>
+                            <!-- Firmen Infos -->
+                            <tr>
+                                <th><label for="job_company_info_${jobIndex}">Firmen Infos</label></th>
+                                <td>
+                                    <div class="krp-text-editor">
+                                        <div class="toolbar" data-editor-id="job_company_info_${jobIndex}">
+                                            <button type="button" onclick="toggleTag('b', 'job_company_info_${jobIndex}')">Bold</button>
+                                            <button type="button" onclick="toggleTag('i', 'job_company_info_${jobIndex}')">Italic</button>
+                                            <button type="button" onclick="toggleTag('u', 'job_company_info_${jobIndex}')">Underline</button>
+                                            <button type="button" onclick="insertLineBreak('job_company_info_${jobIndex}')">Zeilenumbruch</button>
+                                            <button type="button" onclick="toggleTag('ol', 'job_company_info_${jobIndex}')">List</button>
+                                            <button type="button" onclick="insertLink('job_company_info_${jobIndex}')">Insert Link</button>
+                                            <button type="button" onclick="toggleTag('h1', 'job_company_info_${jobIndex}')">H1</button>
+                                            <button type="button" onclick="toggleTag('h2', 'job_company_info_${jobIndex}')">H2</button>
+                                            <button type="button" onclick="toggleTag('h3', 'job_company_info_${jobIndex}')">H3</button>
+                                            <button type="button" onclick="toggleTag('h4', 'job_company_info_${jobIndex}')">H4</button>
+                                            <button type="button" onclick="toggleTag('h5', 'job_company_info_${jobIndex}')">H5</button>
+                                            <button type="button" onclick="toggleTag('h6', 'job_company_info_${jobIndex}')">H6</button>
+                                        </div>
+                                        <div class="editor-container">
+                                            <textarea id="job_company_info_${jobIndex}" name="job_company_info[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($job['job_company_info']); ?></textarea>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Standort -->
+                            <tr>
+                                <th><label for="job_standort_${jobIndex}">Standort</label></th>
+                                <td>
+                                    <select id="job_standort_${jobIndex}" name="job_standort[]" class="regular-text">
+                                        <option>Kein Standort</option>
+                                        <?php foreach ($krp_company_standorte as $standort) : ?>
+                                            <option value="<?php echo esc_attr($standort); ?>"><?php echo esc_html($standort); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <!-- Job Tätigkeiten -->
+                            <tr>
+                                <th><label for="job_tasks_${jobIndex}">Job Tätigkeiten</label></th>
+                                <td>
+                                    <div class="krp-text-editor">
+                                        <div class="toolbar" data-editor-id="job_tasks_${jobIndex}">
+                                            <button type="button" onclick="toggleTag('b', 'job_tasks_${jobIndex}')">Bold</button>
+                                            <button type="button" onclick="toggleTag('i', 'job_tasks_${jobIndex}')">Italic</button>
+                                            <button type="button" onclick="toggleTag('u', 'job_tasks_${jobIndex}')">Underline</button>
+                                            <button type="button" onclick="insertLineBreak('job_tasks_${jobIndex}')">Zeilenumbruch</button>
+                                            <button type="button" onclick="toggleTag('ol', 'job_tasks_${jobIndex}')">List</button>
+                                            <button type="button" onclick="insertLink('job_tasks_${jobIndex}')">Insert Link</button>
+                                            <button type="button" onclick="toggleTag('h1', 'job_tasks_${jobIndex}')">H1</button>
+                                            <button type="button" onclick="toggleTag('h2', 'job_tasks_${jobIndex}')">H2</button>
+                                            <button type="button" onclick="toggleTag('h3', 'job_tasks_${jobIndex}')">H3</button>
+                                            <button type="button" onclick="toggleTag('h4', 'job_tasks_${jobIndex}')">H4</button>
+                                            <button type="button" onclick="toggleTag('h5', 'job_tasks_${jobIndex}')">H5</button>
+                                            <button type="button" onclick="toggleTag('h6', 'job_tasks_${jobIndex}')">H6</button>
+                                        </div>
+                                        <div class="editor-container">
+                                            <textarea id="job_tasks_${jobIndex}" name="job_tasks[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($job['job_tasks']); ?></textarea>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Job Bewerbung -->
+                            <tr>
+                                <th><label for="job_application_${jobIndex}">Job Bewerbung</label></th>
+                                <td>
+                                    <div class="krp-text-editor">
+                                        <div class="toolbar" data-editor-id="job_application_${jobIndex}">
+                                            <button type="button" onclick="toggleTag('b', 'job_application_${jobIndex}')">Bold</button>
+                                            <button type="button" onclick="toggleTag('i', 'job_application_${jobIndex}')">Italic</button>
+                                            <button type="button" onclick="toggleTag('u', 'job_application_${jobIndex}')">Underline</button>
+                                            <button type="button" onclick="insertLineBreak('job_application_${jobIndex}')">Zeilenumbruch</button>
+                                            <button type="button" onclick="toggleTag('ol', 'job_application_${jobIndex}')">List</button>
+                                            <button type="button" onclick="insertLink('job_application_${jobIndex}')">Insert Link</button>
+                                            <button type="button" onclick="toggleTag('h1', 'job_application_${jobIndex}')">H1</button>
+                                            <button type="button" onclick="toggleTag('h2', 'job_application_${jobIndex}')">H2</button>
+                                            <button type="button" onclick="toggleTag('h3', 'job_application_${jobIndex}')">H3</button>
+                                            <button type="button" onclick="toggleTag('h4', 'job_application_${jobIndex}')">H4</button>
+                                            <button type="button" onclick="toggleTag('h5', 'job_application_${jobIndex}')">H5</button>
+                                            <button type="button" onclick="toggleTag('h6', 'job_application_${jobIndex}')">H6</button>
+                                        </div>
+                                        <div class="editor-container">
+                                            <textarea id="job_application_${jobIndex}" name="job_application[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($job['job_application']); ?></textarea>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Job Bewerbung PDF -->
+                            <tr>
+                                <th><label for="job_application_pdf_${jobIndex}">Job Bewerbung PDF</label></th>
+                                <td>
+                                    <input type="file" id="job_application_pdf_${jobIndex}" name="job_application_pdf[]" class="regular-text">
+                                </td>
+                            </tr>
+                            <!-- Kontakt Auswahl-->
+                            <tr>
+                                <th><label for="job_select_contact_job_details_<?php echo $key; ?>">Kontakt Auswahl für Job</label></th>
+                                <td>
+                                    <div class="contact-selection-container">
+                                        <select class="contact-select contact-name-select" id="job_select_contact_job_details_<?php echo $key; ?>" name="selected_contact_job_details_name[]">
+                                            <option value="" disabled selected>Kontakt auswählen</option>
+                                            <?php
+                    $saved_contacts = get_option('krp_saved_contacts', array());
+                    foreach ($saved_contacts as $contact) {
+                        $contact_name_abteilung_job_details = esc_html($contact['contact_name']) . ' , ' . implode(' und ', array_map('esc_html', $contact['contact_abteilung']));
+                        echo '<option value="' . esc_attr($contact_name_abteilung_job_details) . '">' . esc_html($contact_name_abteilung_job_details) . '</option>';
+                    }
+                    ?>
+                                        </select>
+                                    </div>
+                                    <div class="contact-details-container">
+                                        <!-- Tel -->
+                                        <select class="contact-select" id="job_select_contact_job_details_tel_<?php echo $key; ?>" name="selected_contact_job_details_tel[]">
+                                            <option value="" disabled selected>Kontakt auswählen</option>
+                                            <?php
+                    foreach ($saved_contacts as $contact) {
+                        echo '<option value="' . esc_attr($contact['contact_tel']) . '">' . esc_html($contact['contact_tel']) . '</option>';
+                    }
+                    ?>
+                                        </select>
+                                        <!-- Email -->
+                                        <select class="contact-select" id="job_select_contact_job_details_email_<?php echo $key; ?>" name="selected_contact_job_details_email[]">
+                                            <option value="" disabled selected>Kontakt auswählen</option>
+                                            <?php
+                    foreach ($saved_contacts as $contact) {
+                        echo '<option value="' . esc_attr($contact['contact_email']) . '">' . esc_html($contact['contact_email']) . '</option>';
+                    }
+                    ?>
+                                        </select>
+                                        <!-- Info -->
+                                        <select class="contact-select" id="job_select_contact_job_details_info_<?php echo $key; ?>" name="selected_contact_job_details_info[]">
+                                            <option value="" disabled selected>Kontakt auswählen</option>
+                                            <?php
+                    foreach ($saved_contacts as $contact) {
+                        echo '<option value="' . esc_attr($contact['contact_info']) . '">' . esc_html($contact['contact_info']) . '</option>';
+                    }
+                    ?>
+                                        </select>
+                                        <!-- Image URL -->
+                                        <select class="contact-select" id="job_select_contact_job_details_image_url_<?php echo $key; ?>" name="selected_contact_job_details_image_url[]">
+                                            <option value="" disabled selected>Kontakt auswählen</option>
+                                            <?php
+                    foreach ($saved_contacts as $contact) {
+                        echo '<option value="' . esc_attr($contact['contact_image_url']) . '">' . esc_html($contact['contact_image_url']) . '</option>';
+                    }
+                    ?>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Weitere Bilder -->
+                            <tr>
+                                <th><label for="job_more_image_${jobIndex}">Weitere Bilder</label></th>
+                                <td>
+                                    <input type="hidden" id="job_more_image_${jobIndex}" name="job_more_image[]" class="job_more_image_url" value="<?php echo esc_url($job['job_more_image']); ?>">
+                                    <button type="button" class="upload_image_button" data-target="#job_more_image_${jobIndex}">Bild auswählen</button>
+                                    <div class="krp-image-preview-container">
+                                        <?php if (!empty($job['job_more_image'])): ?>
+                                            <img src="<?php echo esc_url($job['job_more_image']); ?>" alt="Bildvorschau">
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>`;
+                    $('#jobs_container').append(jobHtml);
+                });
 
                 // Job löschen
                 $(document).on('click', '.delete_job_button', function() {
