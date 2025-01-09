@@ -18,8 +18,8 @@ function krp_create_menu() {
 add_action('admin_menu', 'krp_create_menu');
 
 function krp_settings_page() {
-    //$license_handler = new KokoneLicenseHandler();
-    //$is_license_valid = $license_handler->is_license_valid(); // Lizenzüberprüfung
+    // $license_handler = new KokoneLicenseHandler();
+    // $is_license_valid = $license_handler->is_license_valid(); // Lizenzüberprüfung
     $page_title = get_option('krp_website_page_title');
     $args = array(
         'post_type' => 'page',
@@ -54,12 +54,10 @@ function krp_settings_page() {
                 'lizenz' => 'Lizenz',
             ];
 
-            // Tabs anzeigen, wenn die Lizenz gültig ist, ansonsten nur Lizenz-Tab
+            // Tabs anzeigen (keine Lizenzprüfung mehr erforderlich)
             foreach ($tabs as $tab_id => $tab_name) {
-                if ($tab_id === 'lizenz' || $is_license_valid) {
-                    $active_class = ($tab_id === 'lizenz') ? 'nav-tab-active' : ''; // Lizenz-Tab als Standard aktiv
-                    echo '<a href="#krp-tab-' . $tab_id . '" class="nav-tab ' . $active_class . '" onclick="switchTab(event, \'krp-tab-' . $tab_id . '\')">' . $tab_name . '</a>';
-                }
+                $active_class = ($tab_id === 'lizenz') ? 'nav-tab-active' : ''; // Lizenz-Tab als Standard aktiv
+                echo '<a href="#krp-tab-' . $tab_id . '" class="nav-tab ' . $active_class . '" onclick="switchTab(event, \"krp-tab-' . $tab_id . '\")">' . $tab_name . '</a>';
             }
             ?>
         </h2>
@@ -67,56 +65,52 @@ function krp_settings_page() {
         <!-- Lizenz-Tab immer anzeigen -->
         <form id="krp-settings-form-4" method="post" enctype="multipart/form-data">
             <div id="krp-tab-lizenz" class="krp-tab-content" style="display: block;">
-                <?php echo $license_handler->getForm($_POST); ?>
+                <?php // echo $license_handler->getForm($_POST); ?>
             </div>
         </form>
 
-        <?php if ($is_license_valid): ?>
-            <!-- Form für Website, Design, Kontakt -->
-            <form id="krp-settings-form-1" method="post" action="<?php echo admin_url('admin-post.php'); ?>" enctype="multipart/form-data">
-                <?php
-                settings_fields('krp_settings_group');
-                do_settings_sections('krp-settings');
+        <!-- Form für Website, Design, Kontakt -->
+        <form id="krp-settings-form-1" method="post" action="<?php echo admin_url('admin-post.php'); ?>" enctype="multipart/form-data">
+            <?php
+            settings_fields('krp_settings_group');
+            do_settings_sections('krp-settings');
 
-                foreach (['website', 'design', 'kontakt'] as $tab_id) {
-                    ?>
-                    <div id="krp-tab-<?php echo $tab_id; ?>" class="krp-tab-content" style="display: none;">
-                        <?php
-                        do_settings_sections('krp-settings-' . $tab_id);
-                        submit_button('Aktualisieren', 'primary', 'krp_update_plugin_page');
-                        submit_button('Seite Löschen', 'delete', 'krp_delete_plugin_page');
-                        ?>
-                        <?php if ($is_license_valid && current_user_can('administrator')): ?>
-                            <a href="https://github.com/Jan1217/Kokone-Recruiting-Plugin/blob/main/README.md" target="_blank" class="button button-primary">Dokumentation</a>
-                        <?php endif; ?>
-                    </div>
-                    <?php
-                }
+            foreach (['website', 'design', 'kontakt'] as $tab_id) {
                 ?>
-            </form>
-
-            <!-- Form für Jobs -->
-            <form id="krp-settings-form-2" method="post" action="<?php echo admin_url('admin-post.php'); ?>" enctype="multipart/form-data">
-                <div id="krp-tab-jobs" class="krp-tab-content" style="display: none;">
+                <div id="krp-tab-<?php echo $tab_id; ?>" class="krp-tab-content" style="display: none;">
                     <?php
-                    do_settings_sections('krp-settings-jobs');
+                    do_settings_sections('krp-settings-' . $tab_id);
                     submit_button('Aktualisieren', 'primary', 'krp_update_plugin_page');
                     submit_button('Seite Löschen', 'delete', 'krp_delete_plugin_page');
                     ?>
+                    <a href="https://github.com/Jan1217/Kokone-Recruiting-Plugin/blob/main/README.md" target="_blank" class="button button-primary">Dokumentation</a>
                 </div>
-            </form>
+                <?php
+            }
+            ?>
+        </form>
 
-            <!-- Form für Ausbildung -->
-            <form id="krp-settings-form-3" method="post" action="<?php echo admin_url('admin-post.php'); ?>" enctype="multipart/form-data">
-                <div id="krp-tab-ausbildung" class="krp-tab-content" style="display: none;">
-                    <?php
-                    do_settings_sections('krp-settings-ausbildung');
-                    submit_button('Aktualisieren', 'primary', 'krp_update_plugin_page');
-                    submit_button('Seite Löschen', 'delete', 'krp_delete_plugin_page');
-                    ?>
-                </div>
-            </form>
-        <?php endif; ?>
+        <!-- Form für Jobs -->
+        <form id="krp-settings-form-2" method="post" action="<?php echo admin_url('admin-post.php'); ?>" enctype="multipart/form-data">
+            <div id="krp-tab-jobs" class="krp-tab-content" style="display: none;">
+                <?php
+                do_settings_sections('krp-settings-jobs');
+                submit_button('Aktualisieren', 'primary', 'krp_update_plugin_page');
+                submit_button('Seite Löschen', 'delete', 'krp_delete_plugin_page');
+                ?>
+            </div>
+        </form>
+
+        <!-- Form für Ausbildung -->
+        <form id="krp-settings-form-3" method="post" action="<?php echo admin_url('admin-post.php'); ?>" enctype="multipart/form-data">
+            <div id="krp-tab-ausbildung" class="krp-tab-content" style="display: none;">
+                <?php
+                do_settings_sections('krp-settings-ausbildung');
+                submit_button('Aktualisieren', 'primary', 'krp_update_plugin_page');
+                submit_button('Seite Löschen', 'delete', 'krp_delete_plugin_page');
+                ?>
+            </div>
+        </form>
     </div>
 
     <script>
@@ -158,6 +152,7 @@ function krp_settings_page() {
     </script>
     <?php
 }
+
 
 class KokoneLicenseHandler{
     public $api_key = 'ck_d57da536fe9a0d20d14b4206dcd6a3af1dddc440';
