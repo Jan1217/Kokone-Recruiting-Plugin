@@ -18,8 +18,8 @@ function krp_create_menu() {
 add_action('admin_menu', 'krp_create_menu');
 
 function krp_settings_page() {
-    $license_handler = new KokoneLicenseHandler();
-    $is_license_valid = $license_handler->is_license_valid(); // Lizenzüberprüfung
+    //$license_handler = new KokoneLicenseHandler();
+    //$is_license_valid = $license_handler->is_license_valid(); // Lizenzüberprüfung
     $page_title = get_option('krp_website_page_title');
     $args = array(
         'post_type' => 'page',
