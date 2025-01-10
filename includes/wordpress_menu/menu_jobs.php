@@ -392,7 +392,7 @@ function krp_job_create_section_callback() {
                                         </div>
                                         <div class="editor-container">
                                             <?php foreach ($jobs as $key => $job) : ?>
-                                            <textarea id="job_company_info_${jobIndex}" name="job_company_info[]" style="width: 800px; height: 250px;" placeholder="Tragen Sie hier Informationen zu Ihrer Firma ein"><?php echo esc_textarea($job['job_company_info']); ?></textarea>
+                                                <textarea id="job_company_info_${jobIndex}" name="job_company_info[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($job['job_company_info']); ?></textarea>
                                             <?php endforeach; ?>
                                         </div>
                                     </div>
@@ -430,7 +430,9 @@ function krp_job_create_section_callback() {
                                             <button type="button" onclick="toggleTag('h6', 'job_tasks_${jobIndex}')">H6</button>
                                         </div>
                                         <div class="editor-container">
-                                            <textarea id="job_tasks_${jobIndex}" name="job_tasks[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($job['job_tasks']); ?></textarea>
+                                            <?php foreach ($jobs as $key => $job) : ?>
+                                                <textarea id="job_tasks_${jobIndex}" name="job_tasks[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($job['job_tasks']); ?></textarea>
+                                            <?php endforeach; ?>
                                         </div>
                                     </div>
                                 </td>
