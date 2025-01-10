@@ -391,7 +391,9 @@ function krp_job_create_section_callback() {
                                             <button type="button" onclick="toggleTag('h6', 'job_company_info_${jobIndex}')">H6</button>
                                         </div>
                                         <div class="editor-container">
+                                            <?php foreach ($jobs as $key => $job) : ?>
                                             <textarea id="job_company_info_${jobIndex}" name="job_company_info[]" style="width: 800px; height: 250px;"><?php echo esc_textarea($job['job_company_info']); ?></textarea>
+                                            <?php endforeach; ?>
                                         </div>
                                     </div>
                                 </td>

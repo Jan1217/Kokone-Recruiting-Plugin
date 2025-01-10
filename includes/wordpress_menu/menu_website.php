@@ -234,7 +234,7 @@ function krp_website_hero_bg_color_callback() {
 function krp_website_secondary_navigation_section_callback() {
     ?>
         <h3>Sekundäre Navigation Einstellungen</h3>
-        <p>Die Sekundäre Navigation wird automaitsch erstellt. Diese kannst du nur in der Farbe anpassen.</p>
+        <p>Die Sekundäre Navigation wird automatisch erstellt. Diese kannst du nur in der Farbe anpassen.</p>
     <?php
 }
 
@@ -262,7 +262,7 @@ function krp_website_secondary_navigation_text_color_callback() {
 function krp_website_main_section_callback() {
     ?>
         <h3>Hauptsektion Einstellungen</h3>
-        <p>Du kannst hier den Reitern Jobs und Ausbildung noch Texte hinzufügen, über den Kacheln. Ebenfalls kannst du Einstellen wie viele Kacheln angezeigt werden sollen und was die Hintergrundfarbe sein soll..</p>
+        <p>Du kannst hier den Reitern Jobs und Ausbildung noch Texte hinzufügen, über den Kacheln. Ebenfalls kannst du Einstellen wie viele Kacheln angezeigt werden sollen und was die Hintergrundfarbe sein soll.</p>
     <?php
 }
 
